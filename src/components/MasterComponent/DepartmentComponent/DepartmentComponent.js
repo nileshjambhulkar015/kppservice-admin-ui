@@ -23,6 +23,8 @@ export default function DepartmentComponent() {
     const [deleteDepatmentAlert, setDeleteDepatmentAlert] = useState(false);
     const [updateDeptAlert, setUpdateDeptAlert] = useState(false);
 
+    const [isSuccess, setIsSuccess] = useState(true)
+
     const handleClose = () => {
        
         setSaveDepatmentAlert(false);
@@ -44,8 +46,18 @@ export default function DepartmentComponent() {
 
     //search department by it's name
     const searchDeptName = (e) => {
-        DepartmentService.getDepartmentDetailsByDeptNamePaging(e).then((res) => {
-            setDepartments(res.data.responseData.content?.filter((item) => item.roleId !== 1));
+        setDeptNameSearch(e.target.value)
+        DepartmentService.getDepartmentDetailsByDeptNamePaging(e.target.value).then((res) => {
+
+            if (res.data.success) {
+                setIsSuccess(true);
+                setDepartments(res.data.responseData.content?.filter((item) => item.roleId !== 1));
+            }
+            else {
+                setIsSuccess(false);
+            }
+
+           
             console.log(res.data)
         });
     }
@@ -169,10 +181,10 @@ export default function DepartmentComponent() {
                                 <form className="form-horizontal" enctype="multipart/form-data">
                                     <label className="control-label col-sm-4" htmlFor="deptNameSearch"> Department Name:</label>
                                     <div className="col-sm-4">
-                                        <input type="text" className="form-control" id="deptNameSearch" placeholder="Enter Department Name" value={deptNameSearch} onChange={(e) => setDeptNameSearch(e.target.value)} />
+                                        <input type="text" className="form-control" id="deptNameSearch" placeholder="Enter Department Name" onChange={(e) => searchDeptName(e)} value={deptNameSearch}  />
                                     </div>
                                 </form>
-                                <button type="submit" className="btn btn-primary" onClick={() => searchDeptName(deptNameSearch)}>Search</button>
+                               
                             </div>
                         </div>
                         <div className="col-sm-6" align="right">
@@ -181,7 +193,7 @@ export default function DepartmentComponent() {
                         </div>
                     </div>
                     <div className="row">
-
+                    {isSuccess ?
                         <table className="table table-bordered">
                             <thead>
                                 <tr>
@@ -209,6 +221,8 @@ export default function DepartmentComponent() {
                                 }
                             </tbody>
                         </table>
+                       
+                        : <h4>Department name is not available</h4>}
                     </div>
 
                 </div>
