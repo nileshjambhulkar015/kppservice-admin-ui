@@ -74,6 +74,26 @@ class EmployeeKppsService {
             window.location.replace(LOGIN_UI_BASE_URL);
         }  
     }
+
+    //show employee KPP
+    getEmployeeKPPDetailsByPaging() {
+        if (null != Cookies.get('empId')) {
+            return axios.get(BASE_URL_API+"/employee-kpp?statusCd=A&page=0&size=1200&sort=emp.emp_fname");
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }       
+    }
+
+    getEmployeeKPPDetailsByEmpFirstNamePaging(empEId) {
+        if (null != Cookies.get('empId')) {
+            return axios.get(BASE_URL_API+`/employee-kpp?empEId=${empEId}&statusCd=A&page=0&size=20&sort=emp.emp_name`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }        
+    }
+
 }
 
 

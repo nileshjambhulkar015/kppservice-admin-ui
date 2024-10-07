@@ -349,7 +349,7 @@ export default function MainEmployeeComponent() {
                                     <input type="text" className="form-control" id="empFirstNameSearch" placeholder="Enter First Name" value={empFirstNameSearch} onChange={(e) => searchEmployeeEId(e)} />
                                 </div>
                             </form>
-                            <button type="submit" className="btn btn-primary" onClick={() => searchEmployeeFirstName(empFirstNameSearch)}>Search</button>
+                           
                         </div>
                     </div>
                     <div className="col-sm-5">
