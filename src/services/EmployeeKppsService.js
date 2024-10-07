@@ -64,11 +64,11 @@ class EmployeeKppsService {
     }
 
        //Assign employee kpp for assign kpp page
-       deleteEmployeeKppDetails(kppId){
+       deleteEmployeeKppDetails(kppId,kppOverallTarget,kppOverallWeightage){
         if (null != Cookies.get('empId')) {
             
           //  return axios.post(BASE_URL_API+"/employee-kpp/assign-kpp",emplyeeKpp)
-          return axios.delete(BASE_URL_API+`/employee-kpp/assign-kpp?empId=${Cookies.get('empIdForKpp')}&kppId=${kppId}`)
+          return axios.delete(BASE_URL_API+`/employee-kpp/assign-kpp?empId=${Cookies.get('empIdForKpp')}&kppId=${kppId}&kppOverallTarget=${kppOverallTarget}&kppOverallWeightage=${kppOverallWeightage}`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
