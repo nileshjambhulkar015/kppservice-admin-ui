@@ -161,12 +161,6 @@ export default function AddNewEmployeeComponent() {
         });
 
 
-  
-       /* EmployeeService.ddRolesExceptEmployee().then((res) => {
-            setReportingRoles(res.data);
-            setReportingEmpRoleId(res.data?.[0].roleId)
-        });*/
-
         EmployeeService.ddRolesExceptEmployee().then((res) => {
             setReportingRoles(res.data);
             console.log("res.data?.[0].roleId = ",res.data?.[0].roleId)

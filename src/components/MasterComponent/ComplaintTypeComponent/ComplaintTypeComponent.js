@@ -16,9 +16,13 @@ export default function ComplaintTypeComponent() {
 
     const [departments, setDepartments] = useState([])
 
+  
+
     const [complaintTypes, setComplaintTypes] = useState([]);
 
-    const [message, setMessage] = useState('');
+    const [compDepartments, setCompDepartments] = useState([])
+    const [compDeptId, setCompDeptId] = useState('');
+    const [compDeptName, setCompDeptName] = useState('');
 
     const [saveComplaintTypeAlert, setSaveComplaintTypeAlert] = useState(false);
     const [deleteComplaintTypeAlert, setDeleteComplaintTypeAlert] = useState(false);
@@ -38,14 +42,38 @@ export default function ComplaintTypeComponent() {
             setComplaintTypes(res.data.responseData.content);
         });
 
+        // for employee except GM Role
+        ComplaintTypeService.getAllComplaintTypeDepartments().then((res) => {
+            setCompDepartments(res.data);
+            setCompDeptId(res.data?.[0].deptId)
+        });
+
         DesignationService.getAllDepartmentDetails().then((res) => {
             setDepartments(res.data);
         });
-
+ 
     }, []);
 
 
+    const handleCompDepartmentChange = (value) => {
+        if (value == "Select Department Name") {
+            value = null;
+           
+            ComplaintTypeService.getComplaintTypeDetailsByPaging().then((res) => {
+                setComplaintTypes(res.data.responseData.content);
+            });
+    
+        }
+        setCompDeptId(value)
 
+        let deptId = value;
+        console.log("deptId : ",deptId)
+       
+        ComplaintTypeService.getComplaintTypeDetailsByDeptId(deptId).then((res) => {
+                setComplaintTypes(res.data.responseData.content);          
+        });       
+    }
+  
     const saveComplaintType = (e) => {
         e.preventDefault()
         let statusCd = 'A';
@@ -125,6 +153,7 @@ export default function ComplaintTypeComponent() {
 updatComplaintTypeAlert(false)
     }
 
+    
     const handleDepartmentChange = (value) => {
         if (value == "Select Department") {
             value = null;
@@ -141,7 +170,20 @@ updatComplaintTypeAlert(false)
                     <div className="col-md-9">
                         <div className="row">
                             <div className="col-sm-5">
+                            <label className="control-label col-sm-5" htmlFor="deptNameSearch"> Select Department Name:</label>
+                            <div className="col-sm-6">
+                            <select className="form-control" id="empTypeId" onChange={(e) => handleCompDepartmentChange(e.target.value)}>
+                            <option>Select Department Name</option>
+                        {
+                            compDepartments.map(
+                                compDepartment =>
+                                    <option key={compDepartment.deptId} value={compDepartment.deptId}>{compDepartment.deptName}</option>
+                            )
+                        };
 
+                    </select>
+                               
+                            </div>
                             </div>
                             <div className="col-sm-6" align="right">
                                 <button type="button" className="btn btn-primary " data-toggle="modal" data-target="#saveComplaintType">Add Complaint Type</button>
