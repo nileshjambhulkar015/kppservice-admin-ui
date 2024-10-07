@@ -91,8 +91,8 @@ function App() {
           <a className="dropdown-toggle" data-toggle="dropdown" href="#">Cumulative Master
           <span className="caret"></span></a>
           <ul className="dropdown-menu">
-          <li><Link to="/viewHODCumulativeKpp">View HOD Cumulative Kpp</Link></li>
-          <li><Link to="/viewEmployeeCumulativeKpp">View Employee Cumulative Kpp</Link></li>    
+          <li><Link to="/viewHODCumulativeKpp">View HOD Cumulative Ratings</Link></li>
+          <li><Link to="/viewEmployeeCumulativeKpp">View Employee Cumulative Ratings</Link></li>    
           
           </ul>
         </li>
