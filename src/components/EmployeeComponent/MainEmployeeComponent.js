@@ -8,7 +8,7 @@ import RoleService from "../../services/RoleService";
 import SiteService from "../../services/MasterService/SiteService";
 import CompanyMasterService from "../../services/MasterService/CompanyMasterService";
 import { BASE_URL_API } from "../../services/URLConstants";
-export default function EmployeeComponent() {
+export default function MainEmployeeComponent() {
     const navigate = useNavigate();
 
 

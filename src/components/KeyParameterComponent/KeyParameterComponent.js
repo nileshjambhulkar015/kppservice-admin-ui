@@ -253,7 +253,7 @@ export default function KeyParameterComponent() {
                                     <input type="text" className="form-control" id="kppObjectiveNoSearch" placeholder="Enter Objective No" value={kppObjectiveNoSearch} onChange={(e) => searchByKppObjectiveNo(e)} />
                                 </div>
                             </form>
-                            <button type="submit" className="btn btn-primary" onClick={() => searchKppObjective(kppObjectiveSearch)}>Search</button>
+                            
 
                         </div>
                     </div>
