@@ -71,8 +71,8 @@ function App() {
             <a className="dropdown-toggle" data-toggle="dropdown" href="#">KPP Rating Master
             <span className="caret"></span></a>
             <ul className="dropdown-menu">           
-            <li><Link to="/allHodKppStatus">HOD KPP</Link></li>
-            <li><Link to="/allEmployeeKppStatus">Employee KPP</Link></li>        
+            <li><Link to="/allHodKppStatus">Add Ratings for HOD KPP</Link></li>
+            <li><Link to="/allEmployeeKppStatus">Add Ratings for Employee KPP</Link></li>        
             </ul>
           </li>
 

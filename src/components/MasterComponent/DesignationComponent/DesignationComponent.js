@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DesignationService from "../../../services/DesignationService";
 import DepartmentService from "../../../services/DepartmentService";
 import { BASE_URL_API } from "../../../services/URLConstants";
+import AlertboxComponent from "../../AlertboxComponent/AlertboxComponent";
 export default function DesignationComponent() {
     const [desigId, setDesigId] = useState('');
     const [deptId, setDeptId] = useState('');
@@ -13,8 +14,18 @@ export default function DesignationComponent() {
 
     const [designations, setDesignations] = useState([])
     const [departments, setDepartments] = useState([])
-   
+    const [saveDesignationAlert, setSaveDesignationAlert] = useState(false);
+    const [deleteDesignationAlert, setDeleteDesignationAlert] = useState(false);
+    const [updatDesignationAlert, setUpdateDesignationAlert] = useState(false);
 
+    const handleClose = () => {
+
+        setSaveDesignationAlert(false);
+        setDeleteDesignationAlert(false)
+        setUpdateDesignationAlert(false)
+        setDesigName('');
+        setRemark('');
+    };
     useEffect(() => {
         DesignationService.getDesignationDetailsByPaging().then((res) => {
             setDesignations(res.data.responseData.content);
@@ -22,9 +33,9 @@ export default function DesignationComponent() {
         });
 
         DepartmentService.getAllDepartmentExceptGM().then((res) => {
-            setDepartments(res.data); 
-            setDeptId(res.data?.[0].deptId)           
-                  
+            setDepartments(res.data);
+            setDeptId(res.data?.[0].deptId)
+
         });
     }, []);
 
@@ -45,12 +56,12 @@ export default function DesignationComponent() {
         DesignationService.saveDesignationDetails(designation).then(res => {
             DesignationService.getDesignationDetailsByPaging().then((res) => {
                 setDesignations(res.data.responseData.content);
-                console.log(res.data)
+
             });
 
         }
         );
-        // window.location.reload(); 
+        setSaveDesignationAlert(false)
     }
 
 
@@ -59,7 +70,7 @@ export default function DesignationComponent() {
         DesignationService.getDesignationById(e).then(res => {
             let designation = res.data;
             console.log(designation)
-      
+
             setDesigId(designation.desigId)
             setDeptId(designation.deptId)
             setDeptName(designation.deptName)
@@ -75,7 +86,7 @@ export default function DesignationComponent() {
 
         e.preventDefault()
         let statusCd = 'A';
-        let updateDesignation = { desigId,  deptId, desigName, remark, statusCd };
+        let updateDesignation = { desigId, deptId, desigName, remark, statusCd };
 
         DesignationService.updateDesignationDetails(updateDesignation).then(res => {
             DesignationService.getDesignationDetailsByPaging().then((res) => {
@@ -84,49 +95,51 @@ export default function DesignationComponent() {
 
         }
         );
+        setUpdateDesignationAlert(false)
 
     }
 
     const deleteDesignationById = (e) => {
 
         if (window.confirm("Do you want to delete this Designation Name ?")) {
-        DesignationService.getDesignationById(e).then(res => {
-            let designation = res.data;
-            let desigId = designation.desigId;
+            DesignationService.getDesignationById(e).then(res => {
+                let designation = res.data;
+                let desigId = designation.desigId;
 
-            let deptId = designation.deptId;
+                let deptId = designation.deptId;
 
-            let desigName = designation.desigName;
-            let remark = designation.remark;
+                let desigName = designation.desigName;
+                let remark = designation.remark;
 
-            let statusCd = 'I';
-            let deleteDesignation = { desigId, deptId, desigName, remark, statusCd };
+                let statusCd = 'I';
+                let deleteDesignation = { desigId, deptId, desigName, remark, statusCd };
 
 
-            DesignationService.updateDesignationDetails(deleteDesignation).then(res => {
-                DesignationService.getDesignationDetailsByPaging().then((res) => {
-                    setDesignations(res.data.responseData.content);
-                });
-                console.log("designation deleted");
+                DesignationService.updateDesignationDetails(deleteDesignation).then(res => {
+                    DesignationService.getDesignationDetailsByPaging().then((res) => {
+                        setDesignations(res.data.responseData.content);
+                    });
+
+                }
+                );
             }
             );
+
+
+        } else {
+            // User clicked Cancel
+            console.log("User canceled the action.");
         }
-        );
-        
- 
- } else {
-    // User clicked Cancel
-    console.log("User canceled the action.");
-}
+        setDeleteDesignationAlert(false)
     }
 
-    
+
     //upload excel data for designation
     const handleSubmit = (event) => {
-        
+
         event.preventDefault();
         const formData = new FormData(event.target);
-        fetch(BASE_URL_API+'/designation/upload-designation', {
+        fetch(BASE_URL_API + '/designation/upload-designation', {
             method: 'POST',
             body: formData
         })
@@ -136,7 +149,7 @@ export default function DesignationComponent() {
                 DesignationService.getDesignationDetailsByPaging().then((res) => {
                     setDesignations(res.data.responseData.content);
                 });
-          
+
             })
             .catch(error => {
                 // Handle error
@@ -146,7 +159,7 @@ export default function DesignationComponent() {
 
 
     return (
-
+        <React.Fragment>
         <div>
             <div className="row">
                 <h2 className="text-center">Designation List</h2>
@@ -178,7 +191,7 @@ export default function DesignationComponent() {
 
                                     <th className="text-center">Department Name</th>
                                     <th className="text-center">Designation Name</th>
-                                   
+
                                     <th className="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -191,7 +204,7 @@ export default function DesignationComponent() {
 
                                                 <td>{designation.deptName}</td>
                                                 <td>{designation.desigName}</td>
-                                                
+
                                                 <td className="col-sm-3"> <button type="submit" className="btn btn-info" data-toggle="modal" data-target="#updateDesignation" onClick={() => showDesignationById(designation.desigId)}>Update</button>
                                                     <button type="submit" className="btn col-sm-offset-1 btn-danger" onClick={() => deleteDesignationById(designation.desigId)}>Delete</button>
                                                     <button type="submit" className="btn col-sm-offset-1 btn-success" data-toggle="modal" data-target="#showDesignation" onClick={() => showDesignationById(designation.desigId)}>View</button></td>
@@ -250,13 +263,13 @@ export default function DesignationComponent() {
                         </div>
                         <div className="modal-body">
                             <form className="form-horizontal">
-                                
+
 
                                 <div className="form-group">
                                     <label className="control-label col-sm-4" htmlFor="deptName">Select Department Name:</label>
                                     <div className="col-sm-8">
                                         <select className="form-control" id="deptId" onChange={(e) => setDeptId(e.target.value)}>
-                                           
+
                                             {
                                                 departments.map(
                                                     department =>
@@ -283,7 +296,7 @@ export default function DesignationComponent() {
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="submit" className="btn btn-success" data-dismiss="modal" onClick={(e) => saveDesignationDetails(e)}> Submit</button>
+                            <button type="submit" className="btn btn-success" data-dismiss="modal" onClick={(e) => setSaveDesignationAlert(true)}> Submit</button>
                             <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -304,7 +317,7 @@ export default function DesignationComponent() {
                         </div>
                         <div className="modal-body">
                             <form className="form-horizontal" >
-                               
+
                                 <div> <input type="hidden" id="desigId" name="desigId" value={desigId} /></div>
                                 <div className="form-group">
                                     <label className="control-label col-sm-4" htmlFor="deptName">Department Name:</label>
@@ -350,7 +363,7 @@ export default function DesignationComponent() {
                         </div>
                         <div className="modal-body">
                             <form className="form-horizontal" action="/action_page.php">
-                    
+
                                 <div className="form-group">
                                     <label className="control-label col-sm-4" htmlFor="deptName">Department Name:</label>
                                     <div className="col-sm-8">
@@ -382,5 +395,36 @@ export default function DesignationComponent() {
 
         </div>
 
+        {saveDesignationAlert && (
+            <AlertboxComponent
+                show={saveDesignationAlert}
+                title="danger"
+                message="Do you want to save Designation"
+                onOk={saveDesignationDetails}
+                onClose={handleClose}
+                isCancleAvailable={true}
+            />
+        )}
+        {updatDesignationAlert && (
+            <AlertboxComponent
+                show={updatDesignationAlert}
+                title="danger"
+                message="Do you want to update Designation"
+                onOk={updateDesignationDetails}
+                onClose={handleClose}
+                isCancleAvailable={true}
+            />
+        )}
+        {deleteDesignationAlert && (
+            <AlertboxComponent
+                show={deleteDesignationAlert}
+                title="danger"
+                message="Do you want to delete Designation"
+                onOk={deleteDesignationById}
+                onClose={handleClose}
+                isCancleAvailable={true}
+            />
+        )}
+    </React.Fragment>
     );
 }

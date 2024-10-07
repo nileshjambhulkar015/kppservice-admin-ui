@@ -2,6 +2,7 @@ import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
 import DepartmentService from "../../../services/DepartmentService";
 import { BASE_URL_API } from '../../../services/URLConstants';
+import AlertboxComponent from './../../../components/AlertboxComponent/AlertboxComponent'
 export default function DepartmentComponent() {
 
 
@@ -18,7 +19,19 @@ export default function DepartmentComponent() {
     const [roles, setRoles] = useState([])
 
     const [message, setMessage] = useState('');
+    const [saveDepatmentAlert, setSaveDepatmentAlert] = useState(false);
+    const [deleteDepatmentAlert, setDeleteDepatmentAlert] = useState(false);
+    const [updateDeptAlert, setUpdateDeptAlert] = useState(false);
 
+    const handleClose = () => {
+       
+        setSaveDepatmentAlert(false);
+        setUpdateDeptAlert(false)
+        setDeleteDepatmentAlert(false)
+        setDeptName('');
+        setDeptMailId('')
+        setRemark('');
+    };
     //loading all department and roles while page loading at first time
     useEffect(() => {
         DepartmentService.getDepartmentDetailsByPaging().then((res) => {
@@ -39,6 +52,7 @@ export default function DepartmentComponent() {
 
     const saveDepartment = (e) => {
         e.preventDefault()
+
         let statusCd = 'A';
         let employeeId = Cookies.get('empId')
         let department = { deptName,deptMailId, remark, statusCd, employeeId };
@@ -48,10 +62,12 @@ export default function DepartmentComponent() {
             DepartmentService.getDepartmentDetailsByPaging().then((res) => {
                 setDepartments(res.data.responseData.content);
                 setDeptName('');
+                setDeptMailId('')
                 setRemark('');
 
             });
-            console.log("Department added");
+        setSaveDepatmentAlert(false);
+
         }
         );
         // window.location.reload(); 
@@ -63,6 +79,7 @@ export default function DepartmentComponent() {
             let department = res.data;
             setDeptId(department.deptId)
             setDeptName(department.deptName)
+            setDeptMailId(department.deptMailId)
             setRemark(department.remark)
         }
         );
@@ -96,6 +113,7 @@ export default function DepartmentComponent() {
             // User clicked Cancel
             console.log("User canceled the action.");
         }
+        setUpdateDeptAlert(false);
     }
 
     const updateDepartment = (e) => {
@@ -111,8 +129,9 @@ export default function DepartmentComponent() {
             });
             console.log("Department added");
         }
+      
         );
-
+        setUpdateDeptAlert(false);
     }
 
     //upload excel data for department
@@ -138,7 +157,7 @@ export default function DepartmentComponent() {
     };
 
     return (
-
+        <React.Fragment>
         <div>
             <div className="row">
                 <h2 className="text-center">Department List</h2>
@@ -184,7 +203,7 @@ export default function DepartmentComponent() {
 
                                                 <td> <button type="submit" className="btn btn-info" data-toggle="modal" data-target="#updateDepartment" onClick={() => showDepartmentById(department.deptId)}>Update</button>
                                                     <button type="submit" className="btn col-sm-offset-1 btn-danger" onClick={() => deleteDepartmentById(department.deptId)}>Delete</button>
-                                                    <button type="submit" className="btn col-sm-offset-1 btn-success" data-toggle="modal" data-target="#showData" onClick={() => showDepartmentById(department.deptId)}>View</button></td>
+                                                    <button type="submit" className="btn col-sm-offset-1 btn-success" data-toggle="modal" data-target="#showData"  onClick={() => showDepartmentById(department.deptId)}>View</button></td>
                                             </tr>
                                     )
                                 }
@@ -266,7 +285,7 @@ export default function DepartmentComponent() {
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="submit" className="btn btn-success" data-dismiss="modal" onClick={(e) => saveDepartment(e)} > Submit</button>
+                            <button type="submit" className="btn btn-success" data-dismiss="modal" onClick={(e) =>  setSaveDepatmentAlert(true)} > Submit</button>
                             <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -309,7 +328,7 @@ export default function DepartmentComponent() {
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="submit" className="btn btn-success" data-dismiss="modal" onClick={(e) => updateDepartment(e)} > Submit</button>
+                            <button type="submit" className="btn btn-success" data-dismiss="modal" onClick={(e) =>  setUpdateDeptAlert(true)} > Submit</button>
                             <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -364,5 +383,28 @@ export default function DepartmentComponent() {
                 </div>
             </div>
         </div>
+        {saveDepatmentAlert && (
+            <AlertboxComponent
+                show={saveDepatmentAlert}
+                title="danger"
+                message="Do you want to save department"
+                onOk={saveDepartment}
+                onClose={handleClose}
+                isCancleAvailable={true}
+            />
+        )}
+
+        
+        {updateDeptAlert && (
+            <AlertboxComponent
+                show={updateDeptAlert}
+                title="danger"
+                message="Do you want to update department"
+                onOk={updateDepartment}
+                onClose={handleClose}
+                isCancleAvailable={true}
+            />
+        )}
+    </React.Fragment>
     );
 }
