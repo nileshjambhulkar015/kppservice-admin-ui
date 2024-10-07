@@ -18,6 +18,8 @@ export default function DesignationComponent() {
     const [deleteDesignationAlert, setDeleteDesignationAlert] = useState(false);
     const [updatDesignationAlert, setUpdateDesignationAlert] = useState(false);
 
+    const [isSuccess, setIsSuccess] = useState(true)
+
     const handleClose = () => {
 
         setSaveDesignationAlert(false);
@@ -40,9 +42,16 @@ export default function DesignationComponent() {
     }, []);
 
     const searchDesigName = (e) => {
-        DesignationService.getDesignationDetailsByDesigNamePaging(e).then((res) => {
-            setDesignations(res.data.responseData.content);
-            console.log(res.data)
+        setDesigNameSearch(e.target.value)
+        DesignationService.getDesignationDetailsByDesigNamePaging(e.target.value).then((res) => {
+           
+            if (res.data.success) {
+                setIsSuccess(true);
+                setDesignations(res.data.responseData.content);
+            }
+            else {
+                setIsSuccess(false);
+            }
         });
     }
     //for all department by role id
@@ -55,7 +64,13 @@ export default function DesignationComponent() {
 
         DesignationService.saveDesignationDetails(designation).then(res => {
             DesignationService.getDesignationDetailsByPaging().then((res) => {
-                setDesignations(res.data.responseData.content);
+                if (res.data.success) {
+                    setIsSuccess(true);
+                    setDesignations(res.data.responseData.content);
+                }
+                else {
+                    setIsSuccess(false);
+                }
 
             });
 
@@ -90,7 +105,13 @@ export default function DesignationComponent() {
 
         DesignationService.updateDesignationDetails(updateDesignation).then(res => {
             DesignationService.getDesignationDetailsByPaging().then((res) => {
-                setDesignations(res.data.responseData.content);
+                if (res.data.success) {
+                    setIsSuccess(true);
+                    setDesignations(res.data.responseData.content);
+                }
+                else {
+                    setIsSuccess(false);
+                }
             });
 
         }
@@ -117,7 +138,13 @@ export default function DesignationComponent() {
 
                 DesignationService.updateDesignationDetails(deleteDesignation).then(res => {
                     DesignationService.getDesignationDetailsByPaging().then((res) => {
-                        setDesignations(res.data.responseData.content);
+                        if (res.data.success) {
+                            setIsSuccess(true);
+                            setDesignations(res.data.responseData.content);
+                        }
+                        else {
+                            setIsSuccess(false);
+                        }
                     });
 
                 }
@@ -171,10 +198,10 @@ export default function DesignationComponent() {
                                 <form className="form-horizontal">
                                     <label className="control-label col-sm-5" htmlFor="desigNameSearch">Enter Designation Name:</label>
                                     <div className="col-sm-4">
-                                        <input type="text" className="form-control" id="desigNameSearch" placeholder="Enter Designation Name" value={desigNameSearch} onChange={(e) => setDesigNameSearch(e.target.value)} />
+                                        <input type="text" className="form-control" id="desigNameSearch" placeholder="Enter Designation Name" value={desigNameSearch} onChange={(e) => searchDesigName(e)} />
                                     </div>
                                 </form>
-                                <button type="submit" className="btn btn-primary" onClick={() => searchDesigName(desigNameSearch)}>Search</button>
+                                
                             </div>
                         </div>
                         <div className="col-sm-6" align="right">
@@ -183,7 +210,7 @@ export default function DesignationComponent() {
                         </div>
                     </div>
                     <div className="row">
-
+                    {isSuccess ?
                         <table className="table table-bordered">
                             <thead>
                                 <tr>
@@ -213,6 +240,7 @@ export default function DesignationComponent() {
                                 }
                             </tbody>
                         </table>
+                        : <h4>Designation name is not available</h4>}
                     </div>
 
                 </div>

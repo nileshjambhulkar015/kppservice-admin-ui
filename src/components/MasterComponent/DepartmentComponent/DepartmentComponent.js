@@ -56,9 +56,6 @@ export default function DepartmentComponent() {
             else {
                 setIsSuccess(false);
             }
-
-           
-            console.log(res.data)
         });
     }
 
@@ -72,10 +69,13 @@ export default function DepartmentComponent() {
         DepartmentService.saveDepartmentDetails(department).then(res => {
             console.log("res=", res.data)
             DepartmentService.getDepartmentDetailsByPaging().then((res) => {
-                setDepartments(res.data.responseData.content);
-                setDeptName('');
-                setDeptMailId('')
-                setRemark('');
+                if (res.data.success) {
+                    setIsSuccess(true);
+                    setDepartments(res.data.responseData.content);
+                }
+                else {
+                    setIsSuccess(false);
+                }
 
             });
         setSaveDepatmentAlert(false);
@@ -113,8 +113,13 @@ export default function DepartmentComponent() {
 
                 DepartmentService.updateDepartmentDetails(updateDepartment).then(res => {
                     DepartmentService.getDepartmentDetailsByPaging().then((res) => {
-                        setDepartments(res.data.responseData.content);
-                        console.log(res.data.responseData.content)
+                        if (res.data.success) {
+                            setIsSuccess(true);
+                            setDepartments(res.data.responseData.content);
+                        }
+                        else {
+                            setIsSuccess(false);
+                        }
                     });
                 }
                 );
@@ -136,7 +141,13 @@ export default function DepartmentComponent() {
 
         DepartmentService.updateDepartmentDetails(department).then(res => {
             DepartmentService.getDepartmentDetailsByPaging().then((res) => {
-                setDepartments(res.data.responseData.content);
+                if (res.data.success) {
+                    setIsSuccess(true);
+                    setDepartments(res.data.responseData);
+                }
+                else {
+                    setIsSuccess(false);
+                }
 
             });
             console.log("Department added");
