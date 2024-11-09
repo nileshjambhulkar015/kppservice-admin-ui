@@ -2,9 +2,9 @@
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
 
-import { BASE_URL_API } from '../../../services/URLConstants';
-import AnnouncementTypeService from '../../../services/MasterService/AnnouncementTypeService';
-import AlertboxComponent from '../../AlertboxComponent/AlertboxComponent';
+import { BASE_URL_API } from '../../services/URLConstants';
+import AnnouncementTypeService from '../../services/MasterService/AnnouncementTypeService';
+import AlertboxComponent from '../AlertboxComponent/AlertboxComponent';
 export default function AnnouncementComponent() {
 
 

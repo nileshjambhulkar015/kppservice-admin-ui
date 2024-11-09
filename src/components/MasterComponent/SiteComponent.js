@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import DepartmentService from "../../../services/MasterService/DepartmentService";
+import DepartmentService from "../../services/MasterService/DepartmentService";
 
-import SiteService from "../../../services/MasterService/SiteService";
-import RegionService from "../../../services/MasterService/RegionService";
-import AlertboxComponent from "../../AlertboxComponent/AlertboxComponent";
+import SiteService from "../../services/MasterService/SiteService";
+import RegionService from "../../services/MasterService/RegionService";
+import AlertboxComponent from "../AlertboxComponent/AlertboxComponent";
 
 export default function SiteComponent() {
     const [regionId, setRegionId] = useState('');

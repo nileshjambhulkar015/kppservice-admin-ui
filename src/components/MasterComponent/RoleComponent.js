@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import RoleService from "../../../services/MasterService/RoleService";
+import RoleService from "../../services/MasterService/RoleService";
 
 export default function RoleComponent() {
 

@@ -1,9 +1,9 @@
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
-import ComplaintTypeService from "../../../services/MasterService/ComplaintTypeService";
-import { BASE_URL_API } from '../../../services/URLConstants';
-import DesignationService from '../../../services/MasterService/DesignationService';
-import AlertboxComponent from '../../AlertboxComponent/AlertboxComponent';
+import ComplaintTypeService from "../../services/MasterService/ComplaintTypeService";
+import { BASE_URL_API } from '../../services/URLConstants';
+import DesignationService from '../../services/MasterService/DesignationService';
+import AlertboxComponent from '../AlertboxComponent/AlertboxComponent';
 export default function ComplaintTypeComponent() {
 
 

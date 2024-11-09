@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
-import EmployeeTypeService from '../../../services/MasterService/EmployeeTypeService';
-import AlertboxComponent from '../../AlertboxComponent/AlertboxComponent';
+import EmployeeTypeService from '../../services/MasterService/EmployeeTypeService';
+import AlertboxComponent from '../AlertboxComponent/AlertboxComponent';
 
 export default function EmployeeTypeComponent() {
 

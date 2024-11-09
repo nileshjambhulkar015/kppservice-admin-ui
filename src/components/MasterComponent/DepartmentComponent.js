@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
-import DepartmentService from "../../../services/MasterService/DepartmentService";
-import { BASE_URL_API } from '../../../services/URLConstants';
-import AlertboxComponent from './../../../components/AlertboxComponent/AlertboxComponent'
+import DepartmentService from "../../services/MasterService/DepartmentService";
+import { BASE_URL_API } from '../../services/URLConstants';
+import AlertboxComponent from '../AlertboxComponent/AlertboxComponent'
 export default function DepartmentComponent() {
 
 
