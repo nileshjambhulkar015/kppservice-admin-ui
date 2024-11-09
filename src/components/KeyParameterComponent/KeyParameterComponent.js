@@ -102,7 +102,7 @@ export default function KeyParameterComponent() {
             }
         });
 
-        UoMService.getAllUoM().then((res) => {
+        UoMService.ddAllUoM().then((res) => {
             setUoms(res.data);
             setUomId(res.data?.[0]?.uomId)
         });

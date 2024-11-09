@@ -7,15 +7,6 @@ const DESIGNATION_URL = BASE_URL_API+"/designation";
 
 class DesignationService {
 
-    getAllDepartmentFromDesig() {
-        if (null != Cookies.get('empId')) {
-            return axios.get(DESIGNATION_URL +"/department")
-        } else {
-            alert("You need to login first")
-            window.location.replace(LOGIN_UI_BASE_URL);
-        }       
-    }
-
  
     
     getAllDepartmentDetails() {
@@ -28,7 +19,7 @@ class DesignationService {
     }
 
     //get all designation from department id for dropdown list
-    getDesignationDetailsForKpp(deptId) {
+    ddDesignationDetailsForKpp(deptId) {
        
         if (null != Cookies.get('empId')) {
             return axios.get(DESIGNATION_URL + `/by-desig-dept?deptId=${deptId}`)
@@ -39,21 +30,7 @@ class DesignationService {
     }
 
 
-     //get all designation from department id for dropdown list for reporting employee
-     getDesignationDetailsForReporting(data) {
-      
-        if (null != Cookies.get('empId')) {
-            return axios.get(DESIGNATION_URL + `/by-role-dept?roleId=${data.reportingEmpRoleId}&deptId=${data.reportingEmpDeptId}`)
-        } else {
-            alert("You need to login first")
-            window.location.replace(LOGIN_UI_BASE_URL);
-        }
-    }
-
-
-
-
-    getDesignationDetailsByPaging() {
+     getDesignationDetailsByPaging() {
         if (null != Cookies.get('empId')) {
             return axios.get(BASE_URL_API+"/designation/search?statusCd=A&page=0&size=200&sort=desig.desig_name")
         } else {

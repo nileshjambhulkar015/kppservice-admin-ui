@@ -195,9 +195,9 @@ export default function AssignEmployeeKppComponent() {
         }
     }
 
-    const deleteKPPDetailsForEmployee = (kppId,kppOverallTarget,kppOverallWeightage) => {
+    const deleteKPPDetailsForEmployee = (kppId, kppOverallTarget, kppOverallWeightage) => {
         if (window.confirm("Do you want to delete this Employee KPP ?")) {
-            EmployeeKppsService.deleteEmployeeKppDetails(kppId,kppOverallTarget,kppOverallWeightage).then(res => {
+            EmployeeKppsService.deleteEmployeeKppDetails(kppId, kppOverallTarget, kppOverallWeightage).then(res => {
                 KeyParameterService.getKPPDetailsForAssignKppByPaging().then((res) => {
                     if (res.data.success) {
                         setKppIsSuccess(true);
@@ -250,11 +250,11 @@ export default function AssignEmployeeKppComponent() {
                         </div>
 
                         <div className="form-group">
-                        <label className="control-label col-sm-2"  >Employee Id :</label>
-                        <div className="col-sm-5">
-                            {empEId}
+                            <label className="control-label col-sm-2"  >Employee Id :</label>
+                            <div className="col-sm-5">
+                                {empEId}
+                            </div>
                         </div>
-                    </div>
 
                         <div className="form-group">
                             <label className="control-label col-sm-2"  >Role :</label>
@@ -399,7 +399,7 @@ export default function AssignEmployeeKppComponent() {
                                         (kpp, index) =>   //index is inbuilt variable of map started with 0
                                             <tr key={kpp.kppId}>
                                                 <td className="text-center">{index + 1}</td>
-                                                <td className="text-center"> <button type="submit" className="btn btn-info" onClick={(e) => deleteKPPDetailsForEmployee(kpp.kppId,kpp.kppOverallTarget,kpp.kppOverallWeightage)}>Remove</button></td>
+                                                <td className="text-center"> <button type="submit" className="btn btn-info" onClick={(e) => deleteKPPDetailsForEmployee(kpp.kppId, kpp.kppOverallTarget, kpp.kppOverallWeightage)}>Remove</button></td>
                                                 <td className="text-justify">{kpp.kppObjectiveNo}</td>
                                                 <td className="text-justify">{kpp.kppObjective}</td>
                                                 <td className="text-justify">{kpp.kppPerformanceIndi}</td>

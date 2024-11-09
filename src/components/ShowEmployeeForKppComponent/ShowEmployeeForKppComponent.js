@@ -54,7 +54,7 @@ export default function ShowEmployeeForKppComponent() {
             setRoles(res.data);
         });
 
-        EmployeeTypeService.getDDEmployeeType().then((res) => {
+        EmployeeTypeService.ddEmployeeType().then((res) => {
             setEmpTypes(res.data.responseData);
         });
 

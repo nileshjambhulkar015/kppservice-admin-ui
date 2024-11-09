@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 import { BASE_URL_API, LOGIN_UI_BASE_URL } from "../URLConstants";
 
-const BASE_URL = BASE_URL_API+"/uom";
+const BASE_URL = BASE_URL_API + "/uom";
 
 
 class UoMService {
@@ -43,17 +43,17 @@ class UoMService {
     //at page load call all the region load all departments
     getUoMByPaging() {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API+"/uom/search?statusCd=A&page=0&size=1200&sort=regionName asc")
+            return axios.get(BASE_URL_API + "/uom/search?statusCd=A&page=0&size=1200&sort=regionName asc")
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
         }
     }
 
-      //to show uom for adding kpp
-      getAllUoM() {
+    //to show uom for adding kpp
+    ddAllUoM() {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API+"/uom/all-uom")
+            return axios.get(BASE_URL_API + "/uom/all-uom")
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
@@ -63,7 +63,7 @@ class UoMService {
 
     getUoMById(uomId) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API+`/uom?uomId=${uomId}`)
+            return axios.get(BASE_URL_API + `/uom?uomId=${uomId}`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
