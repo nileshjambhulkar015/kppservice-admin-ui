@@ -31,7 +31,7 @@ export default function DesignationComponent() {
     useEffect(() => {
         DesignationService.getDesignationDetailsByPaging().then((res) => {
             setDesignations(res.data.responseData.content);
-            console.log(res.data)
+           
         });
 
         DepartmentService.ddAllDepartmentExceptGM().then((res) => {
@@ -84,7 +84,7 @@ export default function DesignationComponent() {
 
         DesignationService.getDesignationById(e).then(res => {
             let designation = res.data;
-            console.log(designation)
+       
 
             setDesigId(designation.desigId)
             setDeptId(designation.deptId)

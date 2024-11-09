@@ -31,7 +31,7 @@ export default function EmployeeTypeComponent() {
     useEffect(() => {
         EmployeeTypeService.getEmployeeTypeDetailsByPaging().then((res) => {
             setEmpTypes(res.data.responseData);
-            console.log(res.data.responseData)
+          
         });
     }, []);
 
@@ -41,7 +41,7 @@ export default function EmployeeTypeComponent() {
     const searchDeptName = (e) => {
         EmployeeTypeService.getEmployeeTypeDetailsByPaging(e).then((res) => {
             setEmpTypes(res.data.responseData);
-            console.log(res.data)
+          
         });
     }
 
@@ -52,7 +52,7 @@ export default function EmployeeTypeComponent() {
         let employeeTypes = { empTypeName, remark, statusCd, employeeId };
 
         EmployeeTypeService.saveEmployeeTypeDetails(employeeTypes).then(res => {
-            console.log("res=", res.data)
+          
             EmployeeTypeService.getEmployeeTypeDetailsByPaging(e).then((res) => {
                 setEmpTypes(res.data.responseData);
                 setEmpTypeName('');
@@ -67,7 +67,7 @@ export default function EmployeeTypeComponent() {
 
         EmployeeTypeService.getEmployeeTypeById(e).then(res => {
             let employeeType = res.data.responseData;
-            console.log("employeeType", employeeType)
+           
             setEmpTypeId(employeeType.empTypeId)
             setEmpTypeName(employeeType.empTypeName)
             setRemark(employeeType.remark)
@@ -95,10 +95,10 @@ export default function EmployeeTypeComponent() {
                 EmployeeTypeService.updateEmployeeTypeDetails(updateEmployeeType).then(res => {
                     EmployeeTypeService.getEmployeeTypeDetailsByPaging(e).then((res) => {
                         setEmpTypes(res.data.responseData);
-                        console.log(res.data)
+                      
                     });
 
-                    console.log("Employee Type deleted");
+                   
                 }
                 );
             }
@@ -119,7 +119,7 @@ export default function EmployeeTypeComponent() {
         EmployeeTypeComponent.updateDepartment(employeeType).then(res => {
             EmployeeTypeService.getEmployeeTypeDetailsByPaging(e).then((res) => {
                 setEmpTypes(res.data.responseData);
-                console.log(res.data)
+               
             });
             
         }

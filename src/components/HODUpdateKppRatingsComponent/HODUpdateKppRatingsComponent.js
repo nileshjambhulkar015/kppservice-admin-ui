@@ -135,7 +135,7 @@ const HODUpdateKppRatingsComponent = () => {
                     {({ values, setFieldValue }) => {
 
                         const handleTodoChange = (e, i, kppId, kppOverallWeightage, empOverallAchieve) => {
-                            console.log("e.target.value : ", e.target.value)
+                           
                             const field = e.target.name?.split(".")[1];
 
 

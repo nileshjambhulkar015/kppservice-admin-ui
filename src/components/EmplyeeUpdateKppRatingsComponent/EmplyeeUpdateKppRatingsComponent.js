@@ -129,7 +129,7 @@ const EmplyeeUpdateKppRatingsComponent = () => {
                     {({ values, setFieldValue }) => {
 
                         const handleTodoChange = (e, i, kppId, kppOverallWeightage, empOverallAchieve, hodOverallAchieve) => {
-                            console.log("e.target.value : ", e.target.value)
+                         
                             const field = e.target.name?.split(".")[1];
 
 

@@ -59,7 +59,7 @@ export default function OthersInProgressComplaintComponent() {
     useEffect(() => {
         OthersInProgressComplaintService.getEmployeeCompaintsDetailsByPaging().then((res) => {
             setComplaints(res.data.responseData.content);
-            console.log(res.data.responseData.content)
+         
         });
 
         OthersInProgressComplaintService.getAllDepartmentDetails().then((res) => {
@@ -169,7 +169,7 @@ export default function OthersInProgressComplaintComponent() {
                 setComplaints(res.data.responseData.content?.filter((item) => item.compStatus != 'Pending'));
 
             });
-            console.log("Complaint added");
+      
         }
         );
     } else {

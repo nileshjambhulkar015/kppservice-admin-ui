@@ -59,7 +59,7 @@ export default function KeyParameterComponent() {
     const searchKppObjective = (e) => {
         KeyParameterService.getKPPDetailsByKppObjectiveNoPaging(e).then((res) => {
             setKpps(res.data.responseData.content);
-            console.log(res.data)
+          
         });
     }
 
@@ -68,7 +68,7 @@ export default function KeyParameterComponent() {
 
         KeyParameterService.getKppById(e).then(res => {
             let kpp = res.data;
-            console.log(kpp)
+          
             setKppId(kpp.kppId)
             setKppObjectiveNo(kpp.kppObjectiveNo)
             setKppObjective(kpp.kppObjective)
@@ -162,7 +162,7 @@ export default function KeyParameterComponent() {
         if (window.confirm("Do you want to delete this KPP ?")) {
         KeyParameterService.getKppById(e).then(res => {
             let kpp = res.data;
-            console.log(kpp)
+           
             let kppId = kpp.kppId;
             let kppObjectiveNo = kpp.kppObjectiveNo;
             let kppObjective = kpp.kppObjective;
@@ -179,7 +179,7 @@ export default function KeyParameterComponent() {
             let remark = kpp.remark;
 
             
-            console.log("KppId=", kppId)
+           
             let statusCd = 'I';
             let updateKpp = { kppId, kppObjectiveNo, kppObjective, kppPerformanceIndi, kppOverallTarget, kppTargetPeriod, uomId, kppOverallWeightage, kppRating1, kppRating2, kppRating3, kppRating4, kppRating5, remark, statusCd };
 
@@ -187,7 +187,7 @@ export default function KeyParameterComponent() {
                 KeyParameterService.getKPPDetailsByPaging().then((res) => {
                     setKpps(res.data.responseData.content);
                 });
-                console.log("Kpp deleted");
+               
             }
             );
         }
@@ -209,7 +209,7 @@ export default function KeyParameterComponent() {
             KeyParameterService.getKPPDetailsByPaging().then((res) => {
                 setKpps(res.data.responseData.content);
             });
-            console.log("KPP added");
+         
         }
         );
         setUpdateKPPAlert(false)

@@ -21,16 +21,16 @@ export default function AllHodKppStatusComponent() {
     }, []);
 
     const onOptionChangeHandler = (event) => {
-        console.log("event=", event)
+       
         setEmpKppStatus(event);
     };
 
     const searchByEKpp = (e) => {
-        console.log("data=", empKppStatus)
+      
         AllHodKppService.getEmployeeByStatusByPagination(empKppStatus).then((res) => {
           
             setEmpResponses(res.data.responseData.content);
-            console.log(res.data)
+            
         });
     }
 
@@ -42,7 +42,7 @@ export default function AllHodKppStatusComponent() {
     }
 
     const navigateToUpdateRating=(empId)=>{
-        console.log("New empId =",empId)
+       
         Cookies.set('hodEmpIdForKppRatings', empId);
         navigate(`/addHodKppRating`, { replace: true })       
     }

@@ -55,7 +55,7 @@ class EmployeeKppsService {
     //Assign employee kpp for assign kpp page
     assignEmployeeKppDetails(emplyeeKpp) {
         if (null != Cookies.get('empId')) {
-            console.log("Service =", emplyeeKpp)
+           
             return axios.post(BASE_URL_API + "/employee-kpp/assign-kpp", emplyeeKpp)
         } else {
             alert("You need to login first")

@@ -88,7 +88,7 @@ export default function AddNewEmployeeComponent() {
         let employeeId = Cookies.get('empEId');
 
         let employee = { empEId, roleId, deptId, desigId, empTypeId, reportingEmpId, regionId, siteId, companyId, empFirstName, empMiddleName, empLastName, empDob, empMobileNo, empEmerMobileNo, empPhoto, emailId, tempAddress, permAddress, empGender, empBloodgroup, remark, statusCd, employeeId };
-        console.log(employee)
+   
 
         EmployeeService.saveEmployeeDetails(employee).then(res => {
             if (res.data.success) {
@@ -108,7 +108,7 @@ export default function AddNewEmployeeComponent() {
     const searchEmployeeFirstName = (e) => {
         EmployeeService.getEmployeeDetailsByEmpFirstNamePaging(e).then((res) => {
             setEmployees(res.data.responseData.content?.filter((item) => item.roleId !== 3 && item.roleId !== 4));
-            console.log(res.data)
+           
         });
     }
 
@@ -121,7 +121,7 @@ export default function AddNewEmployeeComponent() {
         ///
         EmployeeService.ddRegionsFromCompany().then((res) => {
             setRegions(res.data);
-            console.log("res.data?.[0].roleId = ", res.data?.[0].roleId)
+          
             setRegionId(res.data?.[0].regionId)
             let regionId = res.data?.[0].regionId;
             EmployeeService.ddSitesByRegionIdFromCompany(regionId).then((res1) => {
@@ -146,7 +146,7 @@ export default function AddNewEmployeeComponent() {
         EmployeeTypeService.ddEmployeeType().then((res) => {
             setEmpTypes(res.data.responseData);
             setEmpTypeId(res.data.responseData?.[0].empTypeId)
-            console.log("empTypeId", res.data.responseData?.[0].empTypeId)
+            
         });
 
         DepartmentService.ddAllDepartmentExceptGM().then((res1) => {
@@ -163,7 +163,7 @@ export default function AddNewEmployeeComponent() {
 
         EmployeeService.ddRolesExceptEmployee().then((res) => {
             setReportingRoles(res.data);
-            console.log("res.data?.[0].roleId = ", res.data?.[0].roleId)
+          
             setReportingEmpRoleId(res.data?.[0].roleId)
             let roleId = res.data?.[0].roleId;
             EmployeeService.ddDepartmentFromEmployee(roleId).then((res1) => {
@@ -177,7 +177,7 @@ export default function AddNewEmployeeComponent() {
                     EmployeeService.ddEmployeeName({ roleId, deptId,desigId }).then((res3) => {
                         setReportingEmpId(res3.data?.[0]?.empId)
                         setReportingEmpName(res3.data);
-                        console.log("res3.data?.[0]?.empId", res3.data?.[0]?.empId)
+                       
                     });
 
                 });
@@ -263,7 +263,7 @@ export default function AddNewEmployeeComponent() {
                 EmployeeService.ddEmployeeName({ roleId, deptId,desigId }).then((res3) => {
                     setReportingEmpId(res3.data?.[0]?.empId)
                     setReportingEmpName(res3.data);
-                    console.log("res3.data?.[0]?.empId", res3.data?.[0]?.empId)
+                   
                 });
             });
         });
@@ -275,7 +275,7 @@ export default function AddNewEmployeeComponent() {
         EmployeeService.ddEmployeeName({ roleId, deptId,desigId }).then((res3) => {
             setReportingEmpId(res3.data?.[0]?.empId)
             setReportingEmpName(res3.data);
-            console.log("res3.data?.[0]?.empId", res3.data?.[0]?.empId)
+          
         });
     }
 
@@ -290,7 +290,7 @@ export default function AddNewEmployeeComponent() {
             EmployeeService.ddEmployeeName({ roleId, deptId,desigId }).then((res3) => {
                 setReportingEmpId(res3.data?.[0]?.empId)
                 setReportingEmpName(res3.data);
-                console.log("res3.data?.[0]?.empId", res3.data?.[0]?.empId)
+               
             });
 
         });

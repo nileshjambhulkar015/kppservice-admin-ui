@@ -32,7 +32,7 @@ export default function MeetingMasterComponent() {
     useEffect(() => {
         MeetingMasterService.getEmployeeMeetingByPaging().then((res) => {
             setMeetings(res.data.responseData.content);
-            console.log(res.data.responseData.content)
+          
         });
     }, []);
 
@@ -78,9 +78,9 @@ export default function MeetingMasterComponent() {
             MeetingMasterService.cancelEmployeeMeeting(meeting).then(res => {
                 MeetingMasterService.getEmployeeMeetingByPaging().then((res) => {
                     setMeetings(res.data.responseData.content);
-                    console.log(res.data.responseData.content)
+                   
                 });
-                console.log("Meeting cancel");
+             
             }
             );
         });
@@ -110,7 +110,7 @@ export default function MeetingMasterComponent() {
          let meetCreatedByDesigName =  Cookies.get('desigName')
          
          let meeting = { meetStartDate, meetEndDate,meetCreatedByEmpId,meetCreatedByEmpEId,meetCreatedByEmpName,meetCreatedByRoleId,meetCreatedByRoleName,meetCreatedByDeptId,meetCreatedByDeptName,meetCreatedByDesigId,meetCreatedByDesigName,meetVenue,meetTitle,meetDescription,meetStatus, remark, statusCd,employeeId };
-        console.log("Meting", meeting)
+       
          MeetingMasterService.saveEmployeeMeetingDetails(meeting).then(res => {
             
             MeetingMasterService.getEmployeeMeetingByPaging().then((res) => {

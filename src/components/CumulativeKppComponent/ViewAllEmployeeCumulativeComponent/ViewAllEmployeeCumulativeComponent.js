@@ -68,7 +68,7 @@ export default function ViewAllEmployeeCumulativeComponent() {
 
 
     const navigateToViewEmployeeRating = (empId) => {
-        console.log("New empId =", empId)
+
         Cookies.set('viewSingleEmpIdForKppRatings', empId);
         navigate(`/viewSingleEmployeeRatings`, { replace: true })
     }

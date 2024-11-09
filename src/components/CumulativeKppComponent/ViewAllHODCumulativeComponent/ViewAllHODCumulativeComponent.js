@@ -63,7 +63,7 @@ export default function ViewAllHODCumulativeComponent() {
 
 
     const navigateToViewEmployeeRating = (empId) => {
-        console.log("New empId =", empId)
+
         Cookies.set('viewSingleHODIdForKppRatings', empId);
         navigate(`/viewSingleHODRatings`, { replace: true })
     }

@@ -157,7 +157,7 @@ export default function AssignEmployeeKppComponent() {
             let kppOverallTarget = overallTarget;
             let kppOverallWeightage = overallWeightage;
             let kpp = { kppId, kppOverallTarget, kppOverallWeightage, empId, empEId, roleId, deptId, desigId, reportingEmpId, statusCd, employeeId };
-            console.log(kpp)
+       
 
             EmployeeKppsService.assignEmployeeKppDetails(kpp).then(res => {
 

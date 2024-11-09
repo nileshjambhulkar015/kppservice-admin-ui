@@ -82,7 +82,7 @@ export default function RegionComponent() {
                     RegionService.getRegionsByPaging().then((res) => {
                         setRegions(res.data.responseData.content);
                     });
-                    console.log("Region deleted");
+                    
                 }
                 );
             }

@@ -48,7 +48,7 @@ export default function AnnouncementComponent() {
             if (res.data.success) {
                 setIsSuccess(true);
                 setAnnouncements(res.data.responseData.content);
-                console.log(res.data.responseData.content)
+               
             }
             else {
                 setIsSuccess(false);
@@ -84,13 +84,13 @@ export default function AnnouncementComponent() {
         }
         let advComplaintSearch = { asAnnounFromDate, asAnnounToDate, asAnnounStatus, asAnnounTypeId, statusCd };
 
-        console.log(advComplaintSearch)
+      
         AnnouncementService.advanceSearchAnnouncementDetails(advComplaintSearch).then(res => {
             if (res.data.success) {
                 setIsSuccess(true);
                 setAnnouncements(res.data.responseData.content);
                
-                console.log(res.data.responseData.content)
+               
                 //setAsAnnounTypes(res.data.responseData.content);
             }
             else {
@@ -166,9 +166,9 @@ export default function AnnouncementComponent() {
                 AnnouncementService.cancelAnnouncement(announcement).then(res => {
                     AnnouncementService.getAnnouncementByPaging().then((res) => {
                         setAnnouncements(res.data.responseData.content);
-                        console.log(res.data.responseData.content)
+                       
                     });
-                    console.log("Announcement cancel");
+                  
                 }
                 );
             });
@@ -198,7 +198,7 @@ export default function AnnouncementComponent() {
         let announCreatedByDesigName = Cookies.get('desigName')
 
         let announcement = { announTypeId, announStartDate, announEndDate, announCreatedByEmpId, announCreatedByEmpEId, announCreatedByEmpName, announCreatedByRoleId, announCreatedByRoleName, announCreatedByDeptId, announCreatedByDeptName, announCreatedByDesigId, announCreatedByDesigName, announVenue, announTitle, announDescription, announStatus, remark, statusCd, employeeId };
-        console.log("announcement :", announcement)
+
         AnnouncementService.saveAnnouncementDetails(announcement).then(res => {
 
             AnnouncementService.getAnnouncementByPaging().then((res) => {

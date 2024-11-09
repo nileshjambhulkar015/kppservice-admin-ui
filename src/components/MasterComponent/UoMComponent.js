@@ -94,7 +94,7 @@ export default function UoMComponent() {
     }
 
     const updateUOMDetails = (e) => {
-        console.log("oddd added")
+      
         e.preventDefault()
         let statusCd = 'A';
         let employeeId = Cookies.get('empId');

@@ -67,7 +67,7 @@ export default function ComplaintTypeComponent() {
         setCompDeptId(value)
 
         let deptId = value;
-        console.log("deptId : ",deptId)
+       
        
         ComplaintTypeService.getComplaintTypeDetailsByDeptId(deptId).then((res) => {
                 setComplaintTypes(res.data.responseData.content);          
@@ -121,9 +121,9 @@ export default function ComplaintTypeComponent() {
                 ComplaintTypeService.updateComplaintTypeDetails(updateComplaintType).then(res => {
                     ComplaintTypeService.getComplaintTypeDetailsByPaging().then((res) => {
                         setComplaintTypes(res.data.responseData.content);
-                        console.log(res.data.responseData.content)
+                      
                     });
-                    console.log("Complaint Type deleted");
+                  
                 }
                 );
             }

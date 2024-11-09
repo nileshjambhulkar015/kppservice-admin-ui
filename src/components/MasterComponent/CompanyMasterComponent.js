@@ -42,8 +42,6 @@ export default function CompanyMasterComponent() {
     useEffect(() => {
         CompanyMasterService.getCompanyDetailsByPaging().then((res) => {
             setCompanys(res.data.responseData.content);
-
-            console.log(res.data)
         });
 
         SiteService.getAllRegions().then((res) => {
@@ -51,7 +49,7 @@ export default function CompanyMasterComponent() {
             setRegionId(res.data?.[0].regionId)
 
             let regionId = res.data?.[0].regionId;
-            // console.log("region id =", regionId)
+           
             SiteService.getSiteDetailsByRegionId(regionId).then((res1) => {
                 setSites(res1.data);
                 setSiteId(res1.data?.[0]?.siteId)
@@ -69,7 +67,7 @@ export default function CompanyMasterComponent() {
         SiteService.getSiteDetailsByRegionId(regionId).then((res1) => {
             setSites(res1.data);
             setSiteId(res1.data?.[0]?.siteId)
-            console.log("Inside Site Id=", siteId)
+          
         });
 
     };
@@ -110,7 +108,7 @@ export default function CompanyMasterComponent() {
 
         CompanyMasterService.getCompanyById(e).then(res => {
             let company = res.data;
-            console.log(company)
+           
             setRegionId(company.regionId)
             setRegionName(company.regionName)
             setSiteId(company.siteId)
@@ -188,7 +186,7 @@ export default function CompanyMasterComponent() {
                 CompanyMasterService.updateCompanyDetails(deletCompany).then(res => {
                     CompanyMasterService.getCompanyDetailsByPaging().then((res) => {
                         setCompanys(res.data.responseData.content);
-                        console.log(res.data)
+                      
                     });
 
 

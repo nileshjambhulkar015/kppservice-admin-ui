@@ -93,7 +93,7 @@ export default function ShowEmployeeForKppComponent() {
 
 
     const navigateToAssignEmployee = (empId, empEId, roleId, deptId, desigId, reportingEmpId) => {
-        console.log("reportingEmpId : ", reportingEmpId)
+       
         Cookies.set('empIdForKpp', empId);
         Cookies.set('empEIdForKpp', empEId);
         Cookies.set('empKppRoleId', roleId);
@@ -111,7 +111,7 @@ export default function ShowEmployeeForKppComponent() {
           
             EmployeeService.advanceSearchEmployee(advEmployeeSearch).then(res => {
                 setEmployees(res.data.responseData.content);
-                console.log("Site added");
+             
             }
             );
         }

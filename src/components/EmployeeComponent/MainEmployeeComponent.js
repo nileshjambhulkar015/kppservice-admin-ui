@@ -163,7 +163,7 @@ export default function MainEmployeeComponent() {
 
         EmployeeService.advanceSearchEmployee(advEmployeeSearch).then(res => {
             setEmployees(res.data.responseData.content);
-            console.log("Site added");
+           
         }
         );
     }
@@ -184,25 +184,14 @@ export default function MainEmployeeComponent() {
         });
     }
 
-    const searchEmployeeFirstName = (e) => {
-        EmployeeService.getEmployeeDetailsByEmpFirstNamePaging(e).then((res) => {
-
-            if (res.data.success) {
-                setIsSuccess(true);
-                setEmployees(res.data.responseData.content?.filter((item) => item.roleId !== 1));
-            }
-            else {
-                setIsSuccess(false);
-            }
-        });
-    }
+    
 
 
     const showEmployeeById = (e) => {
 
         EmployeeService.getEmployeeById(e).then(res => {
             let employee = res.data;
-            console.log(employee)
+    
             setEmpId(employee.empId)
             setEmpEId(employee.empEId)
             setRoleId(employee.roleId)
@@ -240,7 +229,7 @@ export default function MainEmployeeComponent() {
         if (window.confirm("Do you want to delete this Employee ?")) {
             EmployeeService.getEmployeeById(e).then(res => {
                 let employee = res.data;
-                console.log(employee)
+               
                 setEmpEId(employee.empEId)
                 setRoleId(employee.roleId)
                 setEmpId(employee.empId)
@@ -279,7 +268,7 @@ export default function MainEmployeeComponent() {
                     else {
                         alert(res.data.responseMessage)
                     }
-                    console.log("Employee deleted");
+                   
                 }
                 );
             }
@@ -302,7 +291,7 @@ export default function MainEmployeeComponent() {
             EmployeeService.getEmployeeDetailsByPaging().then((res) => {
                 setEmployees(res.data.responseData.content);
             });
-            console.log("Employee deleted");
+         
         }
         );
     }
@@ -318,7 +307,7 @@ export default function MainEmployeeComponent() {
         })
             .then(response => {
                 // Handle response
-                console.log("respons: ", response)
+              
                 alert("Employee uploaded successfully")
                 EmployeeService.getEmployeeDetailsByPaging().then((res) => {
                     setEmployees(res.data.responseData.content);

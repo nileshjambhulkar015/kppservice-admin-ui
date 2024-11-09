@@ -18,7 +18,7 @@ class AllHodKppService {
 
     getEmployeeByStatusByPagination(empKppStaus) {
         if (null != Cookies.get('empId')) {
-            console.log("empKppStaus=",empKppStaus)
+          
             //for GM need to send this
            // return axios.get(BASE_URL_API+`/employee/employee-kpp-status?reportingEmployee=${Cookies.get('empId')}&roleId=2&empKppStatus=${empKppStaus}&page=0&size=20&sort=desig.desig.name`)
 

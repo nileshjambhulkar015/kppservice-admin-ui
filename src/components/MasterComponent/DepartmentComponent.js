@@ -38,7 +38,7 @@ export default function DepartmentComponent() {
     useEffect(() => {
         DepartmentService.getDepartmentDetailsByPaging().then((res) => {
             setDepartments(res.data.responseData.content);
-            console.log(res.data.responseData.content)
+          
         });
     }, []);
 
@@ -67,7 +67,7 @@ export default function DepartmentComponent() {
         let department = { deptName,deptMailId, remark, statusCd, employeeId };
 
         DepartmentService.saveDepartmentDetails(department).then(res => {
-            console.log("res=", res.data)
+          
             DepartmentService.getDepartmentDetailsByPaging().then((res) => {
                 if (res.data.success) {
                     setIsSuccess(true);
@@ -150,7 +150,7 @@ export default function DepartmentComponent() {
                 }
 
             });
-            console.log("Department added");
+         
         }
       
         );

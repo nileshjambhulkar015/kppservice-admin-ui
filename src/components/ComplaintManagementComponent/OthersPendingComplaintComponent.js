@@ -56,7 +56,7 @@ export default function OthersPendingComplaintComponent() {
     useEffect(() => {
         OthersPendingComplaintService.getEmployeeCompaintsDetailsByPaging().then((res) => {
             setComplaints(res.data.responseData.content);
-            console.log(res.data.responseData.content)
+          
         });
 
         OthersPendingComplaintService.getAllDepartmentDetails().then((res) => {
@@ -181,7 +181,7 @@ export default function OthersPendingComplaintComponent() {
                 setComplaints(res.data.responseData.content?.filter((item) => item.compStatus == 'Pending'));
 
             });
-            console.log("Complaint added");
+           
         }
         );
     } else {

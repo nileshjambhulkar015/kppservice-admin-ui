@@ -39,7 +39,7 @@ export default function AnnouncementComponent() {
         AnnouncementTypeService.getAnnouncementTypeDetailsByPaging().then((res) => {
     
             setAnnonTypes(res.data.responseData.content);
-            console.log(res.data.responseData.content)
+          
         });
     }, []);
 
@@ -100,7 +100,7 @@ export default function AnnouncementComponent() {
                     AnnouncementTypeService.getAnnouncementTypeDetailsByPaging().then((res) => {
     
                         setAnnonTypes(res.data.responseData.content);
-                        console.log(res.data.responseData.content)
+                     
                     });
                 }
                 );
@@ -125,7 +125,7 @@ export default function AnnouncementComponent() {
                 setAnnonTypes(res.data.responseData.content);
 
             });
-            console.log("Department added");
+          
         }
         );
      setUpdateAnnTypeAlert(false)

@@ -18,20 +18,17 @@ export default function AllEmployeesKppComponent() {
     }, []);
 
     const onOptionChangeHandler = (event) => {
-        console.log("event=", event)
         setEmpKppStatus(event);
     };
 
     const searchByEKpp = (e) => {
-        console.log("data=", empKppStatus)
+    
         AllEmployeesKppService.getEmployeeByStatusByPagination(empKppStatus).then((res) => {
             setEmpResponses(res.data.responseData.content);          
         });
     }
 
     const navigateToUpdateRating=(empId)=>{
-        console.log("New empId =",empId)
-        Cookies.set('empIdForKppRatings', empId);
         navigate(`/addEmployeeKppRating`, { replace: true })       
     }
 

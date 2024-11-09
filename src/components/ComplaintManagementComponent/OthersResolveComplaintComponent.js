@@ -58,7 +58,7 @@ export default function OthersResolveComplaintComponent() {
     useEffect(() => {
         OthersResolveComplaintService.getEmployeeCompaintsDetailsByPaging().then((res) => {
             setComplaints(res.data.responseData.content);
-            console.log(res.data.responseData.content)
+          
         });
 
         OthersResolveComplaintService.getAllDepartmentDetails().then((res) => {
@@ -191,7 +191,7 @@ export default function OthersResolveComplaintComponent() {
                 setComplaints(res.data.responseData.content);
 
             });
-            console.log("Complaint added");
+        
         }
         );
 

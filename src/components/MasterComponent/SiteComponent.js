@@ -36,7 +36,7 @@ export default function SiteComponent() {
     useEffect(() => {
         SiteService.getSiteDetailsByPaging().then((res) => {
             setSites(res.data.responseData.content);
-            console.log(res.data.responseData.content)
+         
         });
 
         RegionService.ddRegions().then((res) => {
@@ -94,7 +94,7 @@ export default function SiteComponent() {
                 let remark = site.remark;
                 let statusCd = 'I';
                 let updateSite = { siteId, regionId, siteName, remark, statusCd };
-                console.log("update site=", updateSite)
+               
                 SiteService.updateSiteDetails(updateSite).then(res => {
                     SiteService.getSiteDetailsByPaging().then((res) => {
                         setSites(res.data.responseData.content);
