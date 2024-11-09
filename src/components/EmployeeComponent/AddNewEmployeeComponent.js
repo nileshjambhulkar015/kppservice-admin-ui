@@ -173,8 +173,8 @@ export default function AddNewEmployeeComponent() {
                 EmployeeService.ddDesignationFromEmployee({ roleId, deptId }).then((res2) => {
                     setReportingDesignations(res2.data);
                     setReportingEmpDesigId(res2.data?.[0]?.desigId)
-                    let reportingEmpDesigId = res2.data?.[0]?.desigId
-                    EmployeeService.getEmployeeSuggest(reportingEmpDesigId).then((res3) => {
+                    let desigId = res2.data?.[0]?.desigId
+                    EmployeeService.ddEmployeeName({ roleId, deptId,desigId }).then((res3) => {
                         setReportingEmpId(res3.data?.[0]?.empId)
                         setReportingEmpName(res3.data);
                         console.log("res3.data?.[0]?.empId", res3.data?.[0]?.empId)
@@ -217,7 +217,7 @@ export default function AddNewEmployeeComponent() {
 
         setSiteId(value)
         let siteId = value;
-        EmployeeService.getCompanyFromComany({ regionId, siteId }).then((res2) => {
+        EmployeeService.ddCompanyFromComany({ regionId, siteId }).then((res2) => {
             setCompanys(res2.data);
             setCompanyId(res2.data?.[0]?.companyId)
 
@@ -259,21 +259,20 @@ export default function AddNewEmployeeComponent() {
             EmployeeService.ddDesignationFromEmployee({ roleId, deptId }).then((res2) => {
                 setReportingDesignations(res2.data);
                 setReportingEmpDesigId(res2.data?.[0]?.desigId)
-                let reportingEmpDesigId = res2.data?.[0]?.desigId
-                EmployeeService.getEmployeeSuggest(reportingEmpDesigId).then((res3) => {
+                let desigId = res2.data?.[0]?.desigId
+                EmployeeService.ddEmployeeName({ roleId, deptId,desigId }).then((res3) => {
                     setReportingEmpId(res3.data?.[0]?.empId)
                     setReportingEmpName(res3.data);
                     console.log("res3.data?.[0]?.empId", res3.data?.[0]?.empId)
                 });
-
             });
         });
     }
 
     const handleReportingDesigIdChange = (value) => {
         setReportingEmpDesigId(value)
-        let reportingEmpDesigId = value
-        EmployeeService.getEmployeeSuggest(reportingEmpDesigId).then((res3) => {
+        let desigId = value
+        EmployeeService.ddEmployeeName({ roleId, deptId,desigId }).then((res3) => {
             setReportingEmpId(res3.data?.[0]?.empId)
             setReportingEmpName(res3.data);
             console.log("res3.data?.[0]?.empId", res3.data?.[0]?.empId)
@@ -287,8 +286,8 @@ export default function AddNewEmployeeComponent() {
         EmployeeService.ddDesignationFromEmployee({ roleId, deptId }).then((res2) => {
             setReportingDesignations(res2.data);
             setReportingEmpDesigId(res2.data?.[0]?.desigId)
-            let reportingEmpDesigId = res2.data?.[0]?.desigId
-            EmployeeService.getEmployeeSuggest(reportingEmpDesigId).then((res3) => {
+            let desigId = res2.data?.[0]?.desigId
+            EmployeeService.ddEmployeeName({ roleId, deptId,desigId }).then((res3) => {
                 setReportingEmpId(res3.data?.[0]?.empId)
                 setReportingEmpName(res3.data);
                 console.log("res3.data?.[0]?.empId", res3.data?.[0]?.empId)
@@ -592,7 +591,7 @@ export default function AddNewEmployeeComponent() {
                                 {
                                     reportingEmpName.map(
                                         reporting =>
-                                            <option key={reporting.empId} value={reporting.empId}>{reporting.empFirstName + " " + reporting.empMiddleName + " " + reporting.empLastName}</option>
+                                            <option key={reporting.empId} value={reporting.empId}>{reporting.empName}</option>
                                     )
                                 };
 

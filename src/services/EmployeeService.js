@@ -71,9 +71,19 @@ class EmployeeService {
         }
     }
 
-    getEmployeeSuggest(reportingEmpDesigId) {
+    /*getEmployeeSuggest(reportingEmpDesigId) {
         if (null != Cookies.get('empId')) {
             return axios.get(BASE_URL_API + "/employee/reportToEmpName?desigId=" + reportingEmpDesigId);
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+    }*/
+
+     //employee/dd-employee?roleId=1&deptId=1&desigId=1
+     ddEmployeeName(data) {
+        if (null != Cookies.get('empId')) {
+            return axios.get(BASE_URL_API + `/employee/dd-employee?roleId=${data.roleId}&deptId=${data.deptId}&desigId=${data.desigId}`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
@@ -94,7 +104,7 @@ class EmployeeService {
     //Get all roles present in department table from designation for KPP
     ddSitesByRegionIdFromCompany(regionId) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + `/company-master/dd-region-site?regionId=${regionId}`)
+            return axios.get(BASE_URL_API + `/company-master/dd-sites-company?regionId=${regionId}`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
