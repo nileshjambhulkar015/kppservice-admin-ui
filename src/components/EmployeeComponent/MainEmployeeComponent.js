@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import DesignationService from "../../services/DesignationService";
+import DesignationService from "../../services/MasterService/DesignationService";
 import EmployeeService from "../../services/EmployeeService";
 import EmployeeTypeService from "../../services/MasterService/EmployeeTypeService";
-import RegionService from "../../services/RegionService";
-import RoleService from "../../services/RoleService";
+import RegionService from "../../services/MasterService/RegionService";
+import RoleService from "../../services/MasterService/RoleService";
 import SiteService from "../../services/MasterService/SiteService";
 import CompanyMasterService from "../../services/MasterService/CompanyMasterService";
 import { BASE_URL_API } from "../../services/URLConstants";

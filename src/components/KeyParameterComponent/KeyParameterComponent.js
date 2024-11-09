@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import KeyParameterService from "../../services/KeyParameterService";
-import UoMService from "../../services/UoMService";
+import UoMService from "../../services/MasterService/UoMService";
 import { BASE_URL_API } from "../../services/URLConstants";
 import AlertboxComponent from "../AlertboxComponent/AlertboxComponent";
 

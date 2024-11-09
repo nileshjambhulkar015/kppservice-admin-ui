@@ -1,9 +1,9 @@
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
-import DepartmentService from "../../services/DepartmentService";
-import { BASE_URL_API } from '../../services/URLConstants';
+import DepartmentService from "../../services/MasterService/DepartmentService";
+
 import AnnouncementService from '../../services/AnnouncementService';
-import AnnouncementTypeService from '../../services/AnnouncementTypeService';
+import AnnouncementTypeService from '../../services/MasterService/AnnouncementTypeService';
 export default function AnnouncementComponent() {
 
     const [announId, setAnnounId] = useState('');

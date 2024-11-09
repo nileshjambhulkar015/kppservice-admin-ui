@@ -1,15 +1,16 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
-import { BASE_URL_API, LOGIN_UI_BASE_URL } from "./URLConstants";
+import { BASE_URL_API, LOGIN_UI_BASE_URL } from "../URLConstants";
 
-const BASE_URL = BASE_URL_API+"/complaint-type";
+const BASE_URL = BASE_URL_API+"/region";
 
 
-class ComplaintTypeService {
+class RegionService {
 
-    saveComplaintTypeDetails(complaintType) {
+
+    saveRegionDetails(region) {
         if (null != Cookies.get('empId')) {
-            return axios.post(BASE_URL, complaintType)
+            return axios.post(BASE_URL, region)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
@@ -18,9 +19,9 @@ class ComplaintTypeService {
     }
 
     //when click on view button of UI
-    getComplaintTypeById(compTypeId) {
+    getDepartmentById(deptId) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL + `/by-complaint-type-id?compTypeId=${compTypeId}`)
+            return axios.get(BASE_URL + `/by-dept-id?deptId=${deptId}`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
@@ -28,9 +29,9 @@ class ComplaintTypeService {
 
     }
 
-    updateComplaintTypeDetails(complaintType) {
+    updateRegion(region) {
         if (null != Cookies.get('empId')) {
-            return axios.put(BASE_URL, complaintType)
+            return axios.put(BASE_URL, region)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
@@ -39,38 +40,36 @@ class ComplaintTypeService {
     }
 
 
-    //at page load call all the departments load all departments
-    getComplaintTypeDetailsByPaging() {
+    //at page load call all the region load all departments
+    getRegionsByPaging() {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API+"/complaint-type/search?statusCd=A&page=0&size=1200&sort=comp.comp_type_name asc")
+            return axios.get(BASE_URL_API+"/region/search?statusCd=A&page=0&size=1200&sort=regionName asc")
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
         }
     }
 
-     // search department by its name
-     getComplaintTypeDetailsByDeptId(deptId) {
-        if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API+`/complaint-type/search?deptId=${deptId}&statusCd=A&page=0&size=1200&sort=comp.comp_type_name asc`)
-            
-        } else {
-            alert("You need to login first")
-            window.location.replace(LOGIN_UI_BASE_URL);
-        }
 
-    }
-
-     //Get all department from complaint type table 
-     getAllComplaintTypeDepartments() {
+    getRegionsById(regionId) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API+"/complaint-type/comp-type-dd-dept")
+            return axios.get(BASE_URL_API+`/region?regionId=${regionId}`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
         }
     }
+
+    ddRegions(regionId) {
+        if (null != Cookies.get('empId')) {
+            return axios.get(BASE_URL_API+`/region/dd-regions-regions`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+    }
+
 }
 
 
-export default new ComplaintTypeService();
+export default new RegionService();

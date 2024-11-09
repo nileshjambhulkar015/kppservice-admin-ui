@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
-import RegionService from "../../../services/RegionService";
+import RegionService from "../../../services/MasterService/RegionService";
 import AlertboxComponent from '../../AlertboxComponent/AlertboxComponent';
 
 export default function RegionComponent() {

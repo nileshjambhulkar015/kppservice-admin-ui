@@ -1,13 +1,13 @@
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import DepartmentService from "../../services/DepartmentService";
-import DesignationService from "../../services/DesignationService";
+import DepartmentService from "../../services/MasterService/DepartmentService";
+import DesignationService from "../../services/MasterService/DesignationService";
 import EmployeeService from "../../services/EmployeeService";
-import RoleService from "../../services/RoleService";
+import RoleService from "../../services/MasterService/RoleService";
 import EmployeeDDService from '../../services/DropDownService/EmployeeDDService';
 import EmployeeTypeService from '../../services/MasterService/EmployeeTypeService';
-import RegionService from '../../services/RegionService';
+import RegionService from '../../services/MasterService/RegionService';
 import SiteService from '../../services/MasterService/SiteService';
 import CompanyMasterService from '../../services/MasterService/CompanyMasterService';
 import EmployeeKppsService from '../../services/EmployeeKppsService'

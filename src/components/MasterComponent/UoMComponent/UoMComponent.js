@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
-import UoMService from '../../../services/UoMService'
+import UoMService from '../../../services/MasterService/UoMService'
 import AlertboxComponent from '../../AlertboxComponent/AlertboxComponent';
 
 
