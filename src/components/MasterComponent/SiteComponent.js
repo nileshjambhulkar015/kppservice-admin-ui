@@ -140,7 +140,7 @@ export default function SiteComponent() {
                     <div className="row">
                         <div className="col-sm-5">
                             <div className="form-group">
-                                <form className="form-horizontal" enctype="multipart/form-data">
+                                <form className="form-horizontal" encType="multipart/form-data">
                                     <label className="control-label col-sm-4" htmlFor="siteNameSearch"> Site Name:</label>
                                     <div className="col-sm-4">
                                         <input type="text" className="form-control" id="siteNameSearch" placeholder="Enter Site Name" />

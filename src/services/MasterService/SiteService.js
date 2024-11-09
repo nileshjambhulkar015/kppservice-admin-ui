@@ -76,7 +76,7 @@ class SiteService {
 
     //Get all sites present in department table from designation for KPP
     getSiteDetailsByRegionId(regionId) {
-        console.log("Site Service regionid=", regionId)
+  
         if (null != Cookies.get('empId')) {
             return axios.get(BASE_URL_API+`/site/dd-sites-sites?regionId=${regionId}`)  
         } else {

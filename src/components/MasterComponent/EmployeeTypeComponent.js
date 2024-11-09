@@ -136,7 +136,7 @@ export default function EmployeeTypeComponent() {
                     <div className="row">
                         <div className="col-sm-5">
                             <div className="form-group">
-                                <form className="form-horizontal" enctype="multipart/form-data">
+                                <form className="form-horizontal" encType="multipart/form-data">
                                     <label className="control-label col-sm-5" htmlFor="deptNameSearch"> Employee Type Name:</label>
                                     <div className="col-sm-4">
                                         <input type="text" className="form-control" id="deptNameSearch" placeholder="Enter Employee Type Name" value={deptNameSearch} onChange={(e) => setDeptNameSearch(e.target.value)} />

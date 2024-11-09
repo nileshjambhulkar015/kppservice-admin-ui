@@ -53,15 +53,6 @@ export default function ViewAllHODCumulativeComponent() {
 
     }
 
-    const YYYY_MM_DD_Formater = (date, format = 'YYYY-MM-DD') => {
-        const t = new Date(date)
-        const y = t.getFullYear()
-        const m = ('0' + (t.getMonth() + 1)).slice(-2)
-        const d = ('0' + t.getDate()).slice(-2)
-        return format.replace('YYYY', y).replace('MM', m).replace('DD', d)
-    }
-
-
     const navigateToViewEmployeeRating = (empId) => {
 
         Cookies.set('viewSingleHODIdForKppRatings', empId);
@@ -78,7 +69,7 @@ export default function ViewAllHODCumulativeComponent() {
         <div className="row">
             <h3 className="text-center">View HOD KPP Cumulative</h3>
             <div className="form-group">
-                <form className="form-horizontal" enctype="multipart/form-data">
+                <form className="form-horizontal" encType="multipart/form-data">
                     <label className="control-label col-sm-1" htmlFor="deptNameSearch"> From Date:</label>
                     <div className="col-sm-2">
                         <input type="date" className="form-control" id="fromDate" defaultValue={fromDate} name="fromDate" onChange={(e) => setFromDate(e.target.value)} />

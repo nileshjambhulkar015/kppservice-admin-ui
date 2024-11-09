@@ -189,7 +189,7 @@ export default function DepartmentComponent() {
                     <div className="row">
                         <div className="col-sm-5">
                             <div className="form-group">
-                                <form className="form-horizontal" enctype="multipart/form-data">
+                                <form className="form-horizontal" encType="multipart/form-data">
                                     <label className="control-label col-sm-4" htmlFor="deptNameSearch"> Department Name:</label>
                                     <div className="col-sm-4">
                                         <input type="text" className="form-control" id="deptNameSearch" placeholder="Enter Department Name" onChange={(e) => searchDeptName(e)} value={deptNameSearch}  />

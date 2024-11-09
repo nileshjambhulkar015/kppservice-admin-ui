@@ -57,7 +57,7 @@ export default function AllHodKppStatusComponent() {
                     <form className="form-horizontal">
                         <label className="control-label col-sm-2" htmlFor="empKppStatus">KPP Status:</label>
                         <div className="col-sm-2">
-                            <select className="form-control" name="empKppStatus" id="empKppStatus"  value={empKppStatus} onChange={(e)=>onOptionChangeHandler(e.target.value)} defaultValue={empKppStatus} >
+                            <select className="form-control" name="empKppStatus" id="empKppStatus"   onChange={(e)=>onOptionChangeHandler(e.target.value)} defaultValue={empKppStatus} >
                                 <option value="All">All</option>
                                 <option value="Pending">Pending</option>
                                 <option value="In-Progress">In-Progress</option>
