@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import DepartmentService from "../../services/MasterService/DepartmentService";
 import { BASE_URL_API } from '../../services/URLConstants';
 import AlertboxComponent from '../AlertboxComponent/AlertboxComponent'
+import PaginationComponent from '../PaginationComponent/PaginationComponent';
 export default function DepartmentComponent() {
 
 
@@ -15,6 +16,8 @@ export default function DepartmentComponent() {
 
     const [departments, setDepartments] = useState([])
 
+    const [dataPageable, setDataPageable] = useState([])
+
     const updatedDept = ['Human Resource', 'General Manager'];
     const [roles, setRoles] = useState([])
 
@@ -24,6 +27,17 @@ export default function DepartmentComponent() {
     const [updateDeptAlert, setUpdateDeptAlert] = useState(false);
 
     const [isSuccess, setIsSuccess] = useState(true)
+
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = 10; // Set this based on your data
+  
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+      // Handle data fetching or any other logic here
+    };    
+
+    console.log("Data pageable", dataPageable)
 
     const handleClose = () => {
        
@@ -36,17 +50,19 @@ export default function DepartmentComponent() {
     };
     //loading all department and roles while page loading at first time
     useEffect(() => {
-        DepartmentService.getDepartmentDetailsByPaging().then((res) => {
+        DepartmentService.getDepartmentDetailsByPaging(currentPage).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
             setDepartments(res.data.responseData.content);
+            setDataPageable(res.data.responseData);
+            
         }
         else {
             setIsSuccess(false);
         }
           
         });
-    }, []);
+    }, [currentPage]);
 
 
 
@@ -231,6 +247,11 @@ export default function DepartmentComponent() {
                         </table>
                        
                         : <h4>Department name is not available</h4>}
+                        <PaginationComponent
+                        currentPage={currentPage}
+        totalPages={dataPageable.totalPages || 10}
+        onPageChange={handlePageChange}
+                    />
                     </div>
 
                 </div>
@@ -239,6 +260,7 @@ export default function DepartmentComponent() {
             </div>
 
 
+            
             {/* Modal for upload excel of department details */}
             <div className="modal fade" id="uploadExcelDepartment" role="dialog">
                 <form className="form-horizontal" onSubmit={handleSubmit} encType="multipart/form-data">
