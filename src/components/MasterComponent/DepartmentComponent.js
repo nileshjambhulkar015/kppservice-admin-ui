@@ -37,7 +37,13 @@ export default function DepartmentComponent() {
     //loading all department and roles while page loading at first time
     useEffect(() => {
         DepartmentService.getDepartmentDetailsByPaging().then((res) => {
+            if (res.data.success) {
+                setIsSuccess(true);
             setDepartments(res.data.responseData.content);
+        }
+        else {
+            setIsSuccess(false);
+        }
           
         });
     }, []);
@@ -99,30 +105,20 @@ export default function DepartmentComponent() {
     }
 
 
+
     const deleteDepartmentById = (e) => {
-        if (window.confirm("Do you want to delete this Department name ?")) {
-            DepartmentService.getDepartmentById(e).then(res => {
-                let department = res.data;
-
-                let deptId = department.deptId;
-                let deptName = department.deptName;
-                let deptMailId=department.deptMailId;
-                let remark = department.remark;
-                let statusCd = 'I';
-                let updateDepartment = { deptId, deptName, deptMailId, remark, statusCd };
-
-                DepartmentService.updateDepartmentDetails(updateDepartment).then(res => {
-                    DepartmentService.getDepartmentDetailsByPaging().then((res) => {
-                        if (res.data.success) {
-                            setIsSuccess(true);
-                            setDepartments(res.data.responseData.content);
-                        }
-                        else {
-                            setIsSuccess(false);
-                        }
-                    });
-                }
-                );
+        if (window.confirm("Do you want to delete this Department details ?")) {
+            DepartmentService.deleteDepartmentById(e).then(res => {
+                DepartmentService.getDepartmentDetailsByPaging().then((res) => {
+                    if (res.data.success) {
+                        setIsSuccess(true);
+                        setDepartments(res.data.responseData.content);
+                    }
+                    else {
+                        setIsSuccess(false);
+                    }
+    
+                });
             }
             );
 
@@ -132,6 +128,7 @@ export default function DepartmentComponent() {
         }
         setUpdateDeptAlert(false);
     }
+
 
     const updateDepartment = (e) => {
 
@@ -143,7 +140,7 @@ export default function DepartmentComponent() {
             DepartmentService.getDepartmentDetailsByPaging().then((res) => {
                 if (res.data.success) {
                     setIsSuccess(true);
-                    setDepartments(res.data.responseData);
+                    setDepartments(res.data.responseData.content);
                 }
                 else {
                     setIsSuccess(false);

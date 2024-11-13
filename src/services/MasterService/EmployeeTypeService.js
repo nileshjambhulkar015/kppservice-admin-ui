@@ -17,11 +17,22 @@ class EmployeeTypeService {
 
     }
 
+    deleteEmployeeTypeById(empTypeId) {
+       
+        if (null != Cookies.get('empId')) {
+            return axios.delete(BASE_URL+`/?empTypeId=${empTypeId}`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
+    }
+
     //when click on view button of UI
     getEmployeeTypeById(empTypeId) {
         if (null != Cookies.get('empId')) {
      
-            return axios.get(BASE_URL + `?empTypeId=${empTypeId}&statusCd=A`)
+            return axios.get(BASE_URL + `/by-emptypeid?empTypeId=${empTypeId}&statusCd=A`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);

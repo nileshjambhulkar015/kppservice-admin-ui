@@ -160,38 +160,21 @@ export default function KeyParameterComponent() {
 
     const deleteKppById = (e) => {
         if (window.confirm("Do you want to delete this KPP ?")) {
-        KeyParameterService.getKppById(e).then(res => {
-            let kpp = res.data;
-           
-            let kppId = kpp.kppId;
-            let kppObjectiveNo = kpp.kppObjectiveNo;
-            let kppObjective = kpp.kppObjective;
-            let kppPerformanceIndi = kpp.kppPerformanceIndi;
-            let kppOverallTarget = kpp.kppOverallTarget;
-            let kppTargetPeriod = kpp.kppTargetPeriod;
-            let uomId = kpp.uomId;
-            let kppOverallWeightage = kpp.kppOverallWeightage;
-            let kppRating1 = kpp.kppRating1;
-            let kppRating2 = kpp.kppRating2;
-            let kppRating3 = kpp.kppRating3;
-            let kppRating4 = kpp.kppRating4;
-            let kppRating5 = kpp.kppRating5;
-            let remark = kpp.remark;
 
-            
-           
-            let statusCd = 'I';
-            let updateKpp = { kppId, kppObjectiveNo, kppObjective, kppPerformanceIndi, kppOverallTarget, kppTargetPeriod, uomId, kppOverallWeightage, kppRating1, kppRating2, kppRating3, kppRating4, kppRating5, remark, statusCd };
-
-            KeyParameterService.updateKppDetails(updateKpp).then(res => {
+            KeyParameterService.deleteKppById(e).then(res => {
                 KeyParameterService.getKPPDetailsByPaging().then((res) => {
-                    setKpps(res.data.responseData.content);
+                    if (res.data.success) {
+                        setIsSuccess(true);
+                        setKpps(res.data.responseData.content);
+                    }
+                    else {
+                        setIsSuccess(false);
+                    }
+    
                 });
-               
             }
             );
-        }
-        );
+     
     } else {
         // User clicked Cancel
         console.log("User canceled the action.");

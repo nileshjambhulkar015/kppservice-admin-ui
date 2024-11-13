@@ -29,6 +29,18 @@ class RegionService {
 
     }
 
+    deleteRegionById(regionId) {
+       
+        if (null != Cookies.get('empId')) {
+            return axios.delete(BASE_URL+`/?regionId=${regionId}`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
+    }
+
+
 
     //at page load call all the region load all departments
     getRegionsByPaging() {

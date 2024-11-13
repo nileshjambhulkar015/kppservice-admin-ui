@@ -35,6 +35,17 @@ class KeyParameterService {
         }
     }
 
+    deleteKppById(kppId) {
+       
+        if (null != Cookies.get('empId')) {
+            return axios.delete(BASE_URL+`/?kppId=${kppId}`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
+    }
+
     getKPPDetailsByPaging() {
         if (null != Cookies.get('empId')) {
             return axios.get(BASE_URL_API + "/key-perform-parameter/search?statusCd=A&page=0&size=1200&sort=dept.dept_name");

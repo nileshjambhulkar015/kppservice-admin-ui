@@ -57,6 +57,17 @@ class DesignationService {
         }       
     }
 
+    deleteDesignationById(desigId) {
+       
+        if (null != Cookies.get('empId')) {
+            return axios.delete(DESIGNATION_URL+`/?desigId=${desigId}`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
+    }
+
     getDesignationById(desigId) {
         if (null != Cookies.get('empId')) {
             return axios.get(DESIGNATION_URL + `/by-desig-id?desigId=${desigId}`)

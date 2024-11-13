@@ -15,6 +15,17 @@ class CompanyMasterService {
         }       
     }
 
+    deleteCompanyById(companyId) {
+       
+        if (null != Cookies.get('empId')) {
+            return axios.delete(BASE_URL_API+`/company-master?companyId=${companyId}`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
+    }
+
     getCompanyById(companyId) {
         if (null != Cookies.get('empId')) {
             return axios.get(BASE_URL_API+`/company-master/by-comp-id?companyId=${companyId}`)

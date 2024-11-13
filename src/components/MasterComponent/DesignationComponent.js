@@ -31,7 +31,7 @@ export default function DesignationComponent() {
     useEffect(() => {
         DesignationService.getDesignationDetailsByPaging().then((res) => {
             setDesignations(res.data.responseData.content);
-           
+
         });
 
         DepartmentService.ddAllDepartmentExceptGM().then((res) => {
@@ -44,7 +44,7 @@ export default function DesignationComponent() {
     const searchDesigName = (e) => {
         setDesigNameSearch(e.target.value)
         DesignationService.getDesignationDetailsByDesigNamePaging(e.target.value).then((res) => {
-           
+
             if (res.data.success) {
                 setIsSuccess(true);
                 setDesignations(res.data.responseData.content);
@@ -84,7 +84,7 @@ export default function DesignationComponent() {
 
         DesignationService.getDesignationById(e).then(res => {
             let designation = res.data;
-       
+
 
             setDesigId(designation.desigId)
             setDeptId(designation.deptId)
@@ -123,32 +123,18 @@ export default function DesignationComponent() {
     const deleteDesignationById = (e) => {
 
         if (window.confirm("Do you want to delete this Designation Name ?")) {
-            DesignationService.getDesignationById(e).then(res => {
-                let designation = res.data;
-                let desigId = designation.desigId;
 
-                let deptId = designation.deptId;
+            DesignationService.deleteDesignationById(e).then(res => {
+                DesignationService.getDesignationDetailsByPaging().then((res) => {
+                    if (res.data.success) {
+                        setIsSuccess(true);
+                        setDesignations(res.data.responseData.content);
+                    }
+                    else {
+                        setIsSuccess(false);
+                    }
 
-                let desigName = designation.desigName;
-                let remark = designation.remark;
-
-                let statusCd = 'I';
-                let deleteDesignation = { desigId, deptId, desigName, remark, statusCd };
-
-
-                DesignationService.updateDesignationDetails(deleteDesignation).then(res => {
-                    DesignationService.getDesignationDetailsByPaging().then((res) => {
-                        if (res.data.success) {
-                            setIsSuccess(true);
-                            setDesignations(res.data.responseData.content);
-                        }
-                        else {
-                            setIsSuccess(false);
-                        }
-                    });
-
-                }
-                );
+                });
             }
             );
 
@@ -187,272 +173,272 @@ export default function DesignationComponent() {
 
     return (
         <React.Fragment>
-        <div>
-            <div className="row">
-                <h2 className="text-center">Designation List</h2>
-                <div className="col-md-1"></div>
-                <div className="col-md-9">
-                    <div className="row">
-                        <div className="col-sm-5">
-                            <div className="form-group">
-                                <form className="form-horizontal">
-                                    <label className="control-label col-sm-5" htmlFor="desigNameSearch">Enter Designation Name:</label>
-                                    <div className="col-sm-4">
-                                        <input type="text" className="form-control" id="desigNameSearch" placeholder="Enter Designation Name" value={desigNameSearch} onChange={(e) => searchDesigName(e)} />
-                                    </div>
-                                </form>
-                                
+            <div>
+                <div className="row">
+                    <h2 className="text-center">Designation List</h2>
+                    <div className="col-md-1"></div>
+                    <div className="col-md-9">
+                        <div className="row">
+                            <div className="col-sm-5">
+                                <div className="form-group">
+                                    <form className="form-horizontal">
+                                        <label className="control-label col-sm-5" htmlFor="desigNameSearch">Enter Designation Name:</label>
+                                        <div className="col-sm-4">
+                                            <input type="text" className="form-control" id="desigNameSearch" placeholder="Enter Designation Name" value={desigNameSearch} onChange={(e) => searchDesigName(e)} />
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                            <div className="col-sm-6" align="right">
+                                <button type="button" className="btn btn-primary " data-toggle="modal" data-target="#saveDesignation">Add Designation</button>
+                                <button type="button" className="col-sm-offset-1 btn btn-primary" data-toggle="modal" data-target="#uploadExcelDesignation">Upload Excel</button>
                             </div>
                         </div>
-                        <div className="col-sm-6" align="right">
-                            <button type="button" className="btn btn-primary " data-toggle="modal" data-target="#saveDesignation">Add Designation</button>
-                            <button type="button" className="col-sm-offset-1 btn btn-primary" data-toggle="modal" data-target="#uploadExcelDesignation">Upload Excel</button>
+                        <div className="row">
+                            {isSuccess ?
+                                <table className="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th className="text-center">Sr No</th>
+
+                                            <th className="text-center">Department Name</th>
+                                            <th className="text-center">Designation Name</th>
+
+                                            <th className="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            designations.map(
+                                                (designation, index) =>   //index is inbuilt variable of map started with 0
+                                                    <tr key={designation.desigId}>
+                                                        <td className="text-center">{index + 1}</td>
+
+                                                        <td>{designation.deptName}</td>
+                                                        <td>{designation.desigName}</td>
+
+                                                        <td className="col-sm-3"> <button type="submit" className="btn btn-info" data-toggle="modal" data-target="#updateDesignation" onClick={() => showDesignationById(designation.desigId)}>Update</button>
+                                                            <button type="submit" className="btn col-sm-offset-1 btn-danger" onClick={() => deleteDesignationById(designation.desigId)}>Delete</button>
+                                                            <button type="submit" className="btn col-sm-offset-1 btn-success" data-toggle="modal" data-target="#showDesignation" onClick={() => showDesignationById(designation.desigId)}>View</button></td>
+                                                    </tr>
+                                            )
+                                        }
+                                    </tbody>
+                                </table>
+                                : <h4>Designation name is not available</h4>}
                         </div>
+
                     </div>
-                    <div className="row">
-                    {isSuccess ?
-                        <table className="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th className="text-center">Sr No</th>
-
-                                    <th className="text-center">Department Name</th>
-                                    <th className="text-center">Designation Name</th>
-
-                                    <th className="text-center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    designations.map(
-                                        (designation, index) =>   //index is inbuilt variable of map started with 0
-                                            <tr key={designation.desigId}>
-                                                <td className="text-center">{index + 1}</td>
-
-                                                <td>{designation.deptName}</td>
-                                                <td>{designation.desigName}</td>
-
-                                                <td className="col-sm-3"> <button type="submit" className="btn btn-info" data-toggle="modal" data-target="#updateDesignation" onClick={() => showDesignationById(designation.desigId)}>Update</button>
-                                                    <button type="submit" className="btn col-sm-offset-1 btn-danger" onClick={() => deleteDesignationById(designation.desigId)}>Delete</button>
-                                                    <button type="submit" className="btn col-sm-offset-1 btn-success" data-toggle="modal" data-target="#showDesignation" onClick={() => showDesignationById(designation.desigId)}>View</button></td>
-                                            </tr>
-                                    )
-                                }
-                            </tbody>
-                        </table>
-                        : <h4>Designation name is not available</h4>}
-                    </div>
+                    <div className="col-md-2"></div>
 
                 </div>
-                <div className="col-md-2"></div>
 
-            </div>
+                {/* Modal for upload excel of designation details */}
+                <div className="modal fade" id="uploadExcelDesignation" role="dialog">
+                    <form className="form-horizontal" onSubmit={handleSubmit} encType="multipart/form-data">
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                    <h4 className="modal-title">Upload Designations</h4>
+                                </div>
+                                <div className="modal-body">
+                                    <div> <input type="hidden" id="deptId" name="deptId" value={deptId} /></div>
+                                    <div className="form-group">
+                                        <label className="control-label col-sm-4" htmlFor="deptName">Select file:</label>
+                                        <div className="col-sm-8">
+                                            <input type="file" id="file" name="file" />
+                                        </div>
+                                    </div>
 
-            {/* Modal for upload excel of designation details */}
-            <div className="modal fade" id="uploadExcelDesignation" role="dialog">
-                <form className="form-horizontal" onSubmit={handleSubmit} encType="multipart/form-data">
+
+                                </div>
+                                <div className="modal-footer">
+                                    <input type="submit" value={"Upload"} className="btn btn-primary" />
+                                    <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+                {/**Save designation */}
+
+                <div className="modal fade" id="saveDesignation" role="dialog">
                     <div className="modal-dialog">
+
+
                         <div className="modal-content">
                             <div className="modal-header">
                                 <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                <h4 className="modal-title">Upload Designations</h4>
+                                <h4 className="modal-title">Add Designation</h4>
                             </div>
                             <div className="modal-body">
-                                <div> <input type="hidden" id="deptId" name="deptId" value={deptId} /></div>
-                                <div className="form-group">
-                                    <label className="control-label col-sm-4" htmlFor="deptName">Select file:</label>
-                                    <div className="col-sm-8">
-                                        <input type="file" id="file" name="file" />
+                                <form className="form-horizontal">
+
+
+                                    <div className="form-group">
+                                        <label className="control-label col-sm-4" htmlFor="deptName">Select Department Name:</label>
+                                        <div className="col-sm-8">
+                                            <select className="form-control" id="deptId" onChange={(e) => setDeptId(e.target.value)}>
+
+                                                {
+                                                    departments.map(
+                                                        department =>
+                                                            <option key={department.deptId} value={department.deptId}>{department.deptName}</option>
+                                                    )
+                                                };
+
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div className="form-group">
+                                        <label className="control-label col-sm-4" htmlFor="reamrk">Designation Name:</label>
+                                        <div className="col-sm-8">
+                                            <input type="text" className="form-control" id="desigName" value={desigName} onChange={(e) => setDesigName(e.target.value)} placeholder="Enter Designation Name here" />
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="control-label col-sm-4" htmlFor="reamrk">Enter Remark:</label>
+                                        <div className="col-sm-8">
+                                            <textarea row="5" className="form-control" id="remark" value={remark} onChange={(e) => setRemark(e.target.value)} placeholder="Enter Remark here" />
+                                        </div>
+                                    </div>
 
-
+                                </form>
                             </div>
                             <div className="modal-footer">
-                                <input type="submit" value={"Upload"} className="btn btn-primary" />
+                                <button type="submit" className="btn btn-success" data-dismiss="modal" onClick={(e) => setSaveDesignationAlert(true)}> Submit</button>
                                 <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>
                         </div>
 
                     </div>
-                </form>
-            </div>
-
-            {/**Save designation */}
-
-            <div className="modal fade" id="saveDesignation" role="dialog">
-                <div className="modal-dialog">
-
-
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <button type="button" className="close" data-dismiss="modal">&times;</button>
-                            <h4 className="modal-title">Add Designation</h4>
-                        </div>
-                        <div className="modal-body">
-                            <form className="form-horizontal">
-
-
-                                <div className="form-group">
-                                    <label className="control-label col-sm-4" htmlFor="deptName">Select Department Name:</label>
-                                    <div className="col-sm-8">
-                                        <select className="form-control" id="deptId" onChange={(e) => setDeptId(e.target.value)}>
-
-                                            {
-                                                departments.map(
-                                                    department =>
-                                                        <option key={department.deptId} value={department.deptId}>{department.deptName}</option>
-                                                )
-                                            };
-
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <label className="control-label col-sm-4" htmlFor="reamrk">Designation Name:</label>
-                                    <div className="col-sm-8">
-                                        <input type="text" className="form-control" id="desigName" value={desigName} onChange={(e) => setDesigName(e.target.value)} placeholder="Enter Designation Name here" />
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <label className="control-label col-sm-4" htmlFor="reamrk">Enter Remark:</label>
-                                    <div className="col-sm-8">
-                                        <textarea row="5" className="form-control" id="remark" value={remark} onChange={(e) => setRemark(e.target.value)} placeholder="Enter Remark here" />
-                                    </div>
-                                </div>
-
-                            </form>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="submit" className="btn btn-success" data-dismiss="modal" onClick={(e) => setSaveDesignationAlert(true)}> Submit</button>
-                            <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-
                 </div>
-            </div>
 
-            {/**Update Designation */}
+                {/**Update Designation */}
 
-            <div className="modal fade" id="updateDesignation" role="dialog">
-                <div className="modal-dialog">
+                <div className="modal fade" id="updateDesignation" role="dialog">
+                    <div className="modal-dialog">
 
 
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <button type="button" className="close" data-dismiss="modal">&times;</button>
-                            <h4 className="modal-title">Update Designation</h4>
-                        </div>
-                        <div className="modal-body">
-                            <form className="form-horizontal" >
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                <h4 className="modal-title">Update Designation</h4>
+                            </div>
+                            <div className="modal-body">
+                                <form className="form-horizontal" >
 
-                                <div> <input type="hidden" id="desigId" name="desigId" value={desigId} /></div>
-                                <div className="form-group">
-                                    <label className="control-label col-sm-4" htmlFor="deptName">Department Name:</label>
-                                    <div className="col-sm-8">
-                                        {deptName}
+                                    <div> <input type="hidden" id="desigId" name="desigId" value={desigId} /></div>
+                                    <div className="form-group">
+                                        <label className="control-label col-sm-4" htmlFor="deptName">Department Name:</label>
+                                        <div className="col-sm-8">
+                                            {deptName}
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="form-group">
-                                    <label className="control-label col-sm-4" htmlFor="reamrk">Designation Name:</label>
-                                    <div className="col-sm-8">
-                                        <input type="text" className="form-control" id="desigName" value={desigName} onChange={(e) => setDesigName(e.target.value)} placeholder="Enter Designation Name here" />
+                                    <div className="form-group">
+                                        <label className="control-label col-sm-4" htmlFor="reamrk">Designation Name:</label>
+                                        <div className="col-sm-8">
+                                            <input type="text" className="form-control" id="desigName" value={desigName} onChange={(e) => setDesigName(e.target.value)} placeholder="Enter Designation Name here" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="form-group">
-                                    <label className="control-label col-sm-4" htmlFor="reamrk">Enter Remark:</label>
-                                    <div className="col-sm-8">
-                                        <textarea row="5" className="form-control" id="remark" value={remark} onChange={(e) => setRemark(e.target.value)} placeholder="Enter Remark here" />
+                                    <div className="form-group">
+                                        <label className="control-label col-sm-4" htmlFor="reamrk">Enter Remark:</label>
+                                        <div className="col-sm-8">
+                                            <textarea row="5" className="form-control" id="remark" value={remark} onChange={(e) => setRemark(e.target.value)} placeholder="Enter Remark here" />
+                                        </div>
                                     </div>
-                                </div>
 
-                            </form>
+                                </form>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="submit" className="btn btn-success" data-dismiss="modal" onClick={(e) => updateDesignationDetails(e)}> Submit</button>
+                                <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
-                        <div className="modal-footer">
-                            <button type="submit" className="btn btn-success" data-dismiss="modal" onClick={(e) => updateDesignationDetails(e)}> Submit</button>
-                            <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
+
                     </div>
-
                 </div>
-            </div>
 
 
-            {/**show designations */}
+                {/**show designations */}
 
-            <div className="modal fade" id="showDesignation" role="dialog">
-                <div className="modal-dialog">
+                <div className="modal fade" id="showDesignation" role="dialog">
+                    <div className="modal-dialog">
 
 
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <button type="button" className="close" data-dismiss="modal">&times;</button>
-                            <h4 className="modal-title">View Designation</h4>
-                        </div>
-                        <div className="modal-body">
-                            <form className="form-horizontal" action="/action_page.php">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                <h4 className="modal-title">View Designation</h4>
+                            </div>
+                            <div className="modal-body">
+                                <form className="form-horizontal" action="/action_page.php">
 
-                                <div className="form-group">
-                                    <label className="control-label col-sm-4" htmlFor="deptName">Department Name:</label>
-                                    <div className="col-sm-8">
-                                        {deptName}
+                                    <div className="form-group">
+                                        <label className="control-label col-sm-4" htmlFor="deptName">Department Name:</label>
+                                        <div className="col-sm-8">
+                                            {deptName}
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="form-group">
-                                    <label className="control-label col-sm-4" htmlFor="reamrk">Designation Name:</label>
-                                    <div className="col-sm-8">
-                                        {desigName}
+                                    <div className="form-group">
+                                        <label className="control-label col-sm-4" htmlFor="reamrk">Designation Name:</label>
+                                        <div className="col-sm-8">
+                                            {desigName}
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="form-group">
-                                    <label className="control-label col-sm-4" htmlFor="reamrk">Enter Remark:</label>
-                                    <div className="col-sm-8">
-                                        {remark}
+                                    <div className="form-group">
+                                        <label className="control-label col-sm-4" htmlFor="reamrk">Enter Remark:</label>
+                                        <div className="col-sm-8">
+                                            {remark}
+                                        </div>
                                     </div>
-                                </div>
 
-                            </form>
+                                </form>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
+
                     </div>
-
                 </div>
+
             </div>
 
-        </div>
-
-        {saveDesignationAlert && (
-            <AlertboxComponent
-                show={saveDesignationAlert}
-                title="danger"
-                message="Do you want to save Designation"
-                onOk={saveDesignationDetails}
-                onClose={handleClose}
-                isCancleAvailable={true}
-            />
-        )}
-        {updatDesignationAlert && (
-            <AlertboxComponent
-                show={updatDesignationAlert}
-                title="danger"
-                message="Do you want to update Designation"
-                onOk={updateDesignationDetails}
-                onClose={handleClose}
-                isCancleAvailable={true}
-            />
-        )}
-        {deleteDesignationAlert && (
-            <AlertboxComponent
-                show={deleteDesignationAlert}
-                title="danger"
-                message="Do you want to delete Designation"
-                onOk={deleteDesignationById}
-                onClose={handleClose}
-                isCancleAvailable={true}
-            />
-        )}
-    </React.Fragment>
+            {saveDesignationAlert && (
+                <AlertboxComponent
+                    show={saveDesignationAlert}
+                    title="danger"
+                    message="Do you want to save Designation"
+                    onOk={saveDesignationDetails}
+                    onClose={handleClose}
+                    isCancleAvailable={true}
+                />
+            )}
+            {updatDesignationAlert && (
+                <AlertboxComponent
+                    show={updatDesignationAlert}
+                    title="danger"
+                    message="Do you want to update Designation"
+                    onOk={updateDesignationDetails}
+                    onClose={handleClose}
+                    isCancleAvailable={true}
+                />
+            )}
+            {deleteDesignationAlert && (
+                <AlertboxComponent
+                    show={deleteDesignationAlert}
+                    title="danger"
+                    message="Do you want to delete Designation"
+                    onOk={deleteDesignationById}
+                    onClose={handleClose}
+                    isCancleAvailable={true}
+                />
+            )}
+        </React.Fragment>
     );
 }

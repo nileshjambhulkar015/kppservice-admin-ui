@@ -29,6 +29,17 @@ class SiteService {
 
     }
 
+    deleteSiteById(siteId) {
+       
+        if (null != Cookies.get('empId')) {
+            return axios.delete(BASE_URL+`/?siteId=${siteId}`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
+    }
+
     updateSiteDetails(site) {
         if (null != Cookies.get('empId')) {
             return axios.put(BASE_URL, site)

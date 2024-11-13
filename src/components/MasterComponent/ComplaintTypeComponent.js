@@ -27,7 +27,7 @@ export default function ComplaintTypeComponent() {
     const [saveComplaintTypeAlert, setSaveComplaintTypeAlert] = useState(false);
     const [deleteComplaintTypeAlert, setDeleteComplaintTypeAlert] = useState(false);
     const [updatComplaintTypeAlert, setUpdateComplaintTypeAlert] = useState(false);
-
+    const [isSuccess, setIsSuccess] = useState(true)
     const handleClose = () => {
 
         setSaveComplaintTypeAlert(false);
@@ -39,7 +39,13 @@ export default function ComplaintTypeComponent() {
     //loading all department and roles while page loading at first time
     useEffect(() => {
         ComplaintTypeService.getComplaintTypeDetailsByPaging().then((res) => {
+            if (res.data.success) {
+                setIsSuccess(true);
             setComplaintTypes(res.data.responseData.content);
+        }
+        else {
+            setIsSuccess(false);
+        }
         });
 
         // for employee except GM Role
@@ -109,31 +115,25 @@ export default function ComplaintTypeComponent() {
 
     const deleteComplaintTypeById = (e) => {
         if (window.confirm("Do you want to delete this Complaint Type ?")) {
-            ComplaintTypeService.getComplaintTypeById(e).then(res => {
-                let complaintType = res.data;
-
-                let compTypeId = complaintType.compTypeId;
-                let compTypeName = complaintType.compTypeName;
-                let remark = complaintType.remark;
-                let statusCd = 'I';
-                let updateComplaintType = { compTypeId, compTypeName, remark, statusCd };
-
-                ComplaintTypeService.updateComplaintTypeDetails(updateComplaintType).then(res => {
+                ComplaintTypeService.deleteComplaintTypeById(e).then(res => {
                     ComplaintTypeService.getComplaintTypeDetailsByPaging().then((res) => {
-                        setComplaintTypes(res.data.responseData.content);
-                      
+                        if (res.data.success) {
+                            setIsSuccess(true);
+                            setComplaintTypes(res.data.responseData.content);
+                        }
+                        else {
+                            setIsSuccess(false);
+                        }
+        
                     });
-                  
                 }
                 );
-            }
-            );
-
+    
         } else {
             // User clicked Cancel
             console.log("User canceled the action.");
         }
-        deleteComplaintTypeAlert(false)
+        setDeleteComplaintTypeAlert(false)
     }
 
     const updateComplaintType = (e) => {
@@ -191,7 +191,7 @@ updatComplaintTypeAlert(false)
                             </div>
                         </div>
                         <div className="row">
-
+                        {isSuccess ?
                             <table className="table table-bordered">
                                 <thead>
                                     <tr>
@@ -220,6 +220,7 @@ updatComplaintTypeAlert(false)
                                     }
                                 </tbody>
                             </table>
+                            : <h4>Complaint Type name is not available</h4>}
                         </div>
 
                     </div>
@@ -385,16 +386,7 @@ updatComplaintTypeAlert(false)
                 />
             )}
 
-            {deleteComplaintTypeAlert && (
-                <AlertboxComponent
-                    show={deleteComplaintTypeAlert}
-                    title="danger"
-                    message="Do you want to delete Complaint Type"
-                    onOk={saveComplaintType}
-                    onClose={handleClose}
-                    isCancleAvailable={true}
-                />
-            )}
+        
         </React.Fragment>
     );
 

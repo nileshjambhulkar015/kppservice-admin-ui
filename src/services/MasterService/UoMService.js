@@ -18,16 +18,18 @@ class UoMService {
 
     }
 
-    //when click on view button of UI
-    getUoMById(deptId) {
+    deleteUOMById(uomId) {
+       
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL + `/by-dept-id?deptId=${deptId}`)
+            return axios.delete(BASE_URL+`/?uomId=${uomId}`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
         }
 
     }
+
+   
 
     updateUoM(uom) {
         if (null != Cookies.get('empId')) {

@@ -227,52 +227,22 @@ export default function MainEmployeeComponent() {
 
     const deleteEmployeeById = (e) => {
         if (window.confirm("Do you want to delete this Employee ?")) {
-            EmployeeService.getEmployeeById(e).then(res => {
-                let employee = res.data;
-               
-                setEmpEId(employee.empEId)
-                setRoleId(employee.roleId)
-                setEmpId(employee.empId)
-                setDeptId(employee.deptId)
-                setDeptName(employee.deptName)
-                setDesigId(employee.desigId)
-                setDesigName(employee.desigName)
-                setReportingEmpId(employee.reportingEmpId)
-                setRegionId(employee.regionId)
-                setRegionName(employee.regionName)
-                setSiteId(employee.siteId)
-                setSiteName(employee.siteName)
-                setEmpFirstName(employee.empFirstName)
-                setEmpMiddleName(employee.empMiddleName)
-                setEmpLastName(employee.empLastName)
-                setEmpDob(employee.empDob)
-                setEmpPhoto(employee.empPhoto || '')
-                setEmpMobileNo(employee.empMobileNo)
-                setEmpEmerMobileNo(employee.empEmerMobileNo)
-                setEmailId(employee.emailId)
-                setTempAddress(employee.tempAddress)
-                setPermAddress(employee.permAddress)
-                setEmpGender(employee.empGender)
-                setEmpBloodgroup(employee.empBloodgroup)
-                setRemark(employee.remark)
 
-                let statusCd = 'I';
-
-                let employeeData = { empId, empEId, roleId, deptId, desigId, reportingEmpId, regionId, siteId, empFirstName, empMiddleName, empLastName, empDob, empMobileNo, empEmerMobileNo, empPhoto, emailId, tempAddress, permAddress, empGender, empBloodgroup, remark, statusCd };
-                EmployeeService.updateEmployeeDetails(employeeData).then(res => {
-                    if (res.data.success) {
-                        EmployeeService.getEmployeeDetailsByPaging().then((res) => {
+                EmployeeService.deleteEmployeeById(e).then(res => {
+                    EmployeeService.getEmployeeDetailsByPaging().then((res) => {
+                        if (res.data.success) {
+                            setIsSuccess(true);
                             setEmployees(res.data.responseData.content);
-                        });
-                    }
-                    else {
-                        alert(res.data.responseMessage)
-                    }
-                   
+                        }
+                        else {
+                            setIsSuccess(false);
+                        }
+        
+                    });
                 }
                 );
-            }
-            );
+    
+          
         } else {
             // User clicked Cancel
             console.log("User canceled the action.");

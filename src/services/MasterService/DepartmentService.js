@@ -17,6 +17,18 @@ class DepartmentService {
 
     }
 
+    deleteDepartmentById(deptId) {
+       
+        if (null != Cookies.get('empId')) {
+            return axios.delete(BASE_URL+`/?deptId=${deptId}`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
+    }
+
+
     //when click on view button of UI
     getDepartmentById(deptId) {
         if (null != Cookies.get('empId')) {
@@ -30,6 +42,7 @@ class DepartmentService {
 
     updateDepartmentDetails(department) {
         if (null != Cookies.get('empId')) {
+            console.log("department : ", department)
             return axios.put(BASE_URL, department)
         } else {
             alert("You need to login first")

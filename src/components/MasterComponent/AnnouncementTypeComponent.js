@@ -24,7 +24,7 @@ export default function AnnouncementComponent() {
     const [saveAnnTypeAlert, setSaveAnnTypeAlert] = useState(false);
     const [deleteAnnTypeAlert, setDeleteAnnTypeAlert] = useState(false);
     const [updatAnnTypeAlert, setUpdateAnnTypeAlert] = useState(false);
-
+    const [isSuccess, setIsSuccess] = useState(true)
     const handleClose = () => {
 
         setSaveAnnTypeAlert(false);
@@ -37,8 +37,13 @@ export default function AnnouncementComponent() {
     //loading all department and roles while page loading at first time
     useEffect(() => {
         AnnouncementTypeService.getAnnouncementTypeDetailsByPaging().then((res) => {
-    
+            if (res.data.success) {
+                setIsSuccess(true);
             setAnnonTypes(res.data.responseData.content);
+            }
+            else {
+                setIsSuccess(false);
+            }
           
         });
     }, []);
@@ -87,26 +92,20 @@ export default function AnnouncementComponent() {
 
     const deleteAnnouncementTypeById = (e) => {
         if (window.confirm("Do you want to delete this Announcement Type name ?")) {
-            AnnouncementTypeService.getAnnouncementTypeById(e).then(res => {
-                let announcementType = res.data;
-
-                let annonTypeId = announcementType.annonTypeId;
-                let annonTypeName = announcementType.annonTypeName;
-                let remark = announcementType.remark;
-                let statusCd = 'I';
-                let updateAnnouncementType = { annonTypeId, annonTypeName, remark, statusCd };
-
-                AnnouncementTypeService.updateAnnouncementType(updateAnnouncementType).then(res => {
+                AnnouncementTypeService.deleteAnnouncementTypeById(e).then(res => {
                     AnnouncementTypeService.getAnnouncementTypeDetailsByPaging().then((res) => {
-    
-                        setAnnonTypes(res.data.responseData.content);
-                     
+                        if (res.data.success) {
+                            setIsSuccess(true);
+                            setAnnonTypes(res.data.responseData.content);
+                        }
+                        else {
+                            setIsSuccess(false);
+                        }
+        
                     });
                 }
                 );
-            }
-            );
-
+          
         } else {
             // User clicked Cancel
             console.log("User canceled the action.");
@@ -149,7 +148,7 @@ export default function AnnouncementComponent() {
                         </div>
                     </div>
                     <div className="row">
-
+                    {isSuccess ?
                         <table className="table table-bordered">
                             <thead>
                                 <tr>
@@ -176,6 +175,7 @@ export default function AnnouncementComponent() {
                                 }
                             </tbody>
                         </table>
+                        : <h4>Announcement Type name is not available</h4>}
                     </div>
 
                 </div>

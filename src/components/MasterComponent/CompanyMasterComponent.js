@@ -25,7 +25,7 @@ export default function CompanyMasterComponent() {
     const [saveCompanyAlert, setSaveCompanyAlert] = useState(false);
     const [deleteCompanyAlert, setDeleteCompanyAlert] = useState(false);
     const [updateCompanyAlert, setUpdateCompanyAlert] = useState(false);
-
+    const [isSuccess, setIsSuccess] = useState(true)
     const handleClose = () => {
 
         setSaveCompanyAlert(false);
@@ -41,7 +41,13 @@ export default function CompanyMasterComponent() {
 
     useEffect(() => {
         CompanyMasterService.getCompanyDetailsByPaging().then((res) => {
+            if (res.data.success) {
+                setIsSuccess(true);
             setCompanys(res.data.responseData.content);
+        }
+        else {
+            setIsSuccess(false);
+        }
         });
 
         SiteService.getAllRegions().then((res) => {
@@ -165,35 +171,22 @@ export default function CompanyMasterComponent() {
 
         if (window.confirm("Do you want to delete this Company ?")) {
 
-            CompanyMasterService.getCompanyById(e).then(res => {
-                let company = res.data;
-                let companyId = company.companyId;
-                let regionId = company.regionId;
-                let siteId = company.siteId;
-
-
-                let companyName = company.companyName;
-                let companyAddress = company.companyAddress;
-                let companyMbNo = company.companyMbNo;
-                let companyFinYear = company.companyFinYear;
-                let remark = company.remark;
-
-
-                let statusCd = 'I';
-                let deletCompany = { companyId, regionId, siteId, companyName, companyAddress, companyMbNo, companyFinYear, remark, statusCd };
-
-
-                CompanyMasterService.updateCompanyDetails(deletCompany).then(res => {
-                    CompanyMasterService.getCompanyDetailsByPaging().then((res) => {
+          
+            CompanyMasterService.deleteCompanyById(e).then(res => {
+                CompanyMasterService.getCompanyDetailsByPaging().then((res) => {
+                    if (res.data.success) {
+                        setIsSuccess(true);
                         setCompanys(res.data.responseData.content);
-                      
-                    });
-
-
-                }
-                );
+                    }
+                    else {
+                        setIsSuccess(false);
+                    }
+    
+                });
             }
             );
+                
+          
         } else {
             // User clicked Cancel
             console.log("User canceled the action.");

@@ -21,7 +21,7 @@ export default function SiteComponent() {
     const [saveSiteAlert, setSaveSiteAlert] = useState(false);
     const [deleteSiteAlert, setDeleteSiteAlert] = useState(false);
     const [updatSiteAlert, setUpdateSiteAlert] = useState(false);
-
+    const [isSuccess, setIsSuccess] = useState(true)
     const handleClose = () => {
 
         setSaveSiteAlert(false);
@@ -35,7 +35,13 @@ export default function SiteComponent() {
     //loading all department and roles while page loading at first time
     useEffect(() => {
         SiteService.getSiteDetailsByPaging().then((res) => {
+            if (res.data.success) {
+                setIsSuccess(true);
             setSites(res.data.responseData.content);
+        }
+        else {
+            setIsSuccess(false);
+        }
          
         });
 
@@ -59,7 +65,13 @@ export default function SiteComponent() {
 
         SiteService.saveSiteDetails(site).then(res => {
             SiteService.getSiteDetailsByPaging().then((res) => {
+                if (res.data.success) {
+                    setIsSuccess(true);
                 setSites(res.data.responseData.content);
+            }
+            else {
+                setIsSuccess(false);
+            }
 
             });
             setSiteName('');
@@ -86,25 +98,22 @@ export default function SiteComponent() {
     const deleteSiteById = (e) => {
 
         if (window.confirm("Do you want to delete this Site Name ?")) {
-            SiteService.getSiteById(e).then(res => {
-                let site = res.data;
-                let siteId = site.siteId;
-                let regionId = site.regionId;
-                let siteName = site.siteName;
-                let remark = site.remark;
-                let statusCd = 'I';
-                let updateSite = { siteId, regionId, siteName, remark, statusCd };
-               
-                SiteService.updateSiteDetails(updateSite).then(res => {
-                    SiteService.getSiteDetailsByPaging().then((res) => {
+          
+            SiteService.deleteSiteById(e).then(res => {
+                SiteService.getSiteDetailsByPaging().then((res) => {
+                    if (res.data.success) {
+                        setIsSuccess(true);
                         setSites(res.data.responseData.content);
-
-                    });
-
-                }
-                );
+                    }
+                    else {
+                        setIsSuccess(false);
+                    }
+    
+                });
             }
             );
+               
+         
         } else {
             // User clicked Cancel
             console.log("User canceled the action.");
@@ -121,7 +130,13 @@ export default function SiteComponent() {
 
         SiteService.updateSiteDetails(site).then(res => {
             SiteService.getSiteDetailsByPaging().then((res) => {
+                if (res.data.success) {
+                    setIsSuccess(true);
                 setSites(res.data.responseData.content);
+            }
+            else {
+                setIsSuccess(false);
+            }
 
             });
 
@@ -154,7 +169,7 @@ export default function SiteComponent() {
                         </div>
                     </div>
                     <div className="row">
-
+                    {isSuccess ?
                         <table className="table table-bordered">
                             <thead>
                                 <tr>
@@ -181,6 +196,7 @@ export default function SiteComponent() {
                                 }
                             </tbody>
                         </table>
+                        : <h4>Site name is not available</h4>}
                     </div>
 
                 </div>

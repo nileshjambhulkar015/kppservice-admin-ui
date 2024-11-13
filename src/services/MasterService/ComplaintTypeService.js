@@ -38,6 +38,17 @@ class ComplaintTypeService {
 
     }
 
+    
+    deleteComplaintTypeById(compTypeId) {
+       
+        if (null != Cookies.get('empId')) {
+            return axios.delete(BASE_URL+`/?compTypeId=${compTypeId}`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
+    }
 
     //at page load call all the departments load all departments
     getComplaintTypeDetailsByPaging() {

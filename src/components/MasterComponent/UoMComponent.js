@@ -10,6 +10,7 @@ export default function UoMComponent() {
     const [remark, setRemark] = useState('');
     const [responseMessage, setResponseMessage] = useState('');
 
+    const [isSuccess, setIsSuccess] = useState(true)
     const [uoms, setUoms] = useState([])
 
     const [saveUOMAlert, setSaveUOMAlert] = useState(false);
@@ -29,7 +30,13 @@ export default function UoMComponent() {
     //loading all department and roles while page loading at first time
     useEffect(() => {
         UoMService.getUoMByPaging().then((res) => {
+            if (res.data.success) {
+                setIsSuccess(true);
             setUoms(res.data.responseData.content);
+        }
+        else {
+            setIsSuccess(false);
+        }
         });
     }, []);
 
@@ -68,25 +75,24 @@ export default function UoMComponent() {
 
 
     const deleteUOMById = (e) => {
-        if (window.confirm("Do you want to delete this Region name ?")) {
-        UoMService.getUoMById(e).then(res => {
+        if (window.confirm("Do you want to delete this UOM name ?")) {
+       
 
-            let uomId = res.data.responseData.uomId;
-            let uomName = res.data.responseData.uomName;
-
-            let remark = res.data.responseData.remark;
-            let statusCd = 'I';
-            let updateRegion = { uomId, uomName, remark, statusCd };
-
-            UoMService.updateUoM(updateRegion).then(res => {
+            UoMService.deleteUOMById(e).then(res => {
                 UoMService.getUoMByPaging().then((res) => {
-                    setUoms(res.data.responseData.content);
+                    if (res.data.success) {
+                        setIsSuccess(true);
+                        setUoms(res.data.responseData.content);
+                    }
+                    else {
+                        setIsSuccess(false);
+                    }
+    
                 });
-                
             }
             );
-        }
-        ); } else {
+
+          } else {
             // User clicked Cancel
             console.log("User canceled the action.");
         }
@@ -119,7 +125,7 @@ export default function UoMComponent() {
         <React.Fragment>
         <div>
             <div className="row">
-                <h2 className="text-center">UoM List</h2>
+                <h2 className="text-center">Unit of Measure List</h2>
                 <div className="col-md-2"></div>
                 <div className="col-md-6">
                     <div className="row">
@@ -132,7 +138,7 @@ export default function UoMComponent() {
                         </div>
                     </div>
                     <div className="row">
-
+                    {isSuccess ?
                         <table className="table table-bordered">
                             <thead>
                                 <tr>
@@ -158,6 +164,7 @@ export default function UoMComponent() {
                                 }
                             </tbody>
                         </table>
+                        : <h4>UOM name is not available</h4>}
                     </div>
 
                 </div>

@@ -10,11 +10,22 @@ class AnnouncementTypeService {
     //at page load call all the departments load all departments
     getAnnouncementTypeDetailsByPaging() {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL + "/search?page=0&size=210")
+            return axios.get(BASE_URL + "/search?statusCd=A&page=0&size=210")
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
         }
+    }
+
+    deleteAnnouncementTypeById(announTypeId) {
+       
+        if (null != Cookies.get('empId')) {
+            return axios.delete(BASE_URL+`/?announTypeId=${announTypeId}`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
     }
 
     saveAnnouncementTypeDetails(announcementType) {

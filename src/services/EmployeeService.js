@@ -34,6 +34,17 @@ class EmployeeService {
         }
     }
 
+    deleteEmployeeById(empId) {
+       
+        if (null != Cookies.get('empId')) {
+            return axios.delete(BASE_URL+`/?empId=${empId}`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
+    }
+
     //Show Employee For Kpp based on designation
     getEmployeeDetailsByDesignationByPaging(desigId) {
         if (null != Cookies.get('empId')) {

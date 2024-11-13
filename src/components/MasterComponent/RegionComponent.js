@@ -15,6 +15,7 @@ export default function RegionComponent() {
     const [deleteRegionAlert, setDeleteRegionAlert] = useState(false);
     const [updatRegionAlert, setUpdateRegionAlert] = useState(false);
 
+    const [isSuccess, setIsSuccess] = useState(true)
     const handleClose = () => {
 
         setSaveRegionAlert(false);
@@ -27,7 +28,13 @@ export default function RegionComponent() {
     //loading all department and roles while page loading at first time
     useEffect(() => {
         RegionService.getRegionsByPaging().then((res) => {
+            if (res.data.success) {
+                setIsSuccess(true);
             setRegions(res.data.responseData.content);
+        }
+        else {
+            setIsSuccess(false);
+        }
         });
     }, []);
 
@@ -41,9 +48,15 @@ export default function RegionComponent() {
         RegionService.saveRegionDetails(region).then(res => {
 
             RegionService.getRegionsByPaging().then((res) => {
+                if (res.data.success) {
+                    setIsSuccess(true);
                 setRegions(res.data.responseData.content);
                 setRegionName('');
                 setRemark('');
+            }
+            else {
+                setIsSuccess(false);
+            }
 
             });
            
@@ -69,24 +82,23 @@ export default function RegionComponent() {
     const deleteRegionById = (e) => {
 
         if (window.confirm("Do you want to delete this Region ?")) {
-            RegionService.getRegionsById(e).then(res => {
-
-                let regionId = res.data.responseData.regionId;
-                let regionName = res.data.responseData.regionName;
-
-                let remark = res.data.responseData.remark;
-                let statusCd = 'I';
-                let updateRegion = { regionId, regionName, remark, statusCd };
-
-                RegionService.updateRegion(updateRegion).then(res => {
-                    RegionService.getRegionsByPaging().then((res) => {
+            
+            RegionService.deleteRegionById(e).then(res => {
+                RegionService.getRegionsByPaging().then((res) => {
+                    if (res.data.success) {
+                        setIsSuccess(true);
                         setRegions(res.data.responseData.content);
-                    });
-                    
-                }
-                );
+                    }
+                    else {
+                        setIsSuccess(false);
+                    }
+    
+                });
             }
             );
+
+             
+          
         } else {
             // User clicked Cancel
             console.log("User canceled the action.");
@@ -129,7 +141,7 @@ export default function RegionComponent() {
                         </div>
                     </div>
                     <div className="row">
-
+                    {isSuccess ?
                         <table className="table table-bordered">
                             <thead>
                                 <tr>
@@ -155,6 +167,7 @@ export default function RegionComponent() {
                                 }
                             </tbody>
                         </table>
+                        : <h4>Region name is not available</h4>}
                     </div>
 
                 </div>
