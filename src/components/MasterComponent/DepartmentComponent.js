@@ -5,7 +5,7 @@ import { BASE_URL_API } from '../../services/URLConstants';
 import AlertboxComponent from '../AlertboxComponent/AlertboxComponent'
 import PaginationComponent from '../PaginationComponent/PaginationComponent';
 export default function DepartmentComponent() {
-
+    const [itemsPerPage, setItemsPerPage] = useState(10);
 
     const [deptId, setDeptId] = useState('');
     const [deptName, setDeptName] = useState('');
@@ -38,7 +38,13 @@ export default function DepartmentComponent() {
     };    
 
     console.log("Data pageable", dataPageable)
+    console.log("itemsPerPage pageable", itemsPerPage)
 
+ // Handle items per page change
+ const handleItemsPerPageChange = (newItemsPerPage) => {
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1); // Reset to first page when items per page changes
+  };
     const handleClose = () => {
        
         setSaveDepatmentAlert(false);
@@ -50,7 +56,11 @@ export default function DepartmentComponent() {
     };
     //loading all department and roles while page loading at first time
     useEffect(() => {
-        DepartmentService.getDepartmentDetailsByPaging(currentPage).then((res) => {
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        DepartmentService.getDepartmentDetailsByPaging(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
             setDepartments(res.data.responseData.content);
@@ -62,7 +72,7 @@ export default function DepartmentComponent() {
         }
           
         });
-    }, [currentPage]);
+    }, [currentPage,itemsPerPage]);
 
 
 
@@ -251,6 +261,7 @@ export default function DepartmentComponent() {
                         currentPage={currentPage}
         totalPages={dataPageable.totalPages || 10}
         onPageChange={handlePageChange}
+        onItemsPerPageChange={handleItemsPerPageChange}
                     />
                     </div>
 
