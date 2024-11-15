@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import CumulativeService from '../../../services/CumulativeService';
-import PaginationComponent from '../../PaginationComponent/PaginationComponent';
+import CumulativeService from '../../services/CumulativeService';
+import PaginationComponent from '../PaginationComponent/PaginationComponent';
 export default function ViewAllHODCumulativeComponent() {
 
     const navigate = useNavigate();

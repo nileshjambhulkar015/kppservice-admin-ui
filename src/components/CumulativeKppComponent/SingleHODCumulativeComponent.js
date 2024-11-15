@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import CumulativeService from "../../../services/CumulativeService";
+import CumulativeService from "../../services/CumulativeService";
 import Cookies from 'js-cookie';
-import { BASE_URL_API } from "../../../services/URLConstants";
-import EmployeeService from "../../../services/EmployeeService";
+import { BASE_URL_API } from "../../services/URLConstants";
+import EmployeeService from "../../services/EmployeeService";
 export default function SingleHODCumulativeComponent() {
 
     const navigate = useNavigate();
