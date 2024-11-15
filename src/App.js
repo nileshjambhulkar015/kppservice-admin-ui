@@ -16,8 +16,8 @@ import SingleEmployeeCumulativeComponent from "./components/CumulativeKppCompone
 import SingleHODCumulativeComponent from "./components/CumulativeKppComponent/SingleHODCumulativeComponent";
 import ViewAllEmployeeCumulativeComponent from "./components/CumulativeKppComponent/ViewAllEmployeeCumulativeComponent";
 import ViewAllHODCumulativeComponent from "./components/CumulativeKppComponent/ViewAllHODCumulativeComponent";
-import EmplyeeUpdateKppRatingsComponent from './components/EmplyeeUpdateKppRatingsComponent/EmplyeeUpdateKppRatingsComponent';
-import HODUpdateKppRatingsComponent from './components/HODUpdateKppRatingsComponent/HODUpdateKppRatingsComponent';
+import EmplyeeUpdateKppRatingsComponent from './components/UpdateKppRatingsComponent/EmplyeeUpdateKppRatingsComponent';
+import HODUpdateKppRatingsComponent from './components/UpdateKppRatingsComponent/HODUpdateKppRatingsComponent';
 import CompanyMasterComponent from './components/MasterComponent/CompanyMasterComponent';
 import DepartmentComponent from './components/MasterComponent/DepartmentComponent';
 import EmployeeTypeComponent from "./components/MasterComponent/EmployeeTypeComponent";
