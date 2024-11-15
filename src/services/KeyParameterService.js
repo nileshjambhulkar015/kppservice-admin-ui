@@ -46,9 +46,9 @@ class KeyParameterService {
 
     }
 
-    getKPPDetailsByPaging() {
+    getKPPDetailsByPaging(data) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + "/key-perform-parameter/search?statusCd=A&page=0&size=1200&sort=dept.dept_name");
+            return axios.get(BASE_URL_API + `/key-perform-parameter/search?statusCd=A&page=${data.currentPage-1}&size=${data.itemsPerPage}&sort=dept.dept_name`);
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
@@ -57,9 +57,9 @@ class KeyParameterService {
 
     //Assign kpp For Employee page when user click from showEmployeeKppComponent
 
-    getKPPDetailsForAssignKppByPaging() {
+    getKPPDetailsForAssignKppByPaging(data) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + `/employee-kpp/assign-employee-kpp-search?empId=${Cookies.get('empIdForKpp')}&roleId=${Cookies.get('empKppRoleId')}&deptId=${Cookies.get('empKppDeptId')}&desigId=${Cookies.get('empKppDesigId')}&statusCd=A&page=0&size=20&sort=dept.dept_name`);
+            return axios.get(BASE_URL_API + `/employee-kpp/assign-employee-kpp-search?empId=${Cookies.get('empIdForKpp')}&roleId=${Cookies.get('empKppRoleId')}&deptId=${Cookies.get('empKppDeptId')}&desigId=${Cookies.get('empKppDesigId')}&statusCd=A&page=${data.currentPage-1}&size=${data.itemsPerPage}&sort=dept.dept_name`);
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
@@ -81,7 +81,7 @@ class KeyParameterService {
 
     viewKPPDetailsForAssignKppByPaging() {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + `/employee-kpp/assign-employee-kpp-view?empId=${Cookies.get('empIdForKpp')}&roleId=${Cookies.get('empKppRoleId')}&deptId=${Cookies.get('empKppDeptId')}&desigId=${Cookies.get('empKppDesigId')}&statusCd=A&page=0&size=20&sort=dept.dept_name`);
+            return axios.get(BASE_URL_API + `/employee-kpp/assign-employee-kpp-view?empId=${Cookies.get('empIdForKpp')}&roleId=${Cookies.get('empKppRoleId')}&deptId=${Cookies.get('empKppDeptId')}&desigId=${Cookies.get('empKppDesigId')}&statusCd=A&page=0&size=40&sort=dept.dept_name`);
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);

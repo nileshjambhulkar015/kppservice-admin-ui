@@ -8,6 +8,7 @@ import RoleService from "../../services/MasterService/RoleService";
 import SiteService from "../../services/MasterService/SiteService";
 import CompanyMasterService from "../../services/MasterService/CompanyMasterService";
 import { BASE_URL_API } from "../../services/URLConstants";
+import PaginationComponent from "../PaginationComponent/PaginationComponent";
 export default function MainEmployeeComponent() {
     const navigate = useNavigate();
 
@@ -64,14 +65,32 @@ export default function MainEmployeeComponent() {
         setEmpBloodgroup(event);
     };
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [dataPageable, setDataPageable] = useState([])
 
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        // Handle data fetching or any other logic here
+    };
+
+    // Handle items per page change
+    const handleItemsPerPageChange = (newItemsPerPage) => {
+        setItemsPerPage(newItemsPerPage);
+        setCurrentPage(1); // Reset to first page when items per page changes
+    };
 
     useEffect(() => {
-        EmployeeService.getEmployeeDetailsByPaging().then((res) => {
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        EmployeeService.getEmployeeDetailsByPaging(data).then((res) => {
 
             if (res.data.success) {
                 setIsSuccess(true);
                 setEmployees(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
             }
             else {
                 setIsSuccess(false);
@@ -104,7 +123,7 @@ export default function MainEmployeeComponent() {
         });
 
 
-    }, []);;
+    }, [currentPage, itemsPerPage]);;
 
 
     //for role , department and designation
@@ -359,6 +378,12 @@ export default function MainEmployeeComponent() {
                             </tbody>
                         </table>
                         : <h4>Employee Id is not available</h4>}
+                        <PaginationComponent
+                        currentPage={currentPage}
+                        totalPages={dataPageable.totalPages || 10}
+                        onPageChange={handlePageChange}
+                        onItemsPerPageChange={handleItemsPerPageChange}
+                    />
                 </div>
 
             </div>

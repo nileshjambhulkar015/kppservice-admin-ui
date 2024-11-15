@@ -3,6 +3,7 @@ import KeyParameterService from "../../services/KeyParameterService";
 import UoMService from "../../services/MasterService/UoMService";
 import { BASE_URL_API } from "../../services/URLConstants";
 import AlertboxComponent from "../AlertboxComponent/AlertboxComponent";
+import PaginationComponent from "../PaginationComponent/PaginationComponent";
 
 export default function KeyParameterComponent() {
     const [kppId, setKppId] = useState('');
@@ -31,6 +32,21 @@ export default function KeyParameterComponent() {
     const [saveKPPAlert, setSaveKPPAlert] = useState(false);
     const [deleteKPPAlert, setDeleteKPPAlert] = useState(false);
     const [updatKPPAlert, setUpdateKPPAlert] = useState(false);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [dataPageable, setDataPageable] = useState([])
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        // Handle data fetching or any other logic here
+    };
+
+    // Handle items per page change
+    const handleItemsPerPageChange = (newItemsPerPage) => {
+        setItemsPerPage(newItemsPerPage);
+        setCurrentPage(1); // Reset to first page when items per page changes
+    };
 
     const handleClose = () => {
 
@@ -92,10 +108,15 @@ export default function KeyParameterComponent() {
 
 
     useEffect(() => {
-        KeyParameterService.getKPPDetailsByPaging().then((res) => {
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        KeyParameterService.getKPPDetailsByPaging(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
                 setKpps(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
             }
             else {
                 setIsSuccess(false);
@@ -107,7 +128,7 @@ export default function KeyParameterComponent() {
             setUomId(res.data?.[0]?.uomId)
         });
 
-    }, []);
+    }, [currentPage, itemsPerPage]);
 
      //for role , department and designation
      const handleUOMIdChange = (value) => {
@@ -124,14 +145,17 @@ export default function KeyParameterComponent() {
 
         let statusCd = 'A';
         let kpp = {kppObjectiveNo, kppObjective, kppPerformanceIndi, kppTargetPeriod, uomId, kppRating1, kppRating2, kppRating3, kppRating4, kppRating5, remark, statusCd };
-      
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
 
         KeyParameterService.saveKPPDetails(kpp).then(res => {
             if (res.data.success) {
                 
-                KeyParameterService.getKPPDetailsByPaging().then((res) => {
+                KeyParameterService.getKPPDetailsByPaging(data).then((res) => {
                     setKpps(res.data.responseData.content);
-
+                    setDataPageable(res.data.responseData);
                     setKppObjectiveNo('')
                     setKppObjective('')
                     setKppPerformanceIndi('')
@@ -159,13 +183,18 @@ export default function KeyParameterComponent() {
 
 
     const deleteKppById = (e) => {
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
         if (window.confirm("Do you want to delete this KPP ?")) {
 
             KeyParameterService.deleteKppById(e).then(res => {
-                KeyParameterService.getKPPDetailsByPaging().then((res) => {
+                KeyParameterService.getKPPDetailsByPaging(data).then((res) => {
                     if (res.data.success) {
                         setIsSuccess(true);
                         setKpps(res.data.responseData.content);
+                        setDataPageable(res.data.responseData);
                     }
                     else {
                         setIsSuccess(false);
@@ -185,12 +214,17 @@ export default function KeyParameterComponent() {
     const updateKppDetails = (e) => {
 
         e.preventDefault()
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
         let statusCd = 'A';
         let updateKpp = { kppId,  kppObjectiveNo, kppObjective, kppPerformanceIndi, kppTargetPeriod, uomId, kppRating1, kppRating2, kppRating3, kppRating4, kppRating5, remark, statusCd };
 
         KeyParameterService.updateKppDetails(updateKpp).then(res => {
-            KeyParameterService.getKPPDetailsByPaging().then((res) => {
+            KeyParameterService.getKPPDetailsByPaging(data).then((res) => {
                 setKpps(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
             });
          
         }
@@ -281,6 +315,13 @@ export default function KeyParameterComponent() {
                         </tbody>
                     </table> 
                      : <h4>No KPP available</h4>}
+                     <PaginationComponent
+                     currentPage={currentPage}
+                     totalPages={dataPageable.totalPages || 10}
+                     onPageChange={handlePageChange}
+                     onItemsPerPageChange={handleItemsPerPageChange}
+                 />
+
                 </div>
 
             </div>

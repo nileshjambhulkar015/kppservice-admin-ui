@@ -51,9 +51,9 @@ class ComplaintTypeService {
     }
 
     //at page load call all the departments load all departments
-    getComplaintTypeDetailsByPaging() {
+    getComplaintTypeDetailsByPaging(data) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API+"/complaint-type/search?statusCd=A&page=0&size=1200&sort=comp.comp_type_name asc")
+            return axios.get(BASE_URL_API+`/complaint-type/search?statusCd=A&page=${data.currentPage-1}&size=${data.itemsPerPage}&sort=comp.comp_type_name asc`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);

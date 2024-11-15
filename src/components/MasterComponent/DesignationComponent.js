@@ -3,6 +3,7 @@ import DesignationService from "../../services/MasterService/DesignationService"
 import DepartmentService from "../../services/MasterService/DepartmentService";
 import { BASE_URL_API } from "../../services/URLConstants";
 import AlertboxComponent from "../AlertboxComponent/AlertboxComponent";
+import PaginationComponent from "../PaginationComponent/PaginationComponent";
 export default function DesignationComponent() {
     const [desigId, setDesigId] = useState('');
     const [deptId, setDeptId] = useState('');
@@ -20,6 +21,22 @@ export default function DesignationComponent() {
 
     const [isSuccess, setIsSuccess] = useState(true)
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [dataPageable, setDataPageable] = useState([])
+
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+      // Handle data fetching or any other logic here
+    };    
+
+    
+ // Handle items per page change
+ const handleItemsPerPageChange = (newItemsPerPage) => {
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1); // Reset to first page when items per page changes
+  };
+
     const handleClose = () => {
 
         setSaveDesignationAlert(false);
@@ -29,9 +46,15 @@ export default function DesignationComponent() {
         setRemark('');
     };
     useEffect(() => {
-        DesignationService.getDesignationDetailsByPaging().then((res) => {
-            setDesignations(res.data.responseData.content);
 
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+
+        DesignationService.getDesignationDetailsByPaging(data).then((res) => {
+            setDesignations(res.data.responseData.content);
+            setDataPageable(res.data.responseData);
         });
 
         DepartmentService.ddAllDepartmentExceptGM().then((res) => {
@@ -39,7 +62,7 @@ export default function DesignationComponent() {
             setDeptId(res.data?.[0].deptId)
 
         });
-    }, []);
+    }, [currentPage, itemsPerPage]);
 
     const searchDesigName = (e) => {
         setDesigNameSearch(e.target.value)
@@ -161,6 +184,7 @@ export default function DesignationComponent() {
                 alert("Designation uploaded successfully")
                 DesignationService.getDesignationDetailsByPaging().then((res) => {
                     setDesignations(res.data.responseData.content);
+                    
                 });
 
             })
@@ -227,6 +251,12 @@ export default function DesignationComponent() {
                                     </tbody>
                                 </table>
                                 : <h4>Designation name is not available</h4>}
+                                <PaginationComponent
+                                currentPage={currentPage}
+                                totalPages={dataPageable.totalPages || 10}
+                                onPageChange={handlePageChange}
+                                onItemsPerPageChange={handleItemsPerPageChange}
+                            />
                         </div>
 
                     </div>

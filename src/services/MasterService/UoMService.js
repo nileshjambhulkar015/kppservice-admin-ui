@@ -43,9 +43,9 @@ class UoMService {
 
 
     //at page load call all the region load all departments
-    getUoMByPaging() {
+    getUoMByPaging(data) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + "/uom/search?statusCd=A&page=0&size=1200&sort=regionName asc")
+            return axios.get(BASE_URL_API + `/uom/search?statusCd=A&page=${data.currentPage-1}&size=${data.itemsPerPage}&sort=regionName asc`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);

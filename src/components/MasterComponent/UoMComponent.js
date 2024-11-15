@@ -2,6 +2,7 @@ import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
 import UoMService from '../../services/MasterService/UoMService'
 import AlertboxComponent from '../AlertboxComponent/AlertboxComponent';
+import PaginationComponent from '../PaginationComponent/PaginationComponent';
 
 
 export default function UoMComponent() {
@@ -17,6 +18,21 @@ export default function UoMComponent() {
     const [deleteUOMAlert, setDeleteUOMAlert] = useState(false);
     const [updatUOMAlert, setUpdateUOMAlert] = useState(false);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [dataPageable, setDataPageable] = useState([])
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        // Handle data fetching or any other logic here
+    };
+
+    // Handle items per page change
+    const handleItemsPerPageChange = (newItemsPerPage) => {
+        setItemsPerPage(newItemsPerPage);
+        setCurrentPage(1); // Reset to first page when items per page changes
+    };
+
     const handleClose = () => {
 
         setSaveUOMAlert(false);
@@ -29,16 +45,21 @@ export default function UoMComponent() {
 
     //loading all department and roles while page loading at first time
     useEffect(() => {
-        UoMService.getUoMByPaging().then((res) => {
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        UoMService.getUoMByPaging(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
             setUoms(res.data.responseData.content);
+            setDataPageable(res.data.responseData);
         }
         else {
             setIsSuccess(false);
         }
         });
-    }, []);
+    }, [currentPage, itemsPerPage]);
 
 
     const saveUoM = (e) => {
@@ -47,10 +68,22 @@ export default function UoMComponent() {
         let employeeId = Cookies.get('empId');
         let uom = { uomName, remark, statusCd, employeeId };
 
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
         UoMService.saveUoMDetails(uom).then(res => {
 
-            UoMService.getUoMByPaging().then((res) => {
-                setUoms(res.data.responseData.content); 
+            UoMService.getUoMByPaging(data).then((res) => {
+                if (res.data.success) {
+                    setIsSuccess(true);
+                setUoms(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
+            }
+            else {
+                setIsSuccess(false);
+                alert(res.data.responseMessage)
+            }
             });
             
         }
@@ -77,17 +110,20 @@ export default function UoMComponent() {
     const deleteUOMById = (e) => {
         if (window.confirm("Do you want to delete this UOM name ?")) {
        
-
+            const data = {
+                currentPage,
+                itemsPerPage
+            }
             UoMService.deleteUOMById(e).then(res => {
-                UoMService.getUoMByPaging().then((res) => {
+                UoMService.getUoMByPaging(data).then((res) => {
                     if (res.data.success) {
                         setIsSuccess(true);
-                        setUoms(res.data.responseData.content);
-                    }
-                    else {
-                        setIsSuccess(false);
-                    }
-    
+                    setUoms(res.data.responseData.content);
+                    setDataPageable(res.data.responseData);
+                }
+                else {
+                    setIsSuccess(false);
+                }
                 });
             }
             );
@@ -102,14 +138,24 @@ export default function UoMComponent() {
     const updateUOMDetails = (e) => {
       
         e.preventDefault()
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
         let statusCd = 'A';
         let employeeId = Cookies.get('empId');
         let region = { uomId, uomName, remark, statusCd, employeeId };
 
         UoMService.updateUoM(region).then(res => {
-            UoMService.getUoMByPaging().then((res) => {
+            UoMService.getUoMByPaging(data).then((res) => {
+                if (res.data.success) {
+                    setIsSuccess(true);
                 setUoms(res.data.responseData.content);
-
+                setDataPageable(res.data.responseData);
+            }
+            else {
+                setIsSuccess(false);
+            }
             });
            
         }
@@ -165,6 +211,12 @@ export default function UoMComponent() {
                             </tbody>
                         </table>
                         : <h4>UOM name is not available</h4>}
+                        <PaginationComponent
+                        currentPage={currentPage}
+                        totalPages={dataPageable.totalPages || 10}
+                        onPageChange={handlePageChange}
+                        onItemsPerPageChange={handleItemsPerPageChange}
+                    />
                     </div>
 
                 </div>

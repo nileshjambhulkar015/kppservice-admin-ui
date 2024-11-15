@@ -2,13 +2,13 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 import { BASE_URL_API, LOGIN_UI_BASE_URL } from "./URLConstants";
 
-const BASE_URL = BASE_URL_API+`/employee/employee-kpp-status?roleId=3&gmKppStatus=In-Progress&page=0&size=20&sort=desig.desig_name`;
+
 
 class AllEmployeesKppService {
 
-    getEmployeeDetailsByPagination() {
+    getEmployeeDetailsByPagination(data) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL)
+            return axios.get(BASE_URL_API+`/employee/employee-kpp-status?roleId=3&gmKppStatus=In-Progress&page=${data.currentPage-1}&size=${data.itemsPerPage}&sort=desig.desig_name`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);

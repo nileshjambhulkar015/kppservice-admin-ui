@@ -4,6 +4,7 @@ import ComplaintTypeService from "../../services/MasterService/ComplaintTypeServ
 import { BASE_URL_API } from '../../services/URLConstants';
 import DesignationService from '../../services/MasterService/DesignationService';
 import AlertboxComponent from '../AlertboxComponent/AlertboxComponent';
+import PaginationComponent from '../PaginationComponent/PaginationComponent';
 export default function ComplaintTypeComponent() {
 
 
@@ -26,8 +27,24 @@ export default function ComplaintTypeComponent() {
 
     const [saveComplaintTypeAlert, setSaveComplaintTypeAlert] = useState(false);
     const [deleteComplaintTypeAlert, setDeleteComplaintTypeAlert] = useState(false);
-    const [updatComplaintTypeAlert, setUpdateComplaintTypeAlert] = useState(false);
+    const [updateComplaintTypeAlert, setUpdateComplaintTypeAlert] = useState(false);
     const [isSuccess, setIsSuccess] = useState(true)
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [dataPageable, setDataPageable] = useState([])
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        // Handle data fetching or any other logic here
+    };
+
+    // Handle items per page change
+    const handleItemsPerPageChange = (newItemsPerPage) => {
+        setItemsPerPage(newItemsPerPage);
+        setCurrentPage(1); // Reset to first page when items per page changes
+    };
+
     const handleClose = () => {
 
         setSaveComplaintTypeAlert(false);
@@ -36,12 +53,19 @@ export default function ComplaintTypeComponent() {
         setCompTypeName('');
         setRemark('');
     };
+
+
     //loading all department and roles while page loading at first time
     useEffect(() => {
-        ComplaintTypeService.getComplaintTypeDetailsByPaging().then((res) => {
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        ComplaintTypeService.getComplaintTypeDetailsByPaging(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
             setComplaintTypes(res.data.responseData.content);
+            setDataPageable(res.data.responseData);
         }
         else {
             setIsSuccess(false);
@@ -58,7 +82,7 @@ export default function ComplaintTypeComponent() {
             setDepartments(res.data);
         });
  
-    }, []);
+    }, [currentPage, itemsPerPage]);
 
 
     const handleCompDepartmentChange = (value) => {
@@ -85,11 +109,15 @@ export default function ComplaintTypeComponent() {
         let statusCd = 'A';
         let employeeId = Cookies.get('empId')
         let complaintType = { deptId, compTypeName, remark, statusCd, employeeId };
-
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
         ComplaintTypeService.saveComplaintTypeDetails(complaintType).then(res => {
 
-            ComplaintTypeService.getComplaintTypeDetailsByPaging().then((res) => {
+            ComplaintTypeService.getComplaintTypeDetailsByPaging(data).then((res) => {
                 setComplaintTypes(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
                 setCompTypeName('');
                 setRemark('');
 
@@ -114,12 +142,17 @@ export default function ComplaintTypeComponent() {
 
 
     const deleteComplaintTypeById = (e) => {
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
         if (window.confirm("Do you want to delete this Complaint Type ?")) {
                 ComplaintTypeService.deleteComplaintTypeById(e).then(res => {
-                    ComplaintTypeService.getComplaintTypeDetailsByPaging().then((res) => {
+                    ComplaintTypeService.getComplaintTypeDetailsByPaging(data).then((res) => {
                         if (res.data.success) {
                             setIsSuccess(true);
                             setComplaintTypes(res.data.responseData.content);
+                            setDataPageable(res.data.responseData);
                         }
                         else {
                             setIsSuccess(false);
@@ -137,20 +170,24 @@ export default function ComplaintTypeComponent() {
     }
 
     const updateComplaintType = (e) => {
-
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
         e.preventDefault()
         let statusCd = 'A';
         let complaintType = { compTypeId, compTypeName, remark, statusCd };
 
         ComplaintTypeService.updateComplaintTypeDetails(complaintType).then(res => {
-            ComplaintTypeService.getComplaintTypeDetailsByPaging().then((res) => {
+            ComplaintTypeService.getComplaintTypeDetailsByPaging(data).then((res) => {
                 setComplaintTypes(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
 
             });
            
         }
         );
-updatComplaintTypeAlert(false)
+        setUpdateComplaintTypeAlert(false)
     }
 
     
@@ -221,6 +258,12 @@ updatComplaintTypeAlert(false)
                                 </tbody>
                             </table>
                             : <h4>Complaint Type name is not available</h4>}
+                            <PaginationComponent
+                            currentPage={currentPage}
+                            totalPages={dataPageable.totalPages || 10}
+                            onPageChange={handlePageChange}
+                            onItemsPerPageChange={handleItemsPerPageChange}
+                        />
                         </div>
 
                     </div>
@@ -375,9 +418,9 @@ updatComplaintTypeAlert(false)
                 />
             )}
 
-            {updatComplaintTypeAlert && (
+            {updateComplaintTypeAlert && (
                 <AlertboxComponent
-                    show={updatComplaintTypeAlert}
+                    show={updateComplaintTypeAlert}
                     title="danger"
                     message="Do you want to update Complaint Type"
                     onOk={saveComplaintType}

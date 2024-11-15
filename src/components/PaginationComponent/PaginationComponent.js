@@ -47,11 +47,13 @@ const PaginationComponent = ({
           onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
           style={{ width: '120px', height:'35px', marginLeft:'15px'}}
         >
-          <option value={5}>5 per page</option>
+         
           <option value={10}>10 per page</option>
           <option value={20}>20 per page</option>
           <option value={50}>50 per page</option>
           <option value={100}>100 per page</option>
+          <option value={300}>300 per page</option>
+          <option value={500}>500 per page</option>
         </Form.Select>
         </Pagination>
       </div>

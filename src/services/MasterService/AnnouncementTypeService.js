@@ -8,9 +8,9 @@ const BASE_URL = BASE_URL_API + "/announcement-type";
 class AnnouncementTypeService {
 
     //at page load call all the departments load all departments
-    getAnnouncementTypeDetailsByPaging() {
+    getAnnouncementTypeDetailsByPaging(data) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL + "/search?statusCd=A&page=0&size=210")
+            return axios.get(BASE_URL + `/search?statusCd=A&page=${data.currentPage-1}&size=${data.itemsPerPage}`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);

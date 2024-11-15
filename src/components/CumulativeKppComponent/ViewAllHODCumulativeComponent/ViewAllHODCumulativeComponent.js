@@ -2,6 +2,7 @@ import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import CumulativeService from '../../../services/CumulativeService';
+import PaginationComponent from '../../PaginationComponent/PaginationComponent';
 export default function ViewAllHODCumulativeComponent() {
 
     const navigate = useNavigate();
@@ -11,17 +12,35 @@ export default function ViewAllHODCumulativeComponent() {
     const [isSuccess, setIsSuccess] = useState(true)
     const [employees, setEmployees] = useState([])
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [dataPageable, setDataPageable] = useState([])
 
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        // Handle data fetching or any other logic here
+    };
+
+    // Handle items per page change
+    const handleItemsPerPageChange = (newItemsPerPage) => {
+        setItemsPerPage(newItemsPerPage);
+        setCurrentPage(1); // Reset to first page when items per page changes
+    };
 
     function clearDates(){
         document.getElementById("fromDate").value = "";
         document.getElementById("toDate").value = "";
     }
     const loadCumulativeData = ()=>{
-        CumulativeService.getOverallHODCumulative().then((res) => {
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        CumulativeService.getOverallHODCumulative(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
-                setEmployees(res.data.responseData);
+                setEmployees(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
             }
             else {
                 alert("Kpp is not approved for month");
@@ -35,7 +54,7 @@ export default function ViewAllHODCumulativeComponent() {
 
     useEffect(() => {
         loadCumulativeData();
-    }, []);
+    }, [currentPage, itemsPerPage]);
 
 
     const getKPPDetailsByDate = (e) => {
@@ -134,6 +153,12 @@ export default function ViewAllHODCumulativeComponent() {
 
                 </table>
                 :<h1>No Data Found</h1>}
+                <PaginationComponent
+                currentPage={currentPage}
+                totalPages={dataPageable.totalPages || 10}
+                onPageChange={handlePageChange}
+                onItemsPerPageChange={handleItemsPerPageChange}
+            />
             </div>
 
 

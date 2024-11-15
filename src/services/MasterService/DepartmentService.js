@@ -54,9 +54,9 @@ class DepartmentService {
 
     //at page load call all the departments load all departments
     getDepartmentDetailsByPaging(data) {
-        console.log("data in dept : ", data)
+       
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API+`/department/search?statusCd=A&page=${data.currentPage-1.}&size=${data.itemsPerPage}&sort=dept.dept_name asc`)
+            return axios.get(BASE_URL_API+`/department/search?statusCd=A&page=${data.currentPage-1}&size=${data.itemsPerPage}&sort=dept.dept_name asc`)
         } else {
             alert("You need to login first") 
             

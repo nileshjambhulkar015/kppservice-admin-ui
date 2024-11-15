@@ -11,6 +11,7 @@ import RegionService from '../../services/MasterService/RegionService';
 import SiteService from '../../services/MasterService/SiteService';
 import CompanyMasterService from '../../services/MasterService/CompanyMasterService';
 import EmployeeKppsService from '../../services/EmployeeKppsService'
+import PaginationComponent from '../PaginationComponent/PaginationComponent';
 export default function ShowEmployeeForKppComponent() {
 
     const navigate = useNavigate();
@@ -44,10 +45,39 @@ export default function ShowEmployeeForKppComponent() {
     const [empEIdSearch, setEmpEIdSearch] = useState('');
     const [empTypeId, setEmpTypeId] = useState('');
     const [empTypes, setEmpTypes] = useState([])
-    useEffect(() => {
 
-        EmployeeKppsService.getEmployeeKPPDetailsByPaging().then((res) => {
-            setEmployees(res.data.responseData.content);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [dataPageable, setDataPageable] = useState([])
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        // Handle data fetching or any other logic here
+    };
+
+    // Handle items per page change
+    const handleItemsPerPageChange = (newItemsPerPage) => {
+        setItemsPerPage(newItemsPerPage);
+        setCurrentPage(1); // Reset to first page when items per page changes
+    };
+
+    useEffect(() => {
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        EmployeeKppsService.getEmployeeKPPDetailsByPaging(data).then((res) => {
+           
+
+            if (res.data.success) {
+                setIsSuccess(true);
+                setEmployees(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
+
+            }
+            else {
+                setIsSuccess(false);
+            }
         });
 
         RoleService.getRoles().then((res) => {
@@ -73,7 +103,7 @@ export default function ShowEmployeeForKppComponent() {
         CompanyMasterService.getAllCompanyies().then((res) => {
             setCompanys(res.data);
         });
-    }, []);
+    }, [currentPage, itemsPerPage]);
 
 
     const searchEmployeeEId = (e) => {
@@ -232,7 +262,14 @@ const onRegionChangeHandler = (value) => {
                             )
                         }
                     </tbody>
+                    
                 </table>  :<h4>Employee Id is not available</h4>}
+                <PaginationComponent
+                currentPage={currentPage}
+                totalPages={dataPageable.totalPages || 10}
+                onPageChange={handlePageChange}
+                onItemsPerPageChange={handleItemsPerPageChange}
+            />
             </div>
 
             

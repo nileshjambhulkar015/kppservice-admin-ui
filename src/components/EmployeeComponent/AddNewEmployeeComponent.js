@@ -114,10 +114,6 @@ export default function AddNewEmployeeComponent() {
 
     useEffect(() => {
 
-
-        EmployeeService.getEmployeeDetailsByPaging().then((res) => {
-            setEmployees(res.data.responseData.content?.filter((item) => item.roleId !== 1));
-        });
         ///
         EmployeeService.ddRegionsFromCompany().then((res) => {
             setRegions(res.data);
@@ -145,14 +141,14 @@ export default function AddNewEmployeeComponent() {
 
         EmployeeTypeService.ddEmployeeType().then((res) => {
             setEmpTypes(res.data.responseData);
-            setEmpTypeId(res.data.responseData?.[0].empTypeId)
+            setEmpTypeId(res.data.responseData?.[0]?.empTypeId)
             
         });
 
         DepartmentService.ddAllDepartmentExceptGM().then((res1) => {
             setDepartments(res1.data);
             setDeptId(res1.data?.[0].deptId)
-            let deptId = res1.data?.[0].deptId;
+            let deptId = res1.data?.[0]?.deptId;
             DesignationService.ddDesignationDetailsForKpp(deptId).then((res2) => {
                 setDesignations(res2.data);
                 setDesigId(res2.data?.[0]?.desigId)
@@ -164,12 +160,12 @@ export default function AddNewEmployeeComponent() {
         EmployeeService.ddRolesExceptEmployee().then((res) => {
             setReportingRoles(res.data);
           
-            setReportingEmpRoleId(res.data?.[0].roleId)
-            let roleId = res.data?.[0].roleId;
+            setReportingEmpRoleId(res.data?.[0]?.roleId)
+            let roleId = res.data?.[0]?.roleId;
             EmployeeService.ddDepartmentFromEmployee(roleId).then((res1) => {
                 setReportingDepartments(res1.data);
-                setReportingEmpDeptId(res1.data?.[0].deptId)
-                let deptId = res1.data?.[0].deptId;
+                setReportingEmpDeptId(res1.data?.[0]?.deptId)
+                let deptId = res1.data?.[0]?.deptId;
                 EmployeeService.ddDesignationFromEmployee({ roleId, deptId }).then((res2) => {
                     setReportingDesignations(res2.data);
                     setReportingEmpDesigId(res2.data?.[0]?.desigId)
