@@ -98,17 +98,44 @@ export default function AssignEmployeeKppComponent() {
         e.preventDefault()
         let advanceKppSearch = { kppObjectiveNo, kppObjective, kppPerformanceIndica };
 
-        KeyParameterService.advanceSearchEmployeeKPP(advanceKppSearch).then(res => {
+        const data = {
+            currentPage,
+            itemsPerPage,
+            advanceKppSearch
+        }
+        KeyParameterService.advanceSearchEmployeeKPP(data).then(res => {
             if (res.data.success) {
                 setKppIsSuccess(true);
                 setKpps(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
             }
             else {
                 setKppIsSuccess(false);
             }
-        }
-        );
+        },[currentPage, itemsPerPage]);
     }
+
+    const searchKPPObjectiveNoPaging = (e) => {
+        setKppObjectiveNo(e.target.value)
+       let kppObjectiveNo=e.target.value;
+        const data = {
+            currentPage,
+            itemsPerPage,
+            kppObjectiveNo
+        }
+        KeyParameterService.searchKPPObjectiveNoPaging(data).then((res) => {
+
+            if (res.data.success) {
+                setIsSuccess(true);
+                setKpps(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
+            }
+            else {
+                setIsSuccess(false);
+            }
+        },[currentPage, itemsPerPage]);
+    }
+
 
     const clearSearchAssignKpp = (e) => {
         const data = {
@@ -308,7 +335,7 @@ export default function AssignEmployeeKppComponent() {
                             <form className="form-horizontal">
                                 <label className="control-label col-sm-5" htmlFor="kppObjectiveSearch">Enter KPP Objective No:</label>
                                 <div className="col-sm-4">
-                                    <input type="text" className="form-control" id="kppObjectiveNo" placeholder="Enter Objective No" value={kppObjectiveNo} onChange={(e) => advanceSearchEmployeeKpp(e)} />
+                                    <input type="text" className="form-control" id="kppObjectiveNo" placeholder="Enter Objective No" value={kppObjectiveNo} onChange={(e) => searchKPPObjectiveNoPaging(e)} />
                                 </div>
                             </form>
 

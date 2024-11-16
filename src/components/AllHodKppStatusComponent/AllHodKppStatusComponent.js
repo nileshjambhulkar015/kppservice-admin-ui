@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate, useParams } from 'react-router-dom';
 import AllHodKppService from '../../services/AllHodKppService';
+import PaginationComponent from '../PaginationComponent/PaginationComponent';
 
 
 export default function AllHodKppStatusComponent() {
@@ -12,13 +13,42 @@ export default function AllHodKppStatusComponent() {
     const [empKppStatus, setEmpKppStatus] = useState('In-Progress')
     const [empResponses, setEmpResponses] = useState([])
 
+    const [isSuccess, setIsSuccess] = useState(true)
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [dataPageable, setDataPageable] = useState([])
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        // Handle data fetching or any other logic here
+    };
+
+    // Handle items per page change
+    const handleItemsPerPageChange = (newItemsPerPage) => {
+        setItemsPerPage(newItemsPerPage);
+        setCurrentPage(1); // Reset to first page when items per page changes
+    };
+
 
     useEffect(() => {
-        AllHodKppService.getEmployeeDetailsByPagination().then((res) => {
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        AllHodKppService.getEmployeeDetailsByPagination(data).then((res) => {
+            if (res.data.success) {
+                setIsSuccess(true);
             setEmpResponses(res.data.responseData.content);
+            setDataPageable(res.data.responseData);
+
+        }
+        else {
+            setIsSuccess(false);
+        }
 
         });
-    }, []);
+    }, [currentPage, itemsPerPage]);
 
     const onOptionChangeHandler = (event) => {
        
@@ -26,12 +56,24 @@ export default function AllHodKppStatusComponent() {
     };
 
     const searchByEKpp = (e) => {
-      
-        AllHodKppService.getEmployeeByStatusByPagination(empKppStatus).then((res) => {
-          
+        const data = {
+            currentPage,
+            itemsPerPage,
+            empKppStatus
+        }
+        AllHodKppService.getEmployeeByStatusByPagination(data).then((res) => {
+            if (res.data.success) {
+                setIsSuccess(true);
+           
             setEmpResponses(res.data.responseData.content);
+            setDataPageable(res.data.responseData);
+
+        }
+        else {
+            setIsSuccess(false);
+        }
             
-        });
+        }, [currentPage, itemsPerPage]);
     }
 
     const completeEmpKpp = (e) => {
@@ -72,6 +114,7 @@ export default function AllHodKppStatusComponent() {
                 </div>
 
                 <form className="form-horizontal">
+                {isSuccess ?
                     <table className="table table-bordered">
                         <thead>
                             <tr>
@@ -108,6 +151,13 @@ export default function AllHodKppStatusComponent() {
                             }
                         </tbody>
                     </table>
+                    : <h4>HOD KPP is not available</h4>}
+                    <PaginationComponent
+                        currentPage={currentPage}
+                        totalPages={dataPageable.totalPages || 10}
+                        onPageChange={handlePageChange}
+                        onItemsPerPageChange={handleItemsPerPageChange}
+                    />
 
                 </form>
 

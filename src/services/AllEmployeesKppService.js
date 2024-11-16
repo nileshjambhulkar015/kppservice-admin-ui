@@ -16,10 +16,10 @@ class AllEmployeesKppService {
 
     }
 
-    getEmployeeByStatusByPagination(empKppStaus) {
+    getEmployeeByStatusByPagination(data) {
         if (null != Cookies.get('empId')) {
-         
-            return axios.get(BASE_URL_API+`/employee/employee-kpp-status?roleId=3&empKppStatus=${empKppStaus}&page=0&size=1200&sort=desig.desig.name`)
+         console.log("data.empKppStaus : ",data.empKppStatus)
+            return axios.get(BASE_URL_API+`/employee/employee-kpp-status?roleId=3&empKppStatus=${data.empKppStatus}&page=${data.currentPage-1}&size=${data.itemsPerPage}&sort=desig.desig.name`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);

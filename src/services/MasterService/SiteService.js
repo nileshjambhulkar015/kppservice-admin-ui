@@ -97,7 +97,7 @@ class SiteService {
         
     }
 
-    getAllSites() {
+    ddAllSites() {
         if (null != Cookies.get('empId')) {
             return axios.get(BASE_URL_API+"/site/dd-all-sites")
         } else {

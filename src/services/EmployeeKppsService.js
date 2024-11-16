@@ -85,9 +85,9 @@ class EmployeeKppsService {
         }
     }
 
-    getEmployeeKPPDetailsByEmpFirstNamePaging(empEId) {
+    getEmployeeKPPDetailsByEmpEIdPaging(data) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + `/employee-kpp?empEId=${empEId}&statusCd=A&page=0&size=20&sort=emp.emp_name`)
+            return axios.get(BASE_URL_API + `/employee-kpp?empEId=${data.empEId}&statusCd=A&page=${data.currentPage-1}&size=${data.itemsPerPage}&sort=emp.emp_name`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);

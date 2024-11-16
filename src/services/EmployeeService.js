@@ -55,9 +55,9 @@ class EmployeeService {
         }
     }
 
-    getEmployeeDetailsByEmpFirstNamePaging(empFirstName) {
+    getEmployeeDetailsByEmpFirstNamePaging(data) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + `/employee/search?empEId=${empFirstName}&statusCd=A&page=0&size=20&sort=emp.emp_name`)
+            return axios.get(BASE_URL_API + `/employee/search?empEId=${data.empEId}&statusCd=A&page=${data.currentPage-1}&size=${data.itemsPerPage}&sort=emp.emp_name`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
@@ -82,14 +82,7 @@ class EmployeeService {
         }
     }
 
-    /*getEmployeeSuggest(reportingEmpDesigId) {
-        if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + "/employee/reportToEmpName?desigId=" + reportingEmpDesigId);
-        } else {
-            alert("You need to login first")
-            window.location.replace(LOGIN_UI_BASE_URL);
-        }
-    }*/
+    
 
      //employee/dd-employee?roleId=1&deptId=1&desigId=1
      ddEmployeeName(data) {
@@ -136,9 +129,10 @@ class EmployeeService {
     }
 
     //advance search of employee
-    advanceSearchEmployee(advEmployeeSearch) {
+    advanceSearchEmployee(data) {
         if (null != Cookies.get('empId')) {
-            return axios.post(BASE_URL_API + "/employee/adv-search?page=0&size=200", advEmployeeSearch)
+            console.log("data :", data.advEmployeeSearch)
+            return axios.post(BASE_URL_API + `/employee/adv-search?page=${data.currentPage-1}&size=${data.itemsPerPage}`, data.advEmployeeSearch)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);

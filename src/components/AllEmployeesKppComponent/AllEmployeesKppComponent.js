@@ -11,6 +11,7 @@ export default function AllEmployeesKppComponent() {
     const [isSuccess, setIsSuccess] = useState(true)
     const [empKppStatus, setEmpKppStatus] = useState('In-Progress')
     const [empResponses, setEmpResponses] = useState([])
+
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [dataPageable, setDataPageable] = useState([])
@@ -49,10 +50,24 @@ export default function AllEmployeesKppComponent() {
     };
 
     const searchByEKpp = (e) => {
+        const data = {
+            currentPage,
+            itemsPerPage,
+            empKppStatus
+        }
+        console.log("Data ", data)
     
-        AllEmployeesKppService.getEmployeeByStatusByPagination(empKppStatus).then((res) => {
-            setEmpResponses(res.data.responseData.content);          
-        });
+        AllEmployeesKppService.getEmployeeByStatusByPagination(data).then((res) => {
+            if (res.data.success) {
+                setIsSuccess(true);
+            setEmpResponses(res.data.responseData.content);      
+            setDataPageable(res.data.responseData);
+
+        }
+        else {
+            setIsSuccess(false);
+        }    
+        }, [currentPage, itemsPerPage]);
     }
 
     const navigateToUpdateRating=(empId)=>{
@@ -128,7 +143,7 @@ export default function AllEmployeesKppComponent() {
                             }
                         </tbody>
                     </table>
-                    : <h4>Department name is not available</h4>}
+                    : <h4>Employee KPP is not available</h4>}
                     <PaginationComponent
                         currentPage={currentPage}
                         totalPages={dataPageable.totalPages || 10}

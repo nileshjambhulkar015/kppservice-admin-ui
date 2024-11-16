@@ -107,24 +107,26 @@ export default function OthersInProgressComplaintComponent() {
 
 
     // Advance search employee
-    const advSearchEmployeeComplaints = (e) => {
-        
-        let asCompStatus = 'In Progress';
-       
+    const advSearchEmployeeComplaints = (e) => {        
+        let asCompStatus = 'In Progress';      
 
         e.preventDefault()
         let advComplaintSearch = { compFromDate, compToDate, empCompDeptId, asCompId, asCompStatus };
-
-        OthersInProgressComplaintService.advanceSearchComplaintDetails(advComplaintSearch).then(res => {
+        const data = {
+            currentPage,
+            itemsPerPage,
+            advComplaintSearch
+        }
+        OthersInProgressComplaintService.advanceSearchComplaintDetails(data).then(res => {
             if (res.data.success) {
                 setIsSuccess(true);
                 setComplaints(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
             }
             else {
                 setIsSuccess(false);
             }
-        }
-        );
+        },  [currentPage, itemsPerPage]);
     }
 
     const searchComplaintById = (e) => {

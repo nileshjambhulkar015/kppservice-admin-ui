@@ -10,7 +10,6 @@ export default function KeyParameterComponent() {
     const [kppObjectiveNo, setKppObjectiveNo] = useState('');
     const [kppObjective, setKppObjective] = useState('');
     const [kppPerformanceIndi, setKppPerformanceIndi] = useState('');
-   // const [kppOverallTarget, setKppOverallTarget] = useState('');
     const [kppTargetPeriod, setKppTargetPeriod] = useState('');
     const [uomId, setUomId] = useState();
     const [uomName, setUomName] = useState();
@@ -26,8 +25,6 @@ export default function KeyParameterComponent() {
     const [kppObjectiveNoSearch, setKppObjectiveNoSearch] = useState('');
     const [kpps, setKpps] = useState([])
     const [uoms, setUoms] = useState([])
-
-    const [kppObjectiveSearch, setKppObjectiveSearch] = useState('');
 
     const [saveKPPAlert, setSaveKPPAlert] = useState(false);
     const [deleteKPPAlert, setDeleteKPPAlert] = useState(false);
@@ -56,57 +53,7 @@ export default function KeyParameterComponent() {
        
     };
 
-    const searchByKppObjectiveNo = (e) => {
-        setKppObjectiveNoSearch(e.target.value)
     
-        KeyParameterService.getKPPDetailsByKppObjectiveNoPaging(e.target.value).then((res) => {
-
-            if (res.data.success) {
-                setIsSuccess(true);
-                setKpps(res.data.responseData.content);
-            }
-            else {
-                setIsSuccess(false);
-            }
-        });
-    }
-
-    // search kpp by objective name on click of search button
-    const searchKppObjective = (e) => {
-        KeyParameterService.getKPPDetailsByKppObjectiveNoPaging(e).then((res) => {
-            setKpps(res.data.responseData.content);
-          
-        });
-    }
-
-    //show kpp details when click on view button
-    const showKppById = (e) => {
-
-        KeyParameterService.getKppById(e).then(res => {
-            let kpp = res.data;
-          
-            setKppId(kpp.kppId)
-            setKppObjectiveNo(kpp.kppObjectiveNo)
-            setKppObjective(kpp.kppObjective)
-            setKppPerformanceIndi(kpp.kppPerformanceIndi)
-            
-            setKppTargetPeriod(kpp.kppTargetPeriod)
-            setUomId(kpp.uomId)
-            setUomName(kpp.uomName)
-            
-            setKppRating1(kpp.kppRating1)
-            setKppRating2(kpp.kppRating2)
-            setKppRating3(kpp.kppRating3)
-            setKppRating4(kpp.kppRating4)
-            setKppRating5(kpp.kppRating5)
-            setRemark(kpp.remark)
-        }
-        );
-        // window.location.reload(); 
-    }
-
-
-
     useEffect(() => {
         const data = {
             currentPage,
@@ -129,6 +76,50 @@ export default function KeyParameterComponent() {
         });
 
     }, [currentPage, itemsPerPage]);
+
+
+    const searchByKppObjectiveNo = (e) => {
+        let kppObjectiveNo = e.target.value;
+        const data = {
+            currentPage,
+            itemsPerPage,
+            kppObjectiveNo
+        }
+        setKppObjectiveNoSearch(e.target.value)    
+        KeyParameterService.getKPPDetailsByKppObjectiveNoPaging(data).then((res) => {
+            if (res.data.success) {
+                setIsSuccess(true);
+                setKpps(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
+            }
+            else {
+                setIsSuccess(false);
+            }
+        },[currentPage, itemsPerPage]);
+    }
+
+    //show kpp details when click on view button
+    const showKppById = (e) => {
+        KeyParameterService.getKppById(e).then(res => {
+            let kpp = res.data;
+          
+            setKppId(kpp.kppId)
+            setKppObjectiveNo(kpp.kppObjectiveNo)
+            setKppObjective(kpp.kppObjective)
+            setKppPerformanceIndi(kpp.kppPerformanceIndi)            
+            setKppTargetPeriod(kpp.kppTargetPeriod)
+            setUomId(kpp.uomId)
+            setUomName(kpp.uomName)            
+            setKppRating1(kpp.kppRating1)
+            setKppRating2(kpp.kppRating2)
+            setKppRating3(kpp.kppRating3)
+            setKppRating4(kpp.kppRating4)
+            setKppRating5(kpp.kppRating5)
+            setRemark(kpp.remark)
+        }
+        );
+        // window.location.reload(); 
+    }
 
      //for role , department and designation
      const handleUOMIdChange = (value) => {
@@ -170,7 +161,7 @@ export default function KeyParameterComponent() {
                     setKppRating4('')
                     setKppRating5('')
                     setRemark('')
-                });
+                },[currentPage, itemsPerPage]);
             }
             else {
                alert(kppObjectiveNo +" "+ res.data.responseMessage)

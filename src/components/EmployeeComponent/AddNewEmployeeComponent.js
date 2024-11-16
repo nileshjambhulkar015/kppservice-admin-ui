@@ -210,7 +210,6 @@ export default function AddNewEmployeeComponent() {
     }
 
     const handleSiteIdChange = (value) => {
-
         setSiteId(value)
         let siteId = value;
         EmployeeService.ddCompanyFromComany({ regionId, siteId }).then((res2) => {
@@ -251,7 +250,7 @@ export default function AddNewEmployeeComponent() {
         EmployeeService.ddDepartmentFromEmployee(roleId).then((res1) => {
             setReportingDepartments(res1.data);
             setReportingEmpDeptId(res1.data?.[0].deptId)
-            let deptId = res1.data?.[0].deptId;
+            let deptId = res1.data?.[0]?.deptId;
             EmployeeService.ddDesignationFromEmployee({ roleId, deptId }).then((res2) => {
                 setReportingDesignations(res2.data);
                 setReportingEmpDesigId(res2.data?.[0]?.desigId)

@@ -80,7 +80,7 @@ export default function ShowEmployeeForKppComponent() {
             }
         });
 
-        RoleService.getRoles().then((res) => {
+        RoleService.ddRoles().then((res) => {
             setRoles(res.data);
         });
 
@@ -88,7 +88,7 @@ export default function ShowEmployeeForKppComponent() {
             setEmpTypes(res.data.responseData);
         });
 
-        DesignationService.getAllDepartmentDetails().then((res) => {
+        DesignationService.ddAllDepartmentDetails().then((res) => {
             setDepartments(res.data);
         });
 
@@ -96,11 +96,11 @@ export default function ShowEmployeeForKppComponent() {
             setRegions(res.data);
         });
 
-        SiteService.getAllSites().then((res) => {
+        SiteService.ddAllSites().then((res) => {
             setSites(res.data);
         });
 
-        CompanyMasterService.getAllCompanyies().then((res) => {
+        CompanyMasterService.ddAllCompanyies().then((res) => {
             setCompanys(res.data);
         });
     }, [currentPage, itemsPerPage]);
@@ -108,17 +108,23 @@ export default function ShowEmployeeForKppComponent() {
 
     const searchEmployeeEId = (e) => {
         setEmpEIdSearch(e.target.value)
-    
-        EmployeeKppsService.getEmployeeKPPDetailsByEmpFirstNamePaging(e.target.value).then((res) => {
+        let empEId=e.target.value;
+        const data = {
+            currentPage,
+            itemsPerPage,
+            empEId
+        }
+        EmployeeKppsService.getEmployeeKPPDetailsByEmpEIdPaging(data).then((res) => {
 
             if (res.data.success) {
                 setIsSuccess(true);
                 setEmployees(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
             }
             else {
                 setIsSuccess(false);
             }
-        });
+        }, [currentPage, itemsPerPage]);
     }
 
 

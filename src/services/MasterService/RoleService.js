@@ -22,7 +22,7 @@ class RoleService {
 
     //Get all roles present in designation table 
     //second used in adding new employee
-    getRoles() {
+    ddRoles() {
         if (null != Cookies.get('empId')) {
             return axios.get(BASE_URL_API + "/roles")
         } else {

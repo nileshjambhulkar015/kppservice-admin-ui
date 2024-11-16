@@ -98,7 +98,7 @@ export default function MainEmployeeComponent() {
 
         });
 
-        RoleService.getRoles().then((res) => {
+        RoleService.ddRoles().then((res) => {
             setRoles(res.data);
         });
 
@@ -106,7 +106,7 @@ export default function MainEmployeeComponent() {
             setEmpTypes(res.data.responseData);
         });
 
-        DesignationService.getAllDepartmentDetails().then((res) => {
+        DesignationService.ddAllDepartmentDetails().then((res) => {
             setDepartments(res.data);
         });
 
@@ -114,11 +114,11 @@ export default function MainEmployeeComponent() {
             setRegions(res.data);
         });
 
-        SiteService.getAllSites().then((res) => {
+        SiteService.ddAllSites().then((res) => {
             setSites(res.data);
         });
 
-        CompanyMasterService.getAllCompanyies().then((res) => {
+        CompanyMasterService.ddAllCompanyies().then((res) => {
             setCompanys(res.data);
         });
 
@@ -179,28 +179,46 @@ export default function MainEmployeeComponent() {
 
         e.preventDefault()
         let advEmployeeSearch = { roleId, deptId, regionId, siteId, companyId, empTypeId };
-
-        EmployeeService.advanceSearchEmployee(advEmployeeSearch).then(res => {
-            setEmployees(res.data.responseData.content);
-           
+        const data = {
+            currentPage,
+            itemsPerPage,
+            advEmployeeSearch
         }
-        );
+       
+
+        EmployeeService.advanceSearchEmployee(data).then(res => {
+            if (res.data.success) {
+                setIsSuccess(true);
+            setEmployees(res.data.responseData.content);
+            setDataPageable(res.data.responseData);
+        }
+        else {
+            setIsSuccess(false);
+        }
+           
+        },[currentPage, itemsPerPage]);
     }
 
 
     const searchEmployeeEId = (e) => {
         setEmpEIdSearch(e.target.value)
-
-        EmployeeService.getEmployeeDetailsByEmpFirstNamePaging(e.target.value).then((res) => {
+       let empEId=e.target.value;
+        const data = {
+            currentPage,
+            itemsPerPage,
+            empEId
+        }
+        EmployeeService.getEmployeeDetailsByEmpFirstNamePaging(data).then((res) => {
 
             if (res.data.success) {
                 setIsSuccess(true);
                 setEmployees(res.data.responseData.content?.filter((item) => item.roleId !== 1));
+                setDataPageable(res.data.responseData);
             }
             else {
                 setIsSuccess(false);
             }
-        });
+        },[currentPage, itemsPerPage]);
     }
 
     
@@ -245,19 +263,24 @@ export default function MainEmployeeComponent() {
     }
 
     const deleteEmployeeById = (e) => {
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
         if (window.confirm("Do you want to delete this Employee ?")) {
 
                 EmployeeService.deleteEmployeeById(e).then(res => {
-                    EmployeeService.getEmployeeDetailsByPaging().then((res) => {
+                    EmployeeService.getEmployeeDetailsByPaging(data).then((res) => {
                         if (res.data.success) {
                             setIsSuccess(true);
                             setEmployees(res.data.responseData.content);
+                            setDataPageable(res.data.responseData);
                         }
                         else {
                             setIsSuccess(false);
                         }
         
-                    });
+                    },[currentPage, itemsPerPage]);
                 }
                 );
     
@@ -312,8 +335,6 @@ export default function MainEmployeeComponent() {
 
 
     return (
-
-
         <div className="row">
             <h2 className="text-center">Employee List</h2>
 

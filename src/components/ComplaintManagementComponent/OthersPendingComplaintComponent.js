@@ -160,33 +160,42 @@ export default function OthersPendingComplaintComponent() {
 
     const searchComplaintById = (e) => {
         setEmpCompIdSearch(e.target.value)
-
-        OthersPendingComplaintService.getEmployeeCompaintsByComplaintId(e.target.value).then((res) => {
+        let empCompIdSearch = e.target.value;
+        const data = {
+            currentPage,
+            itemsPerPage,
+            empCompIdSearch
+        }
+        OthersPendingComplaintService.getEmployeeCompaintsByComplaintId(data).then((res) => {
 
             if (res.data.success) {
                 setIsSuccess(true);
                 setComplaints(res.data.responseData.content);
-                // setEmployees(res.data.responseData.content?.filter((item) => item.roleId !== 1));
+                setDataPageable(res.data.responseData);
             }
             else {
                 setIsSuccess(false);
             }
-        });
+        },  [currentPage, itemsPerPage]);
     }
 
 
     const clearSearchData = () => {
-        
-        OthersPendingComplaintService.getEmployeeCompaintsDetailsByPaging().then((res) => {
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        OthersPendingComplaintService.getEmployeeCompaintsDetailsByPaging(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
                 setComplaints(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
             }
             else {
                 setIsSuccess(false);
             }
 
-        });
+        },  [currentPage, itemsPerPage]);
 
     }
 
@@ -208,8 +217,14 @@ export default function OthersPendingComplaintComponent() {
 
         OthersPendingComplaintService.updateComplaintDetails(complaint).then(res => {
             OthersPendingComplaintService.getEmployeeCompaintsDetailsByPaging(data).then((res) => {
+                if (res.data.success) {
+                    setIsSuccess(true);
                 setComplaints(res.data.responseData.content?.filter((item) => item.compStatus == 'Pending'));
                 setDataPageable(res.data.responseData);
+            }
+            else {
+                setIsSuccess(false);
+            }
             },  [currentPage, itemsPerPage]);
            
         }

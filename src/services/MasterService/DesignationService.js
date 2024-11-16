@@ -9,7 +9,7 @@ class DesignationService {
 
  
     
-    getAllDepartmentDetails() {
+    ddAllDepartmentDetails() {
         if (null != Cookies.get('empId')) {
             return axios.get(BASE_URL_API+"/department")
         } else {
