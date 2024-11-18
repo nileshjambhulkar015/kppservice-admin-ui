@@ -131,7 +131,7 @@ class EmployeeService {
     //advance search of employee
     advanceSearchEmployee(data) {
         if (null != Cookies.get('empId')) {
-            console.log("data :", data.advEmployeeSearch)
+           
             return axios.post(BASE_URL_API + `/employee/adv-search?page=${data.currentPage-1}&size=${data.itemsPerPage}`, data.advEmployeeSearch)
         } else {
             alert("You need to login first")

@@ -118,12 +118,12 @@ export default function AddNewEmployeeComponent() {
         EmployeeService.ddRegionsFromCompany().then((res) => {
             setRegions(res.data);
           
-            setRegionId(res.data?.[0].regionId)
-            let regionId = res.data?.[0].regionId;
+            setRegionId(res.data?.[0]?.regionId)
+            let regionId = res.data?.[0]?.regionId;
             EmployeeService.ddSitesByRegionIdFromCompany(regionId).then((res1) => {
                 setSites(res1.data);
-                setSiteId(res1.data?.[0].siteId)
-                let siteId = res1.data?.[0].siteId;
+                setSiteId(res1.data?.[0]?.siteId)
+                let siteId = res1.data?.[0]?.siteId;
                 EmployeeService.ddCompanyFromComany({ regionId, siteId }).then((res2) => {
                     setCompanys(res2.data);
                     setCompanyId(res2.data?.[0]?.companyId)
@@ -136,7 +136,7 @@ export default function AddNewEmployeeComponent() {
         // for employee except GM Role
         RoleService.ddRolesExceptGM().then((res) => {
             setRoles(res.data);
-            setRoleId(res.data?.[0].roleId)
+            setRoleId(res.data?.[0]?.roleId)
         });
 
         EmployeeTypeService.ddEmployeeType().then((res) => {
@@ -147,7 +147,7 @@ export default function AddNewEmployeeComponent() {
 
         DepartmentService.ddAllDepartmentExceptGM().then((res1) => {
             setDepartments(res1.data);
-            setDeptId(res1.data?.[0].deptId)
+            setDeptId(res1.data?.[0]?.deptId)
             let deptId = res1.data?.[0]?.deptId;
             DesignationService.ddDesignationDetailsForKpp(deptId).then((res2) => {
                 setDesignations(res2.data);
@@ -190,8 +190,8 @@ export default function AddNewEmployeeComponent() {
         let regionId = value;
         EmployeeService.ddSitesByRegionIdFromCompany(regionId).then((res1) => {
             setSites(res1.data);
-            setSiteId(res1.data?.[0].siteId)
-            let siteId = res1.data?.[0].siteId;
+            setSiteId(res1.data?.[0]?.siteId)
+            let siteId = res1.data?.[0]?.siteId;
             EmployeeService.ddCompanyFromComany({ regionId, siteId }).then((res2) => {
                 setCompanys(res2.data);
                 setCompanyId(res2.data?.[0]?.companyId)

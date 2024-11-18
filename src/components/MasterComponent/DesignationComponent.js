@@ -57,10 +57,14 @@ export default function DesignationComponent() {
             setDataPageable(res.data.responseData);
         });
 
-        DepartmentService.ddAllDepartmentExceptGM().then((res) => {
+       /* DepartmentService.ddAllDepartmentExceptGM().then((res) => {
             setDepartments(res.data);
             setDeptId(res.data?.[0].deptId)
 
+        });*/
+        DesignationService.ddAllDepartmentDetails().then((res) => {
+            setDepartments(res.data);
+            setDeptId(res.data?.[0].deptId)
         });
     }, [currentPage, itemsPerPage]);
 
@@ -94,6 +98,8 @@ export default function DesignationComponent() {
                     setIsSuccess(true);
                     setDesignations(res.data.responseData.content);
                     setDataPageable(res.data.responseData);
+                    setDesigName('')
+                    setRemark('')
                 }
                 else {
                     setIsSuccess(false);
