@@ -62,7 +62,7 @@ class AnnouncementService {
     }
 
     
-    getAllAnnouncementTypeFromAnnoun() {
+    ddAllAnnouncementTypeFromAnnoun() {
         if (null != Cookies.get('empId')) {
             return axios.get(BASE_URL +"/dd-announ-all?statusCd=A")
         } else {

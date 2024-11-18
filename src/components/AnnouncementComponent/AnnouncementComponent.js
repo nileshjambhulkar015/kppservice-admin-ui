@@ -79,9 +79,9 @@ export default function AnnouncementComponent() {
             setAnnounTypeId(res.data?.[0].announTypeId)
         });
 
-        AnnouncementService.getAllAnnouncementTypeFromAnnoun().then((res) => {
+        AnnouncementService.ddAllAnnouncementTypeFromAnnoun().then((res) => {
             setAsAnnounTypes(res.data);
-            setAsAnnounTypeId(res.data?.[0].announTypeId)
+            setAsAnnounTypeId(res.data?.[0]?.announTypeId)
         });
 
 

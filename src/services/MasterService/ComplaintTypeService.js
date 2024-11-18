@@ -73,7 +73,7 @@ class ComplaintTypeService {
     }
 
      //Get all department from complaint type table 
-     getAllComplaintTypeDepartments() {
+     ddAllComplaintTypeDepartments() {
         if (null != Cookies.get('empId')) {
             return axios.get(BASE_URL_API+"/complaint-type/comp-type-dd-dept")
         } else {
