@@ -59,17 +59,22 @@ export default function ViewAllEmployeeCumulativeComponent() {
 
 
     const getKPPDetailsByDate = (e) => {
-        CumulativeService.getOverallEmployeeCumulativeByDates(fromDate, toDate).then((res) => {
+        const data = {
+            currentPage,
+            itemsPerPage,
+            fromDate,
+            toDate
+        }
+        CumulativeService.getOverallEmployeeCumulativeByDates(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
                 setEmployees(res.data.responseData);
+                setDataPageable(res.data.responseData);
             } else {
                 setIsSuccess(false);
 
             }
-
-
-        });
+        }, [currentPage, itemsPerPage]);
 
     }
 
@@ -118,6 +123,7 @@ export default function ViewAllEmployeeCumulativeComponent() {
                             <tr>
                                 <th className="text-center">Sr No</th>
                                 <th className="text-center">Employee Name</th>
+                                <th className="text-center">Employee ID</th>
                                 <th className="text-center">Department Name</th>
                                 <th className="text-center">Employee Designation</th>
                                 <th className="text-center">Total Ratings</th>
@@ -134,6 +140,7 @@ export default function ViewAllEmployeeCumulativeComponent() {
                                             <td className="text-center">{index + 1}</td>
 
                                             <td className="text-center">{employee.empName}</td>
+                                            <td className="text-center">{employee.empEId}</td>
                                             <td className="text-center">{employee.deptName}</td>
                                             <td className="text-center">{employee.desigName}</td>
                                             <td className="text-center">{employee.totalHodKppRatings}</td>

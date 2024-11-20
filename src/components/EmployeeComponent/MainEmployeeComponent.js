@@ -80,6 +80,26 @@ export default function MainEmployeeComponent() {
         setCurrentPage(1); // Reset to first page when items per page changes
     };
 
+    const getEmployeeDetailsByPaging=()=>{
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        EmployeeService.getEmployeeDetailsByPaging(data).then((res) => {
+
+            if (res.data.success) {
+                setIsSuccess(true);
+                setEmployees(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
+            }
+            else {
+                setIsSuccess(false);
+            }
+
+        }, [currentPage, itemsPerPage]);
+
+    }
+
     useEffect(() => {
         const data = {
             currentPage,
@@ -123,7 +143,7 @@ export default function MainEmployeeComponent() {
         });
 
 
-    }, [currentPage, itemsPerPage]);;
+    }, [currentPage, itemsPerPage]);
 
 
     //for role , department and designation
@@ -355,6 +375,7 @@ export default function MainEmployeeComponent() {
                         <button type="button" className="btn btn-primary" onClick={() => navigate(`/newEmployee`, { replace: true })} >Add New Employee</button>
                         <button type="button" className="btn btn-primary col-sm-offset-1" data-toggle="modal" data-target="#uploadExcelEmployee">Upload Excel</button>
                         <button type="button" className="btn btn-primary col-sm-offset-1" data-toggle="modal" data-target="#advanceSearchEmployee">Advance Search</button>
+                        <button type="button" className="btn btn-primary col-sm-offset-1" onClick={()=>getEmployeeDetailsByPaging()}>Clear Search</button>
                     </div>
                 </div>
                 <div className="row">

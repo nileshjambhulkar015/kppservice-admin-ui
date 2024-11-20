@@ -11,7 +11,7 @@ export default function ViewAllHODCumulativeComponent() {
     const [toDate, setToDate] = useState('')
     const [isSuccess, setIsSuccess] = useState(true)
     const [employees, setEmployees] = useState([])
-
+    const [responseMessage, setResponseMessage] = useState('')
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [dataPageable, setDataPageable] = useState([])
@@ -58,17 +58,25 @@ export default function ViewAllHODCumulativeComponent() {
 
 
     const getKPPDetailsByDate = (e) => {
-        CumulativeService.getOverallHODCumulativeByDates(fromDate, toDate).then((res) => {
+        const data = {
+            currentPage,
+            itemsPerPage,
+            fromDate,
+            toDate
+        }
+        CumulativeService.getOverallHODCumulativeByDates_ADMIN(data).then((res) => {
             if (res.data.success) {
-                setEmployees(res.data.responseData);
+                setEmployees(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
                 setIsSuccess(true);
             } else {
               //  alert("Kpp is not found for month");
+              setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
 
 
-        });
+        }, [currentPage, itemsPerPage]);
 
     }
 
@@ -114,7 +122,7 @@ export default function ViewAllHODCumulativeComponent() {
                         <tr>
                             <th className="text-center">Sr No</th>
                             <th className="text-center">Employee Name</th>
-                            
+                            <th className="text-center">Employee Id</th>
                             <th className="text-center">Department Name</th>
                             <th className="text-center">Employee Designation</th>
                             <th className="text-center">Total Ratings</th>
@@ -131,7 +139,7 @@ export default function ViewAllHODCumulativeComponent() {
                                         <td className="text-center">{index + 1}</td>
 
                                         <td className="text-center">{employee.empName}</td>
-                                        
+                                        <td className="text-center">{employee.empEId}</td>
                                         <td className="text-center">{employee.deptName}</td>
                                         <td className="text-center">{employee.desigName}</td>
                                         <td className="text-center">{employee.totalHodKppRatings}</td>
@@ -152,7 +160,7 @@ export default function ViewAllHODCumulativeComponent() {
                     </tbody>
 
                 </table>
-                :<h1>No Data Found</h1>}
+                :<h1>{responseMessage}</h1>}
                 <PaginationComponent
                 currentPage={currentPage}
                 totalPages={dataPageable.totalPages || 10}

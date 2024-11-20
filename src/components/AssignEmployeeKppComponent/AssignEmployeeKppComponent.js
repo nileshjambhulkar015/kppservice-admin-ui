@@ -118,6 +118,7 @@ export default function AssignEmployeeKppComponent() {
     const searchKPPObjectiveNoPaging = (e) => {
         setKppObjectiveNo(e.target.value)
        let kppObjectiveNo=e.target.value;
+       console.log("Assign kppObjectiveNo :", kppObjectiveNo)
         const data = {
             currentPage,
             itemsPerPage,
@@ -126,12 +127,13 @@ export default function AssignEmployeeKppComponent() {
         KeyParameterService.searchKPPObjectiveNoPaging(data).then((res) => {
 
             if (res.data.success) {
-                setIsSuccess(true);
+                console.log("Assign KPP : ", res.data.responseData.content)
+                setKppIsSuccess(true);
                 setKpps(res.data.responseData.content);
                 setDataPageable(res.data.responseData);
             }
             else {
-                setIsSuccess(false);
+                setKppIsSuccess(false);
             }
         },[currentPage, itemsPerPage]);
     }

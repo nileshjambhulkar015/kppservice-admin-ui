@@ -61,14 +61,31 @@ export default function ShowEmployeeForKppComponent() {
         setCurrentPage(1); // Reset to first page when items per page changes
     };
 
+    const getEmployeeKPPDetailsByPaging = () => {
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        EmployeeKppsService.getEmployeeKPPDetailsByPaging(data).then((res) => {
+            if (res.data.success) {
+                setIsSuccess(true);
+                setEmployees(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
+
+            }
+            else {
+                setIsSuccess(false);
+            }
+        }, [currentPage, itemsPerPage]);
+    }
+
+
     useEffect(() => {
         const data = {
             currentPage,
             itemsPerPage
         }
         EmployeeKppsService.getEmployeeKPPDetailsByPaging(data).then((res) => {
-
-
             if (res.data.success) {
                 setIsSuccess(true);
                 setEmployees(res.data.responseData.content);
@@ -227,6 +244,7 @@ export default function ShowEmployeeForKppComponent() {
                     </div>
                     <div className="col-sm-5">
                         <button type="button" className="btn btn-primary col-sm-offset-4" data-toggle="modal" data-target="#advanceSearchEmployee">Advance Search</button>
+                        <button type="button" className="btn btn-primary col-sm-offset-1" onClick={()=>getEmployeeKPPDetailsByPaging()}>Clear Search</button>
                     </div>
                 </div>
 
