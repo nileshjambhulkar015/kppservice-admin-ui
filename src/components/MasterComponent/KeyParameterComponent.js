@@ -250,8 +250,8 @@ export default function KeyParameterComponent() {
         <React.Fragment>
         <div className="row">
             <h2 className="text-center">Key Parameter List</h2>
-            <div className="col-md-1"></div>
-            <div className="col-md-9">
+            
+            <div className="col-md-12">
                 <div className="row">
                     <div className="col-sm-5">
                         <div className="form-group">

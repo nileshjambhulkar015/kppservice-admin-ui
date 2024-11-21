@@ -12,6 +12,7 @@ const EmplyeeUpdateKppRatingsComponent = () => {
 
     const navigate = useNavigate();
     const [empId, setEmpId] = useState('');
+    const [empEId, setEmpEId] = useState('');
     const [ekppMonth, setEkppMonth] = useState('');
     const [empName, setEmpName] = useState('');
     const [deptName, setDeptName] = useState('');
@@ -83,6 +84,7 @@ const EmplyeeUpdateKppRatingsComponent = () => {
         EmployeeKppsService.getKPPDetails().then((res) => {
             setEkppMonth(YYYY_MM_DD_Formater(res.data.ekppMonth))
             setEmpId(res.data.empId);
+            setEmpEId(res.data.empEId);
             setEmpName(res.data.empName);
             setDeptName(res.data.deptName);
             setDesigName(res.data.desigName);
@@ -163,11 +165,18 @@ const EmplyeeUpdateKppRatingsComponent = () => {
                             <Form className="form-horizontal">
 
                                 <div className="form-group">
-                                    <label className="control-label col-sm-1"  >Name :</label>
+                                    <label className="control-label col-sm-1"  >Employee Name :</label>
                                     <div className="col-sm-2">
                                         {empName}
                                     </div>
                                 </div>
+
+                                <div className="form-group">
+                                <label className="control-label col-sm-1"  >Employee Id :</label>
+                                <div className="col-sm-2">
+                                    {empEId}
+                                </div>
+                            </div>
 
                                 <div className="form-group">
                                     <label className="control-label col-sm-1"  >Department :</label>
@@ -187,6 +196,10 @@ const EmplyeeUpdateKppRatingsComponent = () => {
                                     <div className="col-sm-2">
                                         {ekppMonth}
                                     </div>
+
+                                      <button type="button" className="btn btn-success col-sm-offset-7" disabled={kppMasterResponses?.empKppStatus === "Pending"}
+                                            onClick={() => { navigateBack() }}> Back</button>
+
                                 </div>
                                 <table className="table table-bordered" >
 
@@ -343,8 +356,7 @@ const EmplyeeUpdateKppRatingsComponent = () => {
                                         </a>
                                         <button type="submit" className="btn col-sm-offset-1 btn-success" onClick={() => completeEmpKpp(empId)} >Finish</button>
 
-                                        <button type="button" className="btn btn-success col-sm-offset-1 " disabled={kppMasterResponses?.empKppStatus === "Pending"}
-                                            onClick={() => { navigateBack() }}> Back</button>
+                                      
                                     </div>
                                 </div>
                             </Form>

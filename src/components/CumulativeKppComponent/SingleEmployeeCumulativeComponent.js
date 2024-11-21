@@ -4,6 +4,7 @@ import CumulativeService from "../../services/CumulativeService";
 import Cookies from 'js-cookie';
 import { BASE_URL_API } from "../../services/URLConstants";
 import EmployeeService from "../../services/EmployeeService";
+import PaginationComponent from "../PaginationComponent/PaginationComponent";
 export default function SingleEmployeeCumulativeComponent() {
 
     const navigate = useNavigate();
@@ -30,6 +31,22 @@ export default function SingleEmployeeCumulativeComponent() {
     const [desigId, setDesigId] = useState('');
     const [desigName, setDesigName] = useState('');
 
+    const [responseMessage, setResponseMessage] = useState('')
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [dataPageable, setDataPageable] = useState([])
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        // Handle data fetching or any other logic here
+    };
+
+    // Handle items per page change
+    const handleItemsPerPageChange = (newItemsPerPage) => {
+        setItemsPerPage(newItemsPerPage);
+        setCurrentPage(1); // Reset to first page when items per page changes
+    };
+
     function clearDates(){
         document.getElementById("fromDate").value = "";
         document.getElementById("toDate").value = "";
@@ -51,6 +68,7 @@ export default function SingleEmployeeCumulativeComponent() {
             }
             else {
                 alert("Kpp is not approved for month");
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
 
@@ -74,7 +92,13 @@ export default function SingleEmployeeCumulativeComponent() {
     }, []);
 
     const getKPPDetailsByDate = (e) => {
-        CumulativeService.getSingleEmployeeKppReportByDates(fromDate, toDate).then((res) => {
+        const data = {
+            currentPage,
+            itemsPerPage,
+            fromDate, 
+            toDate
+        }
+        CumulativeService.getSingleEmployeeKppReportByDates_ADMIN(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
                 setSumOfEmployeeRatings(res.data.responseData.sumOfEmployeeRatings)
@@ -85,12 +109,11 @@ export default function SingleEmployeeCumulativeComponent() {
                 setTotalMonths(res.data.responseData.totalMonths)
                 setEmployees(res.data.responseData.employeeKppStatusResponses.content);
             } else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
 
             }
-
-
-        });
+        }, [currentPage, itemsPerPage]);
 
     }
 
@@ -249,7 +272,12 @@ export default function SingleEmployeeCumulativeComponent() {
                     </tbody>
 
                 </table>
-                :<h1>No Data Found</h1>}
+                :<h1>{responseMessage}</h1>}
+                <PaginationComponent
+                currentPage={currentPage}
+                totalPages={dataPageable.totalPages || 10}
+                onPageChange={handlePageChange}
+                onItemsPerPageChange={handleItemsPerPageChange}/>
             </div>
 
 

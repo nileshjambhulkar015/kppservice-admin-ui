@@ -54,7 +54,24 @@ export default function ViewAllEmployeeCumulativeComponent() {
     }
 
     useEffect(() => {
-        loadCumulativeData();
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        CumulativeService.getOverallEmployeeCumulative(data).then((res) => {
+            if (res.data.success) {
+                setIsSuccess(true);
+                setEmployees(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
+            }
+            else {
+                alert("Kpp is not approved for month");
+                setIsSuccess(false);
+            }
+
+        }).catch((err) => {
+            alert(err.response.data.details)
+        });
     }, [currentPage, itemsPerPage]);
 
 
@@ -65,10 +82,10 @@ export default function ViewAllEmployeeCumulativeComponent() {
             fromDate,
             toDate
         }
-        CumulativeService.getOverallEmployeeCumulativeByDates(data).then((res) => {
+        CumulativeService.getOverallEmployeeCumulativeByDates_ADMIN(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
-                setEmployees(res.data.responseData);
+                setEmployees(res.data.responseData.content);
                 setDataPageable(res.data.responseData);
             } else {
                 setIsSuccess(false);
@@ -109,7 +126,7 @@ export default function ViewAllEmployeeCumulativeComponent() {
                     </div>
                 </form>
                 <button type="submit" className="btn btn-primary" onClick={(e) => getKPPDetailsByDate(fromDate, toDate)}>Search</button>
-                <button type="submit" className="btn btn-primary col-sm-offset-1" onClick={(e) => {
+                <button type="submit" className="btn btn-primary col-sm-offset-1"  onClick={(e) => {
                     loadCumulativeData();
                     clearDates();
                 }}>Clear</button>

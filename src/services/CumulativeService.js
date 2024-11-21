@@ -52,6 +52,17 @@ class CumulativeService {
         }
     }
 
+    getOverallEmployeeCumulativeByDates_ADMIN(data) {
+        if (null != Cookies.get('empId')) {
+            
+            return axios.get(BASE_URL_API+`/cumulative/hod-cummulatve?fromDate=${data.fromDate}&toDate=${data.toDate}&roleId=3&page=${data.currentPage-1}&size=${data.itemsPerPage}`)
+            
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+    }
+
 
     //for all HOD
 
@@ -110,6 +121,17 @@ class CumulativeService {
         if (null != Cookies.get('empId')) {
 
             return axios.get(BASE_URL_API+`/cumulative/employee-kpp-cumulative?fromDate=${fromDate}&toDate=${toDate}&empId=${Cookies.get('viewSingleEmpIdForKppRatings')}&page=0&size=1200`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+    }
+
+    // view previous months kpp  bt from date and to date
+    getSingleEmployeeKppReportByDates_ADMIN(data) {
+        if (null != Cookies.get('empId')) {
+
+            return axios.get(BASE_URL_API+`/cumulative/employee-kpp-cumulative?fromDate=${data.fromDate}&toDate=${data.toDate}&empId=${Cookies.get('viewSingleEmpIdForKppRatings')}&page=${data.currentPage-1}&size=${data.itemsPerPage}`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
