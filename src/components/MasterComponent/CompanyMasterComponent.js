@@ -52,9 +52,9 @@ export default function CompanyMasterComponent() {
 
         SiteService.getAllRegions().then((res) => {
             setRegions(res.data);
-            setRegionId(res.data?.[0].regionId)
+            setRegionId(res.data?.[0]?.regionId)
 
-            let regionId = res.data?.[0].regionId;
+            let regionId = res.data?.[0]?.regionId;
            
             SiteService.getSiteDetailsByRegionId(regionId).then((res1) => {
                 setSites(res1.data);

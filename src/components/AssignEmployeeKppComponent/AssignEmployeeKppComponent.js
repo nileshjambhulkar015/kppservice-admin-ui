@@ -278,7 +278,7 @@ export default function AssignEmployeeKppComponent() {
 
             <div className="row">
                 <div className="col-md-12">
-                    <button type="submit" className="btn btn-success col-sm-offset-8 " onClick={() => removeCookies()}> Back</button>
+                   
                 </div>
             </div>
 
@@ -331,7 +331,7 @@ export default function AssignEmployeeKppComponent() {
             <div className="row">
 
 
-                <div className="col-md-10">
+                <div className="col-md-11">
                     <div className="col-sm-5">
                         <div className="form-group">
                             <form className="form-horizontal">
@@ -345,9 +345,10 @@ export default function AssignEmployeeKppComponent() {
                         </div>
                     </div>
                     <div className="col-sm-2"><h4 className="text-center">Key Parameter List</h4></div>
-                    <div>
+                    <div className="col-sm-4">
                         <button type="button" className="btn btn-primary col-sm-offset-1" data-toggle="modal" data-target="#advanceSearchKPP">Advance Search</button>
                         <button type="button" className="btn btn-primary col-sm-offset-1" onClick={(e) => clearSearchAssignKpp(e)}>Clear Search</button>
+                        <button type="submit" className="btn btn-success col-sm-offset-1 " onClick={() => removeCookies()}> Back</button>
                     </div>
 
                     {kppIsSuccess ?
