@@ -55,15 +55,8 @@ export default function MainEmployeeComponent() {
     const [isSuccess, setIsSuccess] = useState(true)
     const [empEIdSearch, setEmpEIdSearch] = useState('');
     const [empTypes, setEmpTypes] = useState([])
-    //for gender selection
-    const onGenderChangeHandler = (event) => {
-        setEmpGender(event);
-    };
+    const [responseMessage, setResponseMessage] = useState('')
 
-    //for blood group selection
-    const onBloodGroupChangeHandler = (event) => {
-        setEmpBloodgroup(event);
-    };
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -93,6 +86,7 @@ export default function MainEmployeeComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
 
@@ -113,6 +107,7 @@ export default function MainEmployeeComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
 
@@ -213,6 +208,7 @@ export default function MainEmployeeComponent() {
             setDataPageable(res.data.responseData);
         }
         else {
+            setResponseMessage(res.data.responseMessage)
             setIsSuccess(false);
         }
            
@@ -236,13 +232,11 @@ export default function MainEmployeeComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
         },[currentPage, itemsPerPage]);
     }
-
-    
-
 
     const showEmployeeById = (e) => {
 
@@ -297,6 +291,7 @@ export default function MainEmployeeComponent() {
                             setDataPageable(res.data.responseData);
                         }
                         else {
+                            setResponseMessage(res.data.responseMessage)
                             setIsSuccess(false);
                         }
         
@@ -314,6 +309,10 @@ export default function MainEmployeeComponent() {
     const updateEmployeeDetails = (e) => {
 
         e.preventDefault()
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
         let statusCd = 'A';
         let regionId = '1';
         let siteId = '1';
@@ -321,8 +320,16 @@ export default function MainEmployeeComponent() {
 
         EmployeeService.updateEmployeeDetails(employeeData).then(res => {
             EmployeeService.getEmployeeDetailsByPaging().then((res) => {
+                if (res.data.success) {
+                    setIsSuccess(true);
                 setEmployees(res.data.responseData.content);
-            });
+                setDataPageable(res.data.responseData);
+            }
+            else {
+                setResponseMessage(res.data.responseMessage)
+                setIsSuccess(false);
+            }
+            }, [currentPage, itemsPerPage]);
          
         }
         );
@@ -419,7 +426,7 @@ export default function MainEmployeeComponent() {
                                 }
                             </tbody>
                         </table>
-                        : <h4>Employee Id is not available</h4>}
+                        : <h4>{responseMessage}</h4>}
                         <PaginationComponent
                         currentPage={currentPage}
                         totalPages={dataPageable.totalPages || 10}

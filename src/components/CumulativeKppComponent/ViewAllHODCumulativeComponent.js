@@ -43,7 +43,8 @@ export default function ViewAllHODCumulativeComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
-                alert("Kpp is not approved for month");
+              //  alert("Kpp is not approved for month");
+              setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
 

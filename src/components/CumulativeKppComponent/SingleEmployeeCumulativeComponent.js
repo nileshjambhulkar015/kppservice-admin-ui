@@ -67,7 +67,7 @@ export default function SingleEmployeeCumulativeComponent() {
                 setEmployees(res.data.responseData.employeeKppStatusResponses.content);
             }
             else {
-                alert("Kpp is not approved for month");
+                //alert("Kpp is not approved for month");
                 setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }

@@ -52,6 +52,7 @@ export default function OthersPendingComplaintComponent() {
     const [asCompId, setAsCompId] = useState('')
     const [asCompStatus, setAsCompStatus] = useState('')
     const [empCompDeptId, setEmpCompDeptId] = useState('')
+    const [responseMessage, setResponseMessage] = useState('')
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -81,6 +82,7 @@ export default function OthersPendingComplaintComponent() {
             setDataPageable(res.data.responseData);
         }
         else {
+            setResponseMessage(res.data.responseMessage)
             setIsSuccess(false);
         }
         });
@@ -104,22 +106,27 @@ export default function OthersPendingComplaintComponent() {
     const advSearchEmployeeComplaints = (e) => {
         let empId = null;
         let asCompStatus = 'Pending';
-       // let asCompTypeDeptId = Cookies.get('deptId')
+       
 
         e.preventDefault()
         let advComplaintSearch = { compFromDate, compToDate, empId, empCompDeptId, asCompId, asCompStatus };
-
-        OthersPendingComplaintService.advanceSearchComplaintDetails(advComplaintSearch).then(res => {
+        
+        const data = {
+            currentPage,
+            itemsPerPage,
+            advComplaintSearch
+        }
+        OthersPendingComplaintService.advanceSearchComplaintDetails(data).then(res => {
             if (res.data.success) {
                 setIsSuccess(true);
                 setComplaints(res.data.responseData.content);
-
+                setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
-        }
-        );
+        },  [currentPage, itemsPerPage]);
     }
 
 
@@ -132,8 +139,6 @@ export default function OthersPendingComplaintComponent() {
 
             setEmpId(complaint.empId)
             setEmpEId(complaint.empEId)
-
-
             setEmpName(complaint.empName)
             setEmpMobileNo(complaint.empMobileNo)
             setRoleId(complaint.roleId)
@@ -142,8 +147,6 @@ export default function OthersPendingComplaintComponent() {
             setDeptName(complaint.deptName)
             setDesigId(complaint.desigId)
             setDesigName(complaint.desigName)
-
-
             setEmpCompId(complaint.empCompId)
             setCompId(complaint.compId)
             setCompTypeId(complaint.compTypeId)
@@ -174,6 +177,7 @@ export default function OthersPendingComplaintComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
         },  [currentPage, itemsPerPage]);
@@ -181,6 +185,7 @@ export default function OthersPendingComplaintComponent() {
 
 
     const clearSearchData = () => {
+        setEmpCompIdSearch('')
         const data = {
             currentPage,
             itemsPerPage
@@ -192,6 +197,7 @@ export default function OthersPendingComplaintComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
 
@@ -223,6 +229,7 @@ export default function OthersPendingComplaintComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
             },  [currentPage, itemsPerPage]);
@@ -320,7 +327,7 @@ export default function OthersPendingComplaintComponent() {
                                     }
                                 </tbody>
                             </table>
-                            : <h1>No Data Found</h1>}
+                            : <h1>{responseMessage}</h1>}
                             <PaginationComponent
                                 currentPage={currentPage}
                                 totalPages={dataPageable.totalPages || 10}

@@ -54,6 +54,7 @@ export default function OthersResolveComplaintComponent() {
     const [asCompId, setAsCompId] = useState('')
     const [asCompTypeDeptId, setAsCompTypeDeptId] = useState('')
     const [empCompDeptId, setEmpCompDeptId] = useState('')
+    const [responseMessage, setResponseMessage] = useState('')
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -80,9 +81,9 @@ export default function OthersResolveComplaintComponent() {
                 setIsSuccess(true);
             setComplaints(res.data.responseData.content);
             setDataPageable(res.data.responseData);
-
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
           
@@ -107,25 +108,25 @@ export default function OthersResolveComplaintComponent() {
 
     // Advance search employee
     const advSearchEmployeeComplaints = (e) => {
-     
-
         let asCompStatus = 'Resolved';
-      
-
-        
         e.preventDefault()
         let advComplaintSearch = { compFromDate, compToDate, empCompDeptId, asCompTypeDeptId, asCompId, asCompStatus };
-
-        OthersResolveComplaintService.advanceSearchComplaintDetails(advComplaintSearch).then(res => {
+        const data = {
+            currentPage,
+            itemsPerPage,
+            advComplaintSearch
+        }
+        OthersResolveComplaintService.advanceSearchComplaintDetails(data).then(res => {
             if (res.data.success) {
                 setIsSuccess(true);
                 setComplaints(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
-        }
-        );
+        }, [currentPage, itemsPerPage]);
     }
 
     const getComplaintById = (e) => {
@@ -135,8 +136,6 @@ export default function OthersResolveComplaintComponent() {
 
             setEmpId(complaint.empId)
             setEmpEId(complaint.empEId)
-
-
             setEmpName(complaint.empName)
             setEmpMobileNo(complaint.empMobileNo)
             setRoleId(complaint.roleId)
@@ -145,8 +144,6 @@ export default function OthersResolveComplaintComponent() {
             setDeptName(complaint.deptName)
             setDesigId(complaint.desigId)
             setDesigName(complaint.desigName)
-
-
             setEmpCompId(complaint.empCompId)
             setCompId(complaint.compId)
             setCompTypeId(complaint.compTypeId)
@@ -165,17 +162,23 @@ export default function OthersResolveComplaintComponent() {
     }
 
     const clearSearchData = () => {
-        
-        OthersResolveComplaintService.getEmployeeCompaintsDetailsByPaging().then((res) => {
+        setEmpCompIdSearch('')
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        OthersResolveComplaintService.getEmployeeCompaintsDetailsByPaging(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
                 setComplaints(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
 
-        });
+        }, [currentPage, itemsPerPage]);
 
     }
 
@@ -183,15 +186,21 @@ export default function OthersResolveComplaintComponent() {
 
     const searchComplaintById = (e) => {
         setEmpCompIdSearch(e.target.value)
-
-        OthersResolveComplaintService.getEmployeeCompaintsByComplaintId(e.target.value).then((res) => {
+        let empCompIdSearch= e.target.value
+        const data = {
+            currentPage,
+            itemsPerPage,
+            empCompIdSearch
+        }
+        OthersResolveComplaintService.getEmployeeCompaintsByComplaintId(data).then((res) => {
 
             if (res.data.success) {
                 setIsSuccess(true);
                 setComplaints(res.data.responseData.content);
-                // setEmployees(res.data.responseData.content?.filter((item) => item.roleId !== 1));
+                setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
         });
@@ -252,29 +261,21 @@ export default function OthersResolveComplaintComponent() {
                                                     <td className="text-center">{index + 1}</td>
                                                     <td> <button type="submit" className="btn col-sm-offset-1 btn-success" data-toggle="modal" data-target="#showData" onClick={() => getComplaintById(complaint.empCompId)}>View</button></td>
                                                     <td>{complaint.compId}</td>
-
-
                                                     <td>{complaint.empName}</td>
                                                     <td>{complaint.empEId}</td>
                                                     <td>{complaint.roleName}</td>
                                                     <td>{complaint.deptName}</td>
                                                     <td>{complaint.desigName}</td>
-
-
                                                     <td>{complaint.compDate}</td>
                                                     <td>{complaint.compResolveDate}</td>
                                                     <td>{complaint.compTypeName}</td>
                                                     <td>{complaint.compStatus}</td>
-
-
-
-
                                                 </tr>
                                         )
                                     }
                                 </tbody>
                             </table>
-                            : <h1>No Data Found</h1>}
+                            : <h1>{responseMessage}</h1>}
                             <PaginationComponent
                                 currentPage={currentPage}
                                 totalPages={dataPageable.totalPages || 10}
@@ -282,10 +283,7 @@ export default function OthersResolveComplaintComponent() {
                                 onItemsPerPageChange={handleItemsPerPageChange}
                             />
                     </div>
-
                 </div>
-
-
             </div>
 
 

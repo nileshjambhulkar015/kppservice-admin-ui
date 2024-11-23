@@ -38,14 +38,9 @@ export default function OthersInProgressComplaintComponent() {
     const [deptName, setDeptName] = useState('');
     const [desigId, setDesigId] = useState('');
     const [desigName, setDesigName] = useState('');
-
-
-
     const [complaints, setComplaints] = useState([])
     const [ekppMonth, setEkppMonth] = useState('');
     const [compResolveDateTime, setCompResolveDateTime] = useState('');
-
-
 
     const [departments, setDepartments] = useState([])
     const [compFromDate, setCompFromDate] = useState('')
@@ -54,7 +49,7 @@ export default function OthersInProgressComplaintComponent() {
     const [asCompId, setAsCompId] = useState('')
     const [asCompStatus, setAsCompStatus] = useState('')
     const [empCompDeptId, setEmpCompDeptId] = useState('')
-
+    const [responseMessage, setResponseMessage] = useState('')
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -81,9 +76,9 @@ export default function OthersInProgressComplaintComponent() {
                 setIsSuccess(true);
             setComplaints(res.data.responseData.content);
             setDataPageable(res.data.responseData);
-
         }
         else {
+            setResponseMessage(res.data.responseMessage)
             setIsSuccess(false);
         }
          
@@ -124,6 +119,7 @@ export default function OthersInProgressComplaintComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
         },  [currentPage, itemsPerPage]);
@@ -131,15 +127,21 @@ export default function OthersInProgressComplaintComponent() {
 
     const searchComplaintById = (e) => {
         setEmpCompIdSearch(e.target.value)
-
-        OthersInProgressComplaintService.getEmployeeCompaintsByComplaintId(e.target.value).then((res) => {
+        let empCompIdSearch=e.target.value
+        const data = {
+            currentPage,
+            itemsPerPage,
+            empCompIdSearch
+        }
+        OthersInProgressComplaintService.getEmployeeCompaintsByComplaintId(data).then((res) => {
 
             if (res.data.success) {
                 setIsSuccess(true);
                 setComplaints(res.data.responseData.content);
-                // setEmployees(res.data.responseData.content?.filter((item) => item.roleId !== 1));
+                setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
         });
@@ -207,6 +209,7 @@ export default function OthersInProgressComplaintComponent() {
 
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
             },[currentPage, itemsPerPage]);
@@ -221,17 +224,23 @@ export default function OthersInProgressComplaintComponent() {
 
 
     const clearSearchData = () => {
-        
-        OthersInProgressComplaintService.getEmployeeCompaintsDetailsByPaging().then((res) => {
+        setEmpCompIdSearch('')
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
+        OthersInProgressComplaintService.getEmployeeCompaintsDetailsByPaging(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
                 setComplaints(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
 
-        });
+        }, [currentPage, itemsPerPage]);
 
     }
 
@@ -314,7 +323,7 @@ export default function OthersInProgressComplaintComponent() {
                                     }
                                 </tbody>
                             </table>
-                            : <h1>No Data Found</h1>}
+                            : <h1>{responseMessage}</h1>}
                             <PaginationComponent
                             currentPage={currentPage}
                             totalPages={dataPageable.totalPages || 10}

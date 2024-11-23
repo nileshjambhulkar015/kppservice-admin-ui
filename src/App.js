@@ -31,7 +31,7 @@ import ComplaintTypeComponent from "./components/MasterComponent/ComplaintTypeCo
 import OthersPendingComplaintComponent from './components/ComplaintManagementComponent/OthersPendingComplaintComponent';
 import OthersResolveComplaintComponent from './components/ComplaintManagementComponent/OthersResolveComplaintComponent';
 import OthersInProgressComplaintComponent from './components/ComplaintManagementComponent/OthersInProgressComplaintComponent';
-import MeetingMasterComponent from "./components/MeetingMasterComponent/MeetingMasterComponent";
+
 
 
 import AnnouncementTypeComponent from "./components/MasterComponent/AnnouncementTypeComponent";
@@ -181,7 +181,7 @@ function App() {
         <Route exact path="/othersInProgressComplaint" element={<OthersInProgressComplaintComponent />}></Route>
         <Route exact path="/othersResolveComplaint" element={<OthersResolveComplaintComponent />}></Route>
 
-        <Route exact path="/meetingMaster" element={<MeetingMasterComponent />}></Route>
+       
         <Route exact path="/announcementType" element={<AnnouncementTypeComponent />}></Route>
         <Route exact path="/announcement" element={<AnnouncementComponent />}></Route>
       </Routes>

@@ -11,19 +11,15 @@ export default function ComplaintTypeComponent() {
     const [compTypeId, setCompTypeId] = useState('');
     const [compTypeName, setCompTypeName] = useState('');
     const [remark, setRemark] = useState('');
-
     const [deptId, setDeptId] = useState('');
     const [deptName, setDeptName] = useState('');
-
-    const [departments, setDepartments] = useState([])
-
-
-
-    const [complaintTypes, setComplaintTypes] = useState([]);
-
-    const [compDepartments, setCompDepartments] = useState([])
     const [compDeptId, setCompDeptId] = useState('');
     const [compDeptName, setCompDeptName] = useState('');
+
+    const [departments, setDepartments] = useState([])
+    const [complaintTypes, setComplaintTypes] = useState([]);
+    const [compDepartments, setCompDepartments] = useState([])
+    const [responseMessage, setResponseMessage] = useState('')
 
     const [saveComplaintTypeAlert, setSaveComplaintTypeAlert] = useState(false);
     const [deleteComplaintTypeAlert, setDeleteComplaintTypeAlert] = useState(false);
@@ -68,6 +64,7 @@ export default function ComplaintTypeComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
         });
@@ -128,14 +125,20 @@ export default function ComplaintTypeComponent() {
         ComplaintTypeService.saveComplaintTypeDetails(complaintType).then(res => {
 
             ComplaintTypeService.getComplaintTypeDetailsByPaging(data).then((res) => {
-                setComplaintTypes(res.data.responseData.content);
-                setDataPageable(res.data.responseData);
-                setCompTypeName('');
-                setRemark('');
+                if (res.data.success) {
+                    setIsSuccess(true);
+                    setComplaintTypes(res.data.responseData.content);
+                    setDataPageable(res.data.responseData);
+                    setCompTypeName('');
+                    setRemark('');
+                }
+                else {
+                    setResponseMessage(res.data.responseMessage)
+                    setIsSuccess(false);
+                }
 
-            });
-        }
-        );
+            }, [currentPage, itemsPerPage]);
+        });
         setSaveComplaintTypeAlert(false)
     }
 
@@ -167,10 +170,11 @@ export default function ComplaintTypeComponent() {
                         setDataPageable(res.data.responseData);
                     }
                     else {
+                        setResponseMessage(res.data.responseMessage)
                         setIsSuccess(false);
                     }
 
-                });
+                }, [currentPage, itemsPerPage]);
             }
             );
 
@@ -192,10 +196,16 @@ export default function ComplaintTypeComponent() {
 
         ComplaintTypeService.updateComplaintTypeDetails(complaintType).then(res => {
             ComplaintTypeService.getComplaintTypeDetailsByPaging(data).then((res) => {
-                setComplaintTypes(res.data.responseData.content);
-                setDataPageable(res.data.responseData);
-
-            });
+                if (res.data.success) {
+                    setIsSuccess(true);
+                    setComplaintTypes(res.data.responseData.content);
+                    setDataPageable(res.data.responseData);
+                }
+                else {
+                    setResponseMessage(res.data.responseMessage)
+                    setIsSuccess(false);
+                }
+            }, [currentPage, itemsPerPage]);
 
         }
         );
@@ -269,7 +279,7 @@ export default function ComplaintTypeComponent() {
                                         }
                                     </tbody>
                                 </table>
-                                : <h4>Complaint Type name is not available</h4>}
+                                : <h4>{responseMessage}</h4>}
                             <PaginationComponent
                                 currentPage={currentPage}
                                 totalPages={dataPageable.totalPages || 10}

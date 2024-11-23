@@ -10,7 +10,7 @@ export default function ViewAllEmployeeCumulativeComponent() {
     const [fromDate, setFromDate] = useState('')
     const [toDate, setToDate] = useState('')
     const [isSuccess, setIsSuccess] = useState(true)
-
+    const [responseMessage, setResponseMessage] = useState('')
     const [employees, setEmployees] = useState([])
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -44,7 +44,7 @@ export default function ViewAllEmployeeCumulativeComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
-                alert("Kpp is not approved for month");
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
 
@@ -65,7 +65,7 @@ export default function ViewAllEmployeeCumulativeComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
-                alert("Kpp is not approved for month");
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
 
@@ -88,6 +88,7 @@ export default function ViewAllEmployeeCumulativeComponent() {
                 setEmployees(res.data.responseData.content);
                 setDataPageable(res.data.responseData);
             } else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
 
             }

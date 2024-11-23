@@ -61,9 +61,10 @@ class OthersPendingComplaintService {
     }
 
     //advance search of employee
-    advanceSearchComplaintDetails(advSearchComplaints) {
+    advanceSearchComplaintDetails(data) {
         if (null != Cookies.get('empId')) {
-            return axios.post(BASE_URL_API + "/complaint/complaint-adv-search?page=0&size=200", advSearchComplaints)
+            console.log(data)
+            return axios.post(BASE_URL_API + `/complaint/complaint-adv-search?page=${data.currentPage-1}&size=${data.itemsPerPage}`, data.advComplaintSearch)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);

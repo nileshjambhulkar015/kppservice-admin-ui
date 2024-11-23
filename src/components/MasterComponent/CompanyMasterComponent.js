@@ -8,15 +8,12 @@ export default function CompanyMasterComponent() {
     const [siteId, setSiteId] = useState('');
     const [siteName, setSiteName] = useState('');
     const [companyId, setCompanyId] = useState('');
-
     const [companyName, setCompanyName] = useState('');
     const [companyAddress, setCompanyAddress] = useState('')
     const [companyMbNo, setCompanyMbNo] = useState('')
     const [companyFinYear, setCompanyFinYear] = useState('')
-
     const [remark, setRemark] = useState('');
-
-
+    const [responseMessage, setResponseMessage] = useState('')
 
     const [regions, setRegions] = useState([])
     const [sites, setSites] = useState([])
@@ -46,6 +43,7 @@ export default function CompanyMasterComponent() {
             setCompanys(res.data.responseData.content);
         }
         else {
+            setResponseMessage(res.data.responseMessage)
             setIsSuccess(false);
         }
         });

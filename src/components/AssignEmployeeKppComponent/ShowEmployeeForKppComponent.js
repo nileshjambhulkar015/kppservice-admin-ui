@@ -49,6 +49,7 @@ export default function ShowEmployeeForKppComponent() {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [dataPageable, setDataPageable] = useState([])
+    const [responseMessage, setResponseMessage] = useState('')
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -62,6 +63,7 @@ export default function ShowEmployeeForKppComponent() {
     };
 
     const getEmployeeKPPDetailsByPaging = () => {
+        setEmpEIdSearch('')
         const data = {
             currentPage,
             itemsPerPage
@@ -74,6 +76,7 @@ export default function ShowEmployeeForKppComponent() {
 
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
         }, [currentPage, itemsPerPage]);
@@ -93,6 +96,7 @@ export default function ShowEmployeeForKppComponent() {
 
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
         });
@@ -139,6 +143,7 @@ export default function ShowEmployeeForKppComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
         }, [currentPage, itemsPerPage]);
@@ -168,8 +173,15 @@ export default function ShowEmployeeForKppComponent() {
             advEmployeeSearch
         }
         EmployeeService.advanceSearchEmployee(data).then(res => {
+            if (res.data.success) {
+                setIsSuccess(true);
             setEmployees(res.data.responseData.content);
             setDataPageable(res.data.responseData);
+        }
+        else {
+            setResponseMessage(res.data.responseMessage)
+            setIsSuccess(false);
+        }
 
         }, [currentPage, itemsPerPage]);
     }
@@ -292,7 +304,7 @@ export default function ShowEmployeeForKppComponent() {
                             }
                         </tbody>
 
-                    </table> : <h4>Employee Id is not available</h4>}
+                    </table> : <h4>{responseMessage}</h4>}
                 <PaginationComponent
                     currentPage={currentPage}
                     totalPages={dataPageable.totalPages || 10}

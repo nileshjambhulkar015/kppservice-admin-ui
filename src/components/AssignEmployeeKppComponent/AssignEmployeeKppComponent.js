@@ -27,7 +27,7 @@ export default function AssignEmployeeKppComponent() {
 
     const [kppObjective, setKppObjective] = useState('');
     const [kppPerformanceIndica, setKppPerformanceIndica] = useState('');
-
+    const [responseMessage, setResponseMessage] = useState('')
 
 
     const [overallTarget, setOverallTarget] = useState(0);
@@ -49,7 +49,7 @@ export default function AssignEmployeeKppComponent() {
         setCurrentPage(1); // Reset to first page when items per page changes
     };
 
- 
+
 
     useEffect(() => {
         const data = {
@@ -63,6 +63,7 @@ export default function AssignEmployeeKppComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setKppIsSuccess(false);
             }
 
@@ -75,7 +76,7 @@ export default function AssignEmployeeKppComponent() {
                 setViewEmpKpps(res.data.responseData.kppResponses.content);
             }
             else {
-
+                setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
 
@@ -110,15 +111,16 @@ export default function AssignEmployeeKppComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setKppIsSuccess(false);
             }
-        },[currentPage, itemsPerPage]);
+        }, [currentPage, itemsPerPage]);
     }
 
     const searchKPPObjectiveNoPaging = (e) => {
         setKppObjectiveNo(e.target.value)
-       let kppObjectiveNo=e.target.value;
-       console.log("Assign kppObjectiveNo :", kppObjectiveNo)
+        let kppObjectiveNo = e.target.value;
+        console.log("Assign kppObjectiveNo :", kppObjectiveNo)
         const data = {
             currentPage,
             itemsPerPage,
@@ -133,13 +135,15 @@ export default function AssignEmployeeKppComponent() {
                 setDataPageable(res.data.responseData);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setKppIsSuccess(false);
             }
-        },[currentPage, itemsPerPage]);
+        }, [currentPage, itemsPerPage]);
     }
 
 
     const clearSearchAssignKpp = (e) => {
+        setKppObjectiveNo('')
         const data = {
             currentPage,
             itemsPerPage
@@ -150,13 +154,14 @@ export default function AssignEmployeeKppComponent() {
                 setKpps(res.data.responseData.content);
             }
             else {
+                setResponseMessage(res.data.responseMessage)
                 setKppIsSuccess(false);
             }
 
         }, [currentPage, itemsPerPage]);
 
     }
-  
+
 
     const removeCookies = () => {
         Cookies.remove('empIdForKpp');
@@ -178,7 +183,7 @@ export default function AssignEmployeeKppComponent() {
         }
         if (window.confirm("Do you want to assign this Employee KPP ?")) {
             e.preventDefault()
-            
+
             let statusCd = 'A';
             let kppId = newKppId;
             let empId = Cookies.get('empIdForKpp');
@@ -194,7 +199,7 @@ export default function AssignEmployeeKppComponent() {
             let kppOverallTarget = overallTarget;
             let kppOverallWeightage = overallWeightage;
             let kpp = { kppId, kppOverallTarget, kppOverallWeightage, empId, empEId, roleId, deptId, desigId, reportingEmpId, statusCd, employeeId };
-       
+
 
             EmployeeKppsService.assignEmployeeKppDetails(kpp).then(res => {
 
@@ -205,12 +210,15 @@ export default function AssignEmployeeKppComponent() {
                         setDataPageable(res.data.responseData);
                         setOverallTarget(0);
                         setOverallWeightage(0);
+                        setDataPageable(res.data.responseData);
+
                     }
                     else {
+                        setResponseMessage(res.data.responseMessage)
                         setKppIsSuccess(false);
                     }
 
-                });
+                }, [currentPage, itemsPerPage]);
 
                 KeyParameterService.viewKPPDetailsForAssignKppByPaging().then((res) => {
 
@@ -218,7 +226,7 @@ export default function AssignEmployeeKppComponent() {
                         setIsSuccess(true);
                         setEmpKppOverallTargetCount(res.data.responseData.empKppOverallTargetCount)
                         setViewEmpKpps(res.data.responseData.kppResponses.content);
-                      
+
                     }
                     else {
 
@@ -248,9 +256,10 @@ export default function AssignEmployeeKppComponent() {
                         setDataPageable(res.data.responseData);
                     }
                     else {
+                        setResponseMessage(res.data.responseMessage)
                         setKppIsSuccess(false);
                     }
-                });
+                }, [currentPage, itemsPerPage]);
 
                 KeyParameterService.viewKPPDetailsForAssignKppByPaging().then((res) => {
                     if (res.data.success) {
@@ -278,7 +287,7 @@ export default function AssignEmployeeKppComponent() {
 
             <div className="row">
                 <div className="col-md-12">
-                   
+
                 </div>
             </div>
 
@@ -406,13 +415,13 @@ export default function AssignEmployeeKppComponent() {
                                 }
                             </tbody>
                         </table>
-                        : <h3>All Kpp Set to Employee</h3>}
-                        <PaginationComponent
-                                currentPage={currentPage}
-                                totalPages={dataPageable.totalPages || 10}
-                                onPageChange={handlePageChange}
-                                onItemsPerPageChange={handleItemsPerPageChange}
-                            />
+                        : <h3>{responseMessage}</h3>}
+                    <PaginationComponent
+                        currentPage={currentPage}
+                        totalPages={dataPageable.totalPages || 10}
+                        onPageChange={handlePageChange}
+                        onItemsPerPageChange={handleItemsPerPageChange}
+                    />
                 </div>
 
             </div>
