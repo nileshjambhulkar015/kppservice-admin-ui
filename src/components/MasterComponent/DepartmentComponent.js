@@ -16,7 +16,7 @@ export default function DepartmentComponent() {
 
     const [departments, setDepartments] = useState([])
 
-    
+
 
     const updatedDept = ['Human Resource', 'General Manager'];
     const [roles, setRoles] = useState([])

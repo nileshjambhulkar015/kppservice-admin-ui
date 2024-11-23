@@ -85,15 +85,15 @@ export default function AnnouncementComponent() {
             if (res.data.success) {
                 AnnouncementTypeService.getAnnouncementTypeDetailsByPaging(data).then((res) => {
                     if (res.data.success) {
-                    setAnnonTypes(res.data.responseData.content);
-                    setDataPageable(res.data.responseData);
-                    setAnnounTypeName('');
-                    setRemark('');
-                }
-                else {
-                    setResponseMessage(res.data.responseMessage)
-                    setIsSuccess(false);
-                }
+                        setAnnonTypes(res.data.responseData.content);
+                        setDataPageable(res.data.responseData);
+                        setAnnounTypeName('');
+                        setRemark('');
+                    }
+                    else {
+                        setResponseMessage(res.data.responseMessage)
+                        setIsSuccess(false);
+                    }
 
                 }, [currentPage, itemsPerPage]);
             }
@@ -163,14 +163,14 @@ export default function AnnouncementComponent() {
             AnnouncementTypeService.getDepartmentDetailsByPaging(data).then((res) => {
                 if (res.data.success) {
                     setIsSuccess(true);
-                setAnnonTypes(res.data.responseData.content);
-                setDataPageable(res.data.responseData);
-                setDataPageable(res.data.responseData);
-            }
-            else {
-                setResponseMessage(res.data.responseMessage)
-                setIsSuccess(false);
-            }
+                    setAnnonTypes(res.data.responseData.content);
+                    setDataPageable(res.data.responseData);
+                    setDataPageable(res.data.responseData);
+                }
+                else {
+                    setResponseMessage(res.data.responseMessage)
+                    setIsSuccess(false);
+                }
 
             }, [currentPage, itemsPerPage]);
 

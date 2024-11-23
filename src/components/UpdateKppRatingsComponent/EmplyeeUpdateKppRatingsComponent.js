@@ -48,16 +48,16 @@ const EmplyeeUpdateKppRatingsComponent = () => {
 
     const getAvgTotalOverallRatings = (empKpps) => {
         const sum = empKpps.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.overallRatings || 0), 0).toFixed(1);
-        const totalKpps=kppDetailsResponses?.length || 1;
-        setTotalOverallRatings((sum/totalKpps).toFixed(1))
-        return (sum/totalKpps).toFixed(1);
+        const totalKpps = kppDetailsResponses?.length || 1;
+        setTotalOverallRatings((sum / totalKpps).toFixed(1))
+        return (sum / totalKpps).toFixed(1);
     }
 
     const getAvgTotalOverallPercetage = (empKpps) => {
         const sum = empKpps.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.overallPercentage || 0), 0).toFixed(1);
-        const totalKpps=kppDetailsResponses?.length || 1;
-        setTotalOverallPercentage((sum/totalKpps).toFixed(1))
-        return (sum/totalKpps).toFixed(1);
+        const totalKpps = kppDetailsResponses?.length || 1;
+        setTotalOverallPercentage((sum / totalKpps).toFixed(1))
+        return (sum / totalKpps).toFixed(1);
     }
 
 
@@ -123,7 +123,7 @@ const EmplyeeUpdateKppRatingsComponent = () => {
                     enableReinitialize={true}
                     onSubmit={(values) => {
 
-                        const payload = { "kppUpdateRequests": values?.fields, "gmTotalAchivedWeight": totalAchivedWeight, "gmTotalOverallAchieve": totalOverAllAchive, "gmTotalOverallTaskComp": totalOverallTaskComp,"totalOverallRatings":totalOverallRatings,"totalOverallPercentage":totalOverallPercentage, gmKppStatus, gmRemark };
+                        const payload = { "kppUpdateRequests": values?.fields, "gmTotalAchivedWeight": totalAchivedWeight, "gmTotalOverallAchieve": totalOverAllAchive, "gmTotalOverallTaskComp": totalOverallTaskComp, "totalOverallRatings": totalOverallRatings, "totalOverallPercentage": totalOverallPercentage, gmKppStatus, gmRemark };
                         EmployeeKppsService.updateEmpApproveOrRejectByHod(payload).then(res => {
                             alert("GM KPP Ratings added");
                         });
@@ -131,7 +131,7 @@ const EmplyeeUpdateKppRatingsComponent = () => {
                     {({ values, setFieldValue }) => {
 
                         const handleTodoChange = (e, i, kppId, kppOverallWeightage, empOverallAchieve, hodOverallAchieve) => {
-                         
+
                             const field = e.target.name?.split(".")[1];
 
 
@@ -145,10 +145,10 @@ const EmplyeeUpdateKppRatingsComponent = () => {
 
                                 "gmOverallTaskComp": field === "gmOverallAchieve" && !!e.target.value ? (Number(e.target.value) / 5 * 100).toFixed(1) : 0,
                                 "gmAchivedWeight": field === "gmOverallAchieve" && !!e.target.value ? ((kppOverallWeightage * (Number(e.target.value) / 5 * 100).toFixed(1)) / 100).toFixed(1) : 0,
-                               
-                               "overallRatings": field === "gmOverallAchieve" && !!e.target.value ?  ((Number(empOverallAchieve)+Number(hodOverallAchieve)+(Number(e.target.value)))  / 3).toFixed(1) : 0,
-                                "overallPercentage": field === "gmOverallAchieve" && !!e.target.value ? ((((Number(empOverallAchieve)+Number(hodOverallAchieve)+(Number(e.target.value)))  / 3)/5)*100).toFixed(1) : 0,
-                                
+
+                                "overallRatings": field === "gmOverallAchieve" && !!e.target.value ? ((Number(empOverallAchieve) + Number(hodOverallAchieve) + (Number(e.target.value))) / 3).toFixed(1) : 0,
+                                "overallPercentage": field === "gmOverallAchieve" && !!e.target.value ? ((((Number(empOverallAchieve) + Number(hodOverallAchieve) + (Number(e.target.value))) / 3) / 5) * 100).toFixed(1) : 0,
+
                                 "ekppMonth": ekppMonth,
                                 [field]: parseInt(e.target.value || 0),
                             }
@@ -158,7 +158,7 @@ const EmplyeeUpdateKppRatingsComponent = () => {
 
                             setFieldValue("totalOverallRatings", getAvgTotalOverallRatings(kppDetailsResponses));
                             setFieldValue("totalOverallPercentage", getAvgTotalOverallPercetage(kppDetailsResponses));
-                           
+
                             setFieldValue("fields", kppDetailsResponses)
                         };
                         return (
@@ -172,11 +172,11 @@ const EmplyeeUpdateKppRatingsComponent = () => {
                                 </div>
 
                                 <div className="form-group">
-                                <label className="control-label col-sm-1"  >Employee Id :</label>
-                                <div className="col-sm-2">
-                                    {empEId}
+                                    <label className="control-label col-sm-1"  >Employee Id :</label>
+                                    <div className="col-sm-2">
+                                        {empEId}
+                                    </div>
                                 </div>
-                            </div>
 
                                 <div className="form-group">
                                     <label className="control-label col-sm-1"  >Department :</label>
@@ -197,8 +197,8 @@ const EmplyeeUpdateKppRatingsComponent = () => {
                                         {ekppMonth}
                                     </div>
 
-                                      <button type="button" className="btn btn-success col-sm-offset-7" disabled={kppMasterResponses?.empKppStatus === "Pending"}
-                                            onClick={() => { navigateBack() }}> Back</button>
+                                    <button type="button" className="btn btn-success col-sm-offset-7" disabled={kppMasterResponses?.empKppStatus === "Pending"}
+                                        onClick={() => { navigateBack() }}> Back</button>
 
                                 </div>
                                 <table className="table table-bordered" >
@@ -223,7 +223,7 @@ const EmplyeeUpdateKppRatingsComponent = () => {
                                             <th rowSpan={2} className="text-center">GM Achived Weightage</th>
                                             <th rowSpan={2} className="text-center">GM Ratings</th>
                                             <th rowSpan={2} className="text-center">GM Overall Task Completed</th>
-                                            
+
                                             <th rowSpan={2} className="text-center">Overall Ratings</th>
                                             <th rowSpan={2} className="text-center">Overall Rating in %</th>
                                             <th colSpan={5} className="text-center">RATING RATIO COULD BE CHANGED AS PER TARGETS</th>
@@ -279,10 +279,10 @@ const EmplyeeUpdateKppRatingsComponent = () => {
                                                     </td>
 
 
-<td>
-                                                    <input type="text" className="form-control" name={`${index}.overallRatings`} value={values?.fields?.[index]?.overallRatings} disabled />
-                                                </td>
-                                                  <td>
+                                                    <td>
+                                                        <input type="text" className="form-control" name={`${index}.overallRatings`} value={values?.fields?.[index]?.overallRatings} disabled />
+                                                    </td>
+                                                    <td>
                                                         <input type="text" className="form-control" name={`${index}.overallPercentage`} value={values?.fields?.[index]?.overallPercentage} disabled />
                                                     </td>
                                                     <td className='text-center'>{kppResponse.kppRating1}</td>
@@ -356,7 +356,7 @@ const EmplyeeUpdateKppRatingsComponent = () => {
                                         </a>
                                         <button type="submit" className="btn col-sm-offset-1 btn-success" onClick={() => completeEmpKpp(empId)} >Finish</button>
 
-                                      
+
                                     </div>
                                 </div>
                             </Form>

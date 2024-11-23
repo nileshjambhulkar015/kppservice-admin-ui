@@ -74,14 +74,14 @@ export default function OthersInProgressComplaintComponent() {
         OthersInProgressComplaintService.getEmployeeCompaintsDetailsByPaging(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
-            setComplaints(res.data.responseData.content);
-            setDataPageable(res.data.responseData);
-        }
-        else {
-            setResponseMessage(res.data.responseMessage)
-            setIsSuccess(false);
-        }
-         
+                setComplaints(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
+            }
+            else {
+                setResponseMessage(res.data.responseMessage)
+                setIsSuccess(false);
+            }
+
         });
 
         OthersInProgressComplaintService.getAllDepartmentDetails().then((res) => {
@@ -102,8 +102,8 @@ export default function OthersInProgressComplaintComponent() {
 
 
     // Advance search employee
-    const advSearchEmployeeComplaints = (e) => {        
-        let asCompStatus = 'In Progress';      
+    const advSearchEmployeeComplaints = (e) => {
+        let asCompStatus = 'In Progress';
 
         e.preventDefault()
         let advComplaintSearch = { compFromDate, compToDate, empCompDeptId, asCompId, asCompStatus };
@@ -122,12 +122,12 @@ export default function OthersInProgressComplaintComponent() {
                 setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
-        },  [currentPage, itemsPerPage]);
+        }, [currentPage, itemsPerPage]);
     }
 
     const searchComplaintById = (e) => {
         setEmpCompIdSearch(e.target.value)
-        let empCompIdSearch=e.target.value
+        let empCompIdSearch = e.target.value
         const data = {
             currentPage,
             itemsPerPage,
@@ -191,35 +191,35 @@ export default function OthersInProgressComplaintComponent() {
             itemsPerPage
         }
         if (window.confirm("Do you want to resolve this complaint ?")) {
-        e.preventDefault()
+            e.preventDefault()
 
-        let compResolveEmpId = Cookies.get('empId');
-        let compResolveEmpName = Cookies.get('empFirstName') + " " + Cookies.get('empMiddleName') + " " + Cookies.get('empLastName');
-        let compResolveEmpEId = Cookies.get('empEId');
+            let compResolveEmpId = Cookies.get('empId');
+            let compResolveEmpName = Cookies.get('empFirstName') + " " + Cookies.get('empMiddleName') + " " + Cookies.get('empLastName');
+            let compResolveEmpEId = Cookies.get('empEId');
 
-        let complaint = { empCompId, compStatus, compResolveDateTime, compResolveEmpId, compResolveEmpName, compResolveEmpEId, remark };
+            let complaint = { empCompId, compStatus, compResolveDateTime, compResolveEmpId, compResolveEmpName, compResolveEmpEId, remark };
 
-        
-        OthersInProgressComplaintService.updateComplaintDetails(complaint).then(res => {
-            OthersInProgressComplaintService.getEmployeeCompaintsDetailsByPaging(data).then((res) => {
-                if (res.data.success) {
-                    setIsSuccess(true);
-                setComplaints(res.data.responseData.content?.filter((item) => item.compStatus != 'Pending'));
-                setDataPageable(res.data.responseData);
+
+            OthersInProgressComplaintService.updateComplaintDetails(complaint).then(res => {
+                OthersInProgressComplaintService.getEmployeeCompaintsDetailsByPaging(data).then((res) => {
+                    if (res.data.success) {
+                        setIsSuccess(true);
+                        setComplaints(res.data.responseData.content?.filter((item) => item.compStatus != 'Pending'));
+                        setDataPageable(res.data.responseData);
+
+                    }
+                    else {
+                        setResponseMessage(res.data.responseMessage)
+                        setIsSuccess(false);
+                    }
+                }, [currentPage, itemsPerPage]);
 
             }
-            else {
-                setResponseMessage(res.data.responseMessage)
-                setIsSuccess(false);
-            }
-            },[currentPage, itemsPerPage]);
-      
+            );
+        } else {
+            // User clicked Cancel
+            console.log("User canceled the action.");
         }
-        );
-    } else {
-        // User clicked Cancel
-        console.log("User canceled the action.");
-    }
     }
 
 
@@ -324,7 +324,7 @@ export default function OthersInProgressComplaintComponent() {
                                 </tbody>
                             </table>
                             : <h1>{responseMessage}</h1>}
-                            <PaginationComponent
+                        <PaginationComponent
                             currentPage={currentPage}
                             totalPages={dataPageable.totalPages || 10}
                             onPageChange={handlePageChange}

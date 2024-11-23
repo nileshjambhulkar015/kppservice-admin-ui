@@ -165,7 +165,7 @@ export default function ShowEmployeeForKppComponent() {
     const searchEmployeeDetails = (e) => {
 
         e.preventDefault()
-      
+
         let advEmployeeSearch = { roleId, deptId, regionId, siteId, companyId, empTypeId };
         const data = {
             currentPage,
@@ -175,13 +175,13 @@ export default function ShowEmployeeForKppComponent() {
         EmployeeService.advanceSearchEmployee(data).then(res => {
             if (res.data.success) {
                 setIsSuccess(true);
-            setEmployees(res.data.responseData.content);
-            setDataPageable(res.data.responseData);
-        }
-        else {
-            setResponseMessage(res.data.responseMessage)
-            setIsSuccess(false);
-        }
+                setEmployees(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
+            }
+            else {
+                setResponseMessage(res.data.responseMessage)
+                setIsSuccess(false);
+            }
 
         }, [currentPage, itemsPerPage]);
     }
@@ -256,7 +256,7 @@ export default function ShowEmployeeForKppComponent() {
                     </div>
                     <div className="col-sm-5">
                         <button type="button" className="btn btn-primary col-sm-offset-4" data-toggle="modal" data-target="#advanceSearchEmployee">Advance Search</button>
-                        <button type="button" className="btn btn-primary col-sm-offset-1" onClick={()=>getEmployeeKPPDetailsByPaging()}>Clear Search</button>
+                        <button type="button" className="btn btn-primary col-sm-offset-1" onClick={() => getEmployeeKPPDetailsByPaging()}>Clear Search</button>
                     </div>
                 </div>
 

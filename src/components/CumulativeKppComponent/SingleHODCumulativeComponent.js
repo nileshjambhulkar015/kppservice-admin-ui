@@ -31,7 +31,7 @@ export default function SingleHODCumulativeComponent() {
     const [desigId, setDesigId] = useState('');
     const [desigName, setDesigName] = useState('');
 
-    
+
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [dataPageable, setDataPageable] = useState([])
@@ -56,7 +56,7 @@ export default function SingleHODCumulativeComponent() {
             currentPage,
             itemsPerPage
         }
-         CumulativeService.getSingleHODKppReportDetailsByPaging(data).then((res) => {
+        CumulativeService.getSingleHODKppReportDetailsByPaging(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
                 setSumOfEmployeeRatings(res.data.responseData.sumOfEmployeeRatings)
@@ -96,7 +96,7 @@ export default function SingleHODCumulativeComponent() {
             currentPage,
             itemsPerPage
         }
-         CumulativeService.getSingleHODKppReportDetailsByPaging(data).then((res) => {
+        CumulativeService.getSingleHODKppReportDetailsByPaging(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
                 setSumOfEmployeeRatings(res.data.responseData.sumOfEmployeeRatings)
@@ -266,10 +266,10 @@ export default function SingleHODCumulativeComponent() {
                                             <td className="text-center">{employee.sumOfRatings}</td>
 
                                             <td className="text-center">
-                                            <div className="col-sm-3">
-                                            <a href={BASE_URL_API+`/report-evidence?empId=${employee.empId}&evMonth=${YYYY_MM_DD_Formater(employee.ekppMonth)}`}>
-                                            View</a>
-                                            </div>
+                                                <div className="col-sm-3">
+                                                    <a href={BASE_URL_API + `/report-evidence?empId=${employee.empId}&evMonth=${YYYY_MM_DD_Formater(employee.ekppMonth)}`}>
+                                                        View</a>
+                                                </div>
                                             </td>
                                             <td className="text-center">
                                                 <a href={BASE_URL_API + `/report/completed-hod-kpp-status?empId=${employee.empId}&ekppMonth=${YYYY_MM_DD_Formater(employee.ekppMonth)}`}>
@@ -285,7 +285,7 @@ export default function SingleHODCumulativeComponent() {
                                 <th className="text-right">Total</th>
                                 <td className="text-center"></td>
                                 <td className="text-center">{sumOfEmployeeRatings}</td>
-                               
+
                                 <td className="text-center">{sumOfGMRatings}</td>
                                 <td className="text-center"></td>
                                 <td className="text-center"></td>
@@ -308,7 +308,7 @@ export default function SingleHODCumulativeComponent() {
 
                     </table>
                     : <h1>{responseMessage}</h1>}
-                    <PaginationComponent
+                <PaginationComponent
                     currentPage={currentPage}
                     totalPages={dataPageable.totalPages || 10}
                     onPageChange={handlePageChange}

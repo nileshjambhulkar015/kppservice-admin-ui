@@ -127,7 +127,7 @@ export default function ViewAllEmployeeCumulativeComponent() {
                     </div>
                 </form>
                 <button type="submit" className="btn btn-primary" onClick={(e) => getKPPDetailsByDate(fromDate, toDate)}>Search</button>
-                <button type="submit" className="btn btn-primary col-sm-offset-1"  onClick={(e) => {
+                <button type="submit" className="btn btn-primary col-sm-offset-1" onClick={(e) => {
                     loadCumulativeData();
                     clearDates();
                 }}>Clear</button>
@@ -180,7 +180,7 @@ export default function ViewAllEmployeeCumulativeComponent() {
 
                     </table>
                     : <h1>No Data Found</h1>}
-                    <PaginationComponent
+                <PaginationComponent
                     currentPage={currentPage}
                     totalPages={dataPageable.totalPages || 10}
                     onPageChange={handlePageChange}

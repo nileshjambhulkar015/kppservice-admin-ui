@@ -173,13 +173,13 @@ export default function AnnouncementComponent() {
                     AnnouncementService.getAnnouncementByPaging().then((res) => {
                         if (res.data.success) {
                             setIsSuccess(true);
-                        setAnnouncements(res.data.responseData.content);
-                        setDataPageable(res.data.responseData);
-                    }
-                    else {
-                        setResponseMessage(res.data.responseMessage)
-                        setIsSuccess(false);
-                    }
+                            setAnnouncements(res.data.responseData.content);
+                            setDataPageable(res.data.responseData);
+                        }
+                        else {
+                            setResponseMessage(res.data.responseMessage)
+                            setIsSuccess(false);
+                        }
                     }, [currentPage, itemsPerPage]);
 
                 }

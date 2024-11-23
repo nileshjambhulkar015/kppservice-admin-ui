@@ -79,14 +79,14 @@ export default function OthersResolveComplaintComponent() {
         OthersResolveComplaintService.getEmployeeCompaintsDetailsByPaging(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
-            setComplaints(res.data.responseData.content);
-            setDataPageable(res.data.responseData);
+                setComplaints(res.data.responseData.content);
+                setDataPageable(res.data.responseData);
             }
             else {
                 setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
-          
+
         });
 
         OthersResolveComplaintService.getAllDepartmentDetails().then((res) => {
@@ -186,7 +186,7 @@ export default function OthersResolveComplaintComponent() {
 
     const searchComplaintById = (e) => {
         setEmpCompIdSearch(e.target.value)
-        let empCompIdSearch= e.target.value
+        let empCompIdSearch = e.target.value
         const data = {
             currentPage,
             itemsPerPage,
@@ -226,7 +226,7 @@ export default function OthersResolveComplaintComponent() {
                                     <div className="col-sm-7" align="right">
                                         <button type="button" className="btn btn-primary col-sm-offset-1" data-toggle="modal" data-target="#advanceSearchEmployee">Advance Search</button>
                                         <button type="button" className="btn btn-primary col-sm-offset-1" onClick={() => clearSearchData()}>Clear Search</button>
-                                        </div>
+                                    </div>
                                 </form>
 
                             </div>
@@ -276,12 +276,12 @@ export default function OthersResolveComplaintComponent() {
                                 </tbody>
                             </table>
                             : <h1>{responseMessage}</h1>}
-                            <PaginationComponent
-                                currentPage={currentPage}
-                                totalPages={dataPageable.totalPages || 10}
-                                onPageChange={handlePageChange}
-                                onItemsPerPageChange={handleItemsPerPageChange}
-                            />
+                        <PaginationComponent
+                            currentPage={currentPage}
+                            totalPages={dataPageable.totalPages || 10}
+                            onPageChange={handlePageChange}
+                            onItemsPerPageChange={handleItemsPerPageChange}
+                        />
                     </div>
                 </div>
             </div>
