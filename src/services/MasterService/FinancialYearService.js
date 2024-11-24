@@ -26,9 +26,7 @@ class FinancialYearService {
             window.location.replace(LOGIN_UI_BASE_URL);
         }
 
-    }
-
-   
+    }   
 
     updateFinancialYearDetails(financialYearUpdateRequest) {
         if (null != Cookies.get('empId')) {
