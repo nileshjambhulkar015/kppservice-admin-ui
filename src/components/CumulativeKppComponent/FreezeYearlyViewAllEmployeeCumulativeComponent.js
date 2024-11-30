@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import CumulativeService from '../../services/CumulativeService'
 import PaginationComponent from '../PaginationComponent/PaginationComponent';
-export default function ViewAllEmployeeCumulativeComponent() {
+export default function FreezeYearlyViewAllEmployeeCumulativeComponent() {
 
     const navigate = useNavigate();
 
@@ -108,12 +108,12 @@ export default function ViewAllEmployeeCumulativeComponent() {
     const navigateToViewEmployeeRating = (empId) => {
 
         Cookies.set('viewSingleEmpIdForKppRatings', empId);
-        navigate(`/viewSingleEmployeeRatings`, { replace: true })
+        navigate(`/freezeYearlyViewSingleEmployeeRatings`, { replace: true })
     }
 
     return (
         <div className="row">
-            <h3 className="text-center">View Employee Cumulative KPP</h3>
+            <h3 className="text-center">View Yearly Employee Cumulative KPP</h3>
             <div className="form-group">
                 <form className="form-horizontal" encType="multipart/form-data">
                     <label className="control-label col-sm-1" htmlFor="deptNameSearch"> From Date:</label>

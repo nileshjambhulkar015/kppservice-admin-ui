@@ -152,12 +152,15 @@ export default function AllHodKppStatusComponent() {
                         </tbody>
                     </table>
                     : <h4>HOD KPP is not available</h4>}
-                    <PaginationComponent
+                    { empResponses?.length>0 && (
+                    <PaginationComponent 
                         currentPage={currentPage}
                         totalPages={dataPageable.totalPages || 10}
                         onPageChange={handlePageChange}
                         onItemsPerPageChange={handleItemsPerPageChange}
+                  
                     />
+                )}
 
                 </form>
 

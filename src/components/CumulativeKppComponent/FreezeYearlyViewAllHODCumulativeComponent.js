@@ -1,18 +1,17 @@
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import CumulativeService from '../../services/CumulativeService'
+import CumulativeService from '../../services/CumulativeService';
 import PaginationComponent from '../PaginationComponent/PaginationComponent';
-export default function ViewAllEmployeeCumulativeComponent() {
+export default function FreezeYearlyViewAllHODCumulativeComponent() {
 
     const navigate = useNavigate();
 
     const [fromDate, setFromDate] = useState('')
     const [toDate, setToDate] = useState('')
     const [isSuccess, setIsSuccess] = useState(true)
-    const [responseMessage, setResponseMessage] = useState('')
     const [employees, setEmployees] = useState([])
-
+    const [responseMessage, setResponseMessage] = useState('')
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [dataPageable, setDataPageable] = useState([])
@@ -37,13 +36,14 @@ export default function ViewAllEmployeeCumulativeComponent() {
             currentPage,
             itemsPerPage
         }
-        CumulativeService.getOverallEmployeeCumulative(data).then((res) => {
+        CumulativeService.getOverallHODCumulative(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
                 setEmployees(res.data.responseData.content);
                 setDataPageable(res.data.responseData);
             }
             else {
+                //  alert("Kpp is not approved for month");
                 setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
             }
@@ -54,24 +54,7 @@ export default function ViewAllEmployeeCumulativeComponent() {
     }
 
     useEffect(() => {
-        const data = {
-            currentPage,
-            itemsPerPage
-        }
-        CumulativeService.getOverallEmployeeCumulative(data).then((res) => {
-            if (res.data.success) {
-                setIsSuccess(true);
-                setEmployees(res.data.responseData.content);
-                setDataPageable(res.data.responseData);
-            }
-            else {
-                setResponseMessage(res.data.responseMessage)
-                setIsSuccess(false);
-            }
-
-        }).catch((err) => {
-            alert(err.response.data.details)
-        });
+        loadCumulativeData();
     }, [currentPage, itemsPerPage]);
 
 
@@ -82,38 +65,37 @@ export default function ViewAllEmployeeCumulativeComponent() {
             fromDate,
             toDate
         }
-        CumulativeService.getOverallEmployeeCumulativeByDates_ADMIN(data).then((res) => {
+        CumulativeService.getOverallHODCumulativeByDates_ADMIN(data).then((res) => {
             if (res.data.success) {
-                setIsSuccess(true);
                 setEmployees(res.data.responseData.content);
                 setDataPageable(res.data.responseData);
+                setIsSuccess(true);
             } else {
+                //  alert("Kpp is not found for month");
                 setResponseMessage(res.data.responseMessage)
                 setIsSuccess(false);
-
             }
+
+
         }, [currentPage, itemsPerPage]);
 
     }
 
-    const YYYY_MM_DD_Formater = (date, format = 'YYYY-MM-DD') => {
-        const t = new Date(date)
-        const y = t.getFullYear()
-        const m = ('0' + (t.getMonth() + 1)).slice(-2)
-        const d = ('0' + t.getDate()).slice(-2)
-        return format.replace('YYYY', y).replace('MM', m).replace('DD', d)
-    }
-
-
     const navigateToViewEmployeeRating = (empId) => {
 
-        Cookies.set('viewSingleEmpIdForKppRatings', empId);
-        navigate(`/viewSingleEmployeeRatings`, { replace: true })
+        Cookies.set('viewSingleHODIdForKppRatings', empId);
+        navigate(`/freezeYearlyViewSingleHODRatings`, { replace: true })
     }
+
+    function clearDates() {
+        document.getElementById("fromDate").value = "";
+        document.getElementById("toDate").value = "";
+    }
+
 
     return (
         <div className="row">
-            <h3 className="text-center">View Employee Cumulative KPP</h3>
+            <h3 className="text-center">View Yearly HOD KPP Cumulative</h3>
             <div className="form-group">
                 <form className="form-horizontal" encType="multipart/form-data">
                     <label className="control-label col-sm-1" htmlFor="deptNameSearch"> From Date:</label>
@@ -141,7 +123,7 @@ export default function ViewAllEmployeeCumulativeComponent() {
                             <tr>
                                 <th className="text-center">Sr No</th>
                                 <th className="text-center">Employee Name</th>
-                                <th className="text-center">Employee ID</th>
+                                <th className="text-center">Employee Id</th>
                                 <th className="text-center">Department Name</th>
                                 <th className="text-center">Employee Designation</th>
                                 <th className="text-center">Total Ratings</th>
