@@ -217,10 +217,7 @@ export default function DepartmentComponent() {
             .then(response => {
                 // Handle response
                 alert("Department uploaded successfully")
-                /*DepartmentService.getDepartmentDetailsByPaging().then((res) => {
-                    setDepartments(res.data.responseData.content);
-
-                });*/
+              
                 DepartmentService.getDepartmentDetailsByPaging(data).then((res) => {
                     if (res.data.success) {
                         setIsSuccess(true);

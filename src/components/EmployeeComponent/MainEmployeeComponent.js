@@ -319,7 +319,7 @@ export default function MainEmployeeComponent() {
         let employeeData = { empId, empEId, roleId, deptId, desigId, reportingEmpId, regionId, siteId, empFirstName, empMiddleName, empLastName, empDob, empMobileNo, empEmerMobileNo, empPhoto, emailId, tempAddress, permAddress, empGender, empBloodgroup, remark, statusCd };
 
         EmployeeService.updateEmployeeDetails(employeeData).then(res => {
-            EmployeeService.getEmployeeDetailsByPaging().then((res) => {
+            EmployeeService.getEmployeeDetailsByPaging(data).then((res) => {
                 if (res.data.success) {
                     setIsSuccess(true);
                     setEmployees(res.data.responseData.content);
@@ -339,6 +339,10 @@ export default function MainEmployeeComponent() {
     //upload excel data for department
     const handleSubmit = (event) => {
         event.preventDefault();
+        const data = {
+            currentPage,
+            itemsPerPage
+        }
         const formData = new FormData(event.target);
         fetch(BASE_URL_API + '/employee/upload-employee', {
             method: 'POST',
@@ -348,9 +352,17 @@ export default function MainEmployeeComponent() {
                 // Handle response
 
                 alert("Employee uploaded successfully")
-                EmployeeService.getEmployeeDetailsByPaging().then((res) => {
-                    setEmployees(res.data.responseData.content);
-                });
+                EmployeeService.getEmployeeDetailsByPaging(data).then((res) => {
+                    if (res.data.success) {
+                        setIsSuccess(true);
+                        setEmployees(res.data.responseData.content);
+                        setDataPageable(res.data.responseData);
+                    }
+                    else {
+                        setResponseMessage(res.data.responseMessage)
+                        setIsSuccess(false);
+                    }
+                }, [currentPage, itemsPerPage]);
 
             })
             .catch(error => {
@@ -427,12 +439,14 @@ export default function MainEmployeeComponent() {
                             </tbody>
                         </table>
                         : <h4>{responseMessage}</h4>}
+                        { employees?.length>0 && (
                     <PaginationComponent
                         currentPage={currentPage}
                         totalPages={dataPageable.totalPages || 10}
                         onPageChange={handlePageChange}
                         onItemsPerPageChange={handleItemsPerPageChange}
                     />
+                        )}
                 </div>
 
             </div>
