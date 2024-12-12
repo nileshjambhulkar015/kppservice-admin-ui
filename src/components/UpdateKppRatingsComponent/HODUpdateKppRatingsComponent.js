@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 import EmployeeKppsService from '../../services/EmployeeKppsService'
 import AllHodKppService from '../../services/AllHodKppService';
 import { BASE_URL_API } from '../../services/URLConstants';
+import FinancialYearService from '../../services/MasterService/FinancialYearService';
 const HODUpdateKppRatingsComponent = () => {
     const navigate = useNavigate();
 
@@ -80,6 +81,11 @@ const HODUpdateKppRatingsComponent = () => {
         return (sum / totalKpps).toFixed(1);
     }
     useEffect(() => {
+
+        FinancialYearService.ddAllFinancialYear().then((res) => {         
+            Cookies.set('finYear', res.data?.[0].finYear);
+        });
+        
         EmployeeKppsService.getHodKPPDetailsForGmApproval().then((res) => {
             setEkppMonth(YYYY_MM_DD_Formater(res.data.ekppMonth))
             setEmpId(res.data.empId);
