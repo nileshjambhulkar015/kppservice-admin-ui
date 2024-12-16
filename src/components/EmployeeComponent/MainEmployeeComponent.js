@@ -648,36 +648,23 @@ export default function MainEmployeeComponent() {
                                     </div>
                                 </div>
 
+
                                 <div className="form-group">
-                                    <div className="row">
-                                        <label className="control-label col-sm-2 col-sm-offset-1" htmlFor="empDob">Date Of Birth:</label>
-                                        <div className="col-sm-3">
-                                            <input type="date" className="form-control" id="empDob" value={empDob} onChange={(e) => setEmpDob(e.target.value)} />
+                                <div className="row">
+                                    <label className="control-label col-sm-3" htmlFor="deptId">Employee ID:</label>
+                                    <div className="col-sm-3">
 
-                                        </div>
-
-                                        <label className="control-label col-sm-2" htmlFor="empPhoto">Upload Photo:</label>
-
-                                        <div className="col-sm-3">
-                                            <input type="file" className="form-control" id="empPhoto" value={empPhoto} onChange={(e) => setEmpPhoto(e.target.value)} />
-                                        </div>
+                                      {empEId}
                                     </div>
                                 </div>
+                            </div>
 
                                 <div className="form-group">
                                     <div className="row">
                                         <label className="control-label col-sm-3" htmlFor="deptId">Department Name:</label>
                                         <div className="col-sm-3">
 
-                                            <select className="form-control" id="deptId" onChange={(e) => setDeptId(e.target.value)}>
-                                                <option>--Select Department--</option>
-                                                {
-                                                    departments.map(
-                                                        department =>
-                                                            <option key={department.deptId} value={department.deptId}>{department.deptName}</option>
-                                                    )
-                                                };
-                                            </select>
+                                          {deptName}
                                         </div>
                                     </div>
                                 </div>
@@ -687,15 +674,7 @@ export default function MainEmployeeComponent() {
                                         <label className="control-label col-sm-3" htmlFor="desigId"> Designation Name:</label>
                                         <div className="col-sm-3">
 
-                                            <select className="form-control" id="desigId" onChange={(e) => setDesigId(e.target.value)}>
-                                                <option>--Select Department--</option>
-                                                {
-                                                    departments.map(
-                                                        department =>
-                                                            <option key={department.deptId} value={department.deptId}>{department.deptName}</option>
-                                                    )
-                                                };
-                                            </select>
+                                          {desigName}
                                         </div>
                                     </div>
                                 </div>
@@ -744,20 +723,10 @@ export default function MainEmployeeComponent() {
                                     <div className="row">
                                         <label className="control-label col-sm-2 col-sm-offset-1" htmlFor="empGender">Gender:</label>
                                         <div className="col-sm-3">
-                                            <select className="form-control" id="empGender" onChange={(e) => setEmpGender(e.target.value)} >
-                                                <option value={'Male'}>Male</option>
-                                                <option value={'Female'}>Female</option>
-                                            </select>
+                                            {empGender}
                                         </div>
 
-                                        <label className="control-label col-sm-2" htmlFor="kppObjective" >Blood Group:</label>
-
-                                        <div className="col-sm-3">
-                                            <select className="form-control" id="empBloodgroup" onChange={(e) => setEmpBloodgroup(e.target.value)}>
-                                                <option value={"A+"}>A+ve</option>
-                                                <option value={"B+"}>B+ve</option>
-                                            </select>
-                                        </div>
+                                
                                     </div>
                                 </div>
 
