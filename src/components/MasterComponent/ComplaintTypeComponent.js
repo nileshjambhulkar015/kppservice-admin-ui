@@ -192,7 +192,8 @@ export default function ComplaintTypeComponent() {
         }
         e.preventDefault()
         let statusCd = 'A';
-        let complaintType = { compTypeId, compTypeName, remark, statusCd };
+           let employeeId = Cookies.get('empId')
+        let complaintType = { compTypeId, compTypeName, remark, statusCd,employeeId };
 
         ComplaintTypeService.updateComplaintTypeDetails(complaintType).then(res => {
             ComplaintTypeService.getComplaintTypeDetailsByPaging(data).then((res) => {

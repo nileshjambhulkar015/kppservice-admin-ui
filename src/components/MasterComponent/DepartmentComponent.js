@@ -180,7 +180,8 @@ export default function DepartmentComponent() {
             itemsPerPage
         }
         let statusCd = 'A';
-        let department = { deptId, deptName, deptMailId, remark, statusCd };
+        let employeeId = Cookies.get('empId')
+        let department = { deptId, deptName, deptMailId, remark, statusCd,employeeId };
 
         DepartmentService.updateDepartmentDetails(department).then(res => {
             DepartmentService.getDepartmentDetailsByPaging(data).then((res) => {

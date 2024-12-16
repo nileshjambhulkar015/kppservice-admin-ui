@@ -54,6 +54,8 @@ export default function EmployeeTypeComponent() {
 
     const saveEmployeeType = (e) => {
         e.preventDefault()
+        setEmpTypeName('')
+        setRemark('')
         let statusCd = 'A';
         let employeeId = Cookies.get('empId')
         let employeeTypes = { empTypeName, remark, statusCd, employeeId };
@@ -117,9 +119,10 @@ export default function EmployeeTypeComponent() {
 
         e.preventDefault()
         let statusCd = 'A';
-        let employeeType = { empTypeId, empTypeName, remark, statusCd };
+        let employeeId = Cookies.get('empId')
+        let employeeType = { empTypeId, empTypeName, remark, statusCd,employeeId };
 
-        EmployeeTypeComponent.updateDepartment(employeeType).then(res => {
+        EmployeeTypeService.updateEmployeeTypeDetails(employeeType).then(res => {
             EmployeeTypeService.getEmployeeTypeDetailsByPaging(e).then((res) => {
                 setEmpTypes(res.data.responseData);
 
