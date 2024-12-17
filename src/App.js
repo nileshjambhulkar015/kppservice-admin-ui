@@ -77,7 +77,7 @@ function App() {
               <ul className="dropdown-menu">
                 <li><Link to="/employee">Employee Master</Link></li>
 
-                <li><Link to="/changeemployeedeptdesig">Change Employee Department | Designation</Link></li>
+                <li><Link to="/changeemployeedeptdesig">Change Employee Role | Department | Designation | Reporting Employee Name</Link></li>
               </ul>
             </li>
 

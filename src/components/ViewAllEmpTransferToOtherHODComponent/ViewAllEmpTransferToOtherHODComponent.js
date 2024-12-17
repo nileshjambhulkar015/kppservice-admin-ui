@@ -107,7 +107,7 @@ export default function ViewAllEmpTransferToOtherHODComponent() {
 
     return (
         <div className="row">
-            <h3 className="text-center">Change Employee Department | Designation</h3>
+            <h3 className="text-center">Change Employee Role | Department | Designation | Reporting Employee Name</h3>
             <div className="col-sm-1"></div>
             <div className="col-sm-10">
                 <div className="row">

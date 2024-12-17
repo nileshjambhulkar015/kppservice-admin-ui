@@ -192,6 +192,25 @@ class EmployeeService {
         }
     }
 
+    updateEmployeeRole(employeeUpdateRoleRequest) {
+        if (null != Cookies.get('empId')) {
+            return axios.put(BASE_URL+"/change-role", employeeUpdateRoleRequest)
+          
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+    }
+
+    updateEmployeeReportingName(employeeUpdateReportingRequest) {
+        if (null != Cookies.get('empId')) {
+            return axios.put(BASE_URL+"/change-reporting", employeeUpdateReportingRequest)
+          
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+    }
 
 }
 
