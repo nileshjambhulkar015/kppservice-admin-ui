@@ -41,6 +41,7 @@ import FreezeYearlyViewAllEmployeeCumulativeComponent from "./components/Cumulat
 import FreezeYearlyViewAllHODCumulativeComponent from "./components/CumulativeKppComponent/FreezeYearlyViewAllHODCumulativeComponent";
 import FreezeYearlySingleEmployeeCumulativeComponent from "./components/CumulativeKppComponent/FreezeYearlySingleEmployeeCumulativeComponent";
 import FreezeYearlySingleHODCumulativeComponent from "./components/CumulativeKppComponent/FreezeYearlySingleHODCumulativeComponent";
+import ChangeEmployeeDeptDesigComponent from "./components/ViewAllEmpTransferToOtherHODComponent/ChangeEmployeeDeptDesigComponent";
 
 function App() {
 
@@ -76,7 +77,7 @@ function App() {
               <ul className="dropdown-menu">
                 <li><Link to="/employee">Employee Master</Link></li>
 
-                <li><Link to="/transferemployeetohod">Transfer Employee to Other HOD</Link></li>
+                <li><Link to="/changeemployeedeptdesig">Change Employee Department | Designation</Link></li>
               </ul>
             </li>
 
@@ -172,7 +173,8 @@ function App() {
         <Route exact path="/keyparemeter" element={<KeyParameterComponent />} ></Route>
         <Route exact path="/employee" element={<MainEmployeeComponent />}></Route>
         <Route exact path="/showEmployeeForKpp" element={<ShowEmployeeForKppComponent />}></Route>
-
+        <Route exact path="/changeDeptDesig" element={<ChangeEmployeeDeptDesigComponent />}></Route>
+        
         <Route exact path="/allHodKppStatus" element={<AllHodKppStatusComponent />}></Route>
         <Route exact path="/addHodKppRating" element={<HODUpdateKppRatingsComponent />}></Route>
 
@@ -191,7 +193,7 @@ function App() {
         <Route exact path="/freezeYearlyViewSingleHODRatings" element={<FreezeYearlySingleHODCumulativeComponent />}></Route>
       
       
-        <Route exact path="/transferemployeetohod" element={<ViewAllEmpTransferToOtherHODComponent />}></Route>
+        <Route exact path="/changeemployeedeptdesig" element={<ViewAllEmpTransferToOtherHODComponent />}></Route>
        
 
         <Route exact path="/othersPendingComplaint" element={<OthersPendingComplaintComponent />}></Route>
