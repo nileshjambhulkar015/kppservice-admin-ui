@@ -88,6 +88,12 @@ export default function SingleEmployeeCumulativeComponent() {
     }
 
     useEffect(() => {
+        const newDate = new Date();           
+        // Format to YYYY-MM-DD
+        const formattedDate = newDate.toISOString().split('T')[0];            
+        setFromDate(formattedDate);
+        setToDate(formattedDate);
+        
         loadCumulativeData();
     }, []);
 
