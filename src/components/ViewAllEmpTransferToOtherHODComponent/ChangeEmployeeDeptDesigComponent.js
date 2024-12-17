@@ -363,6 +363,7 @@ export default function ChangeEmployeeDeptDesigComponent() {
                         <hr></hr>
                         <div className="form-group">
                             <h3>Change Employee Department | Designation</h3>
+                            <h4>*When reporting employee name change, then need to assign kpp again</h4>
                         </div>
 
                         <div className="form-group">
@@ -410,6 +411,7 @@ export default function ChangeEmployeeDeptDesigComponent() {
                         <hr></hr>
                         <div className="form-group">
                             <h3>Change Employee Role</h3>
+                            <h4>*When reporting employee name change, then need to assign kpp again</h4>
                         </div>
                         <div className="form-group">
                             <label className="control-label col-sm-2" htmlFor="roleId">Select Role Name:</label>
