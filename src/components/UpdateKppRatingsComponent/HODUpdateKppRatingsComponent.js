@@ -87,7 +87,7 @@ const HODUpdateKppRatingsComponent = () => {
         });
         
         EmployeeKppsService.getHodKPPDetailsForGmApproval().then((res) => {
-            setEkppMonth(YYYY_MM_DD_Formater(res.data.ekppMonth))
+            setEkppMonth(res.data.ekppMonth)
             setEmpId(res.data.empId);
             setEmpName(res.data.empName);
             setDeptName(res.data.deptName);

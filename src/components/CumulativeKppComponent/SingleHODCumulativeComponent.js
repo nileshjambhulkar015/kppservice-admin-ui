@@ -222,7 +222,7 @@ export default function SingleHODCumulativeComponent() {
                 </form>
             </div>
 
-            <h3 className="text-center">View HOD KPP Report</h3>
+            <h3 className="text-center">Monthly HOD KPP Report</h3>
             <div className="form-group">
                 <form className="form-horizontal" encType="multipart/form-data">
                     <label className="control-label col-sm-1" htmlFor="deptNameSearch"> From Date:</label>
@@ -265,7 +265,7 @@ export default function SingleHODCumulativeComponent() {
                                     (employee, index) =>   //index is inbuilt variable of map started with 0
                                         <tr key={employee.empId}>
                                             <td className="text-center">{index + 1}</td>
-                                            <td className="text-justify">{YYYY_MM_DD_Formater(employee.ekppMonth)}</td>
+                                            <td className="text-justify">{employee.ekppMonth}</td>
                                             <td className="text-center">{employee.empOverallAchive}</td>
 
                                             <td className="text-center">{employee.gmOverallAchieve}</td>

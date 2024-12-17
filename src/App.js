@@ -93,7 +93,7 @@ function App() {
             </li>
 
             <li className="dropdown">
-              <a className="dropdown-toggle" data-toggle="dropdown" href="#">KPP Rating Master
+              <a className="dropdown-toggle" data-toggle="dropdown" href="#">Current Month KPP Rating
                 <span className="caret"></span></a>
               <ul className="dropdown-menu">
                 <li><Link to="/allHodKppStatus">Add Ratings for HOD KPP</Link></li>
@@ -105,7 +105,7 @@ function App() {
 
 
             <li className="dropdown">
-              <a className="dropdown-toggle" data-toggle="dropdown" href="#">Cumulative Master
+              <a className="dropdown-toggle" data-toggle="dropdown" href="#">Cumulative KPP Ratings
                 <span className="caret"></span></a>
               <ul className="dropdown-menu">
                 <li><Link to="/viewHODCumulativeKpp">View Monthly HOD Cumulative Ratings</Link></li>

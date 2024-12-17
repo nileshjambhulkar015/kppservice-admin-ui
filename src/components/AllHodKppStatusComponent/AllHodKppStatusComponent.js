@@ -119,6 +119,7 @@ export default function AllHodKppStatusComponent() {
                         <thead>
                             <tr>
                                 <th className='text-center'>Sr No</th>
+                                <th className='text-center'>KPP Month</th>
                                 <th className='text-center'>Employee Name</th>
                                 <th className='text-center'>Employee Id</th>
                                 <th className='text-center'>Department Name</th>
@@ -135,6 +136,7 @@ export default function AllHodKppStatusComponent() {
                                     (empResponse, index) =>
                                         <tr key={empResponse.empId} className="text-justify">
                                             <td className='text-center'>{index + 1}</td>
+                                            <td className='text-center'>{empResponse.ekppMonth}</td>
                                             <td>{empResponse.empFirstName + ' ' + empResponse.empMiddleName + ' ' + empResponse.empLastName}</td>
                                             <td className='text-center'>{empResponse.empEId}</td>
                                             <td className='text-center'>{empResponse.deptName}</td>
