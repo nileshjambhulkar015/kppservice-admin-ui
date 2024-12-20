@@ -6,7 +6,7 @@ import PaginationComponent from '../PaginationComponent/PaginationComponent';
 import OveralHodKppFeedbackService from '../../services/OveralHodKppFeedbackService';
 
 
-export default function OveralHodKppFeedbackComponent() {
+export default function AllHodKppFeedbackStatusComponent() {
 
     const navigate = useNavigate();
     const { empId } = useParams();
@@ -84,11 +84,18 @@ export default function OveralHodKppFeedbackComponent() {
         );
     }
 
-    const navigateToUpdateRating=(empId)=>{
+    const navigateToUpdateRating=(empId,empEId,roleId,deptId,desigId,finYear)=>{
        
-        Cookies.set('hodEmpIdForKppRatings', empId);
-        navigate(`/addHodKppRating`, { replace: true })       
-    }
+        Cookies.set('hodEmpIdForKppFeedback', empId);
+        Cookies.set('hodEmpEIdForKppFeedback', empEId);
+        Cookies.set('hodFinYearForKppFeedback', finYear);
+        Cookies.set('hodEmpRoleIdForKppFeedback', roleId);
+        Cookies.set('hodEmpDeptIdForKppFeedback', deptId);
+        Cookies.set('hodEmpDesigIdForKppFeedback', desigId);
+
+        navigate(`/overallkppfeedback`, { replace: true })    
+        
+    } 
 
     return (
         <div className='container-fluid'>
@@ -146,7 +153,7 @@ export default function OveralHodKppFeedbackComponent() {
                                             <td className='text-center'>{empResponse.totalGmOverallAchieve}</td>
                                             <td className='text-center'>{empResponse.gmKppStatus}</td>
                                             <td>
-                                                <button type="submit" className="btn col-sm-offset-1 btn-success" disabled={empResponse.empEKppStatus=="Pending"} onClick={() => navigateToUpdateRating(empResponse.empId)}>View</button>                                  
+                                                <button type="submit" className="btn col-sm-offset-1 btn-success" disabled={empResponse.empEKppStatus=="Pending"} onClick={() => navigateToUpdateRating(empResponse.empId,empResponse.empEId,empResponse.roleId,empResponse.deptId,empResponse.desigId,empResponse.finYear)}>View</button>                                  
                                                 <button type="submit" className="btn col-sm-offset-1 btn-success" disabled={empResponse.gmKppStatus === "Pending" || empResponse.gmKppStatus !== "Approved"}  onClick={() => completeEmpKpp(empResponse.empId)} >Finish</button>
                                                 </td>      
                                                 </tr>

@@ -39,7 +39,9 @@ import FreezeYearlyViewAllHODCumulativeComponent from "./components/CumulativeKp
 import FreezeYearlySingleEmployeeCumulativeComponent from "./components/CumulativeKppComponent/FreezeYearlySingleEmployeeCumulativeComponent";
 import FreezeYearlySingleHODCumulativeComponent from "./components/CumulativeKppComponent/FreezeYearlySingleHODCumulativeComponent";
 import ChangeEmployeeDeptDesigComponent from "./components/ViewAllEmpTransferToOtherHODComponent/ChangeEmployeeDeptDesigComponent";
-import OveralHodKppFeedbackComponent from "./components/OverallKppFeedbackComponent/OveralHodKppFeedbackComponent";
+import AllHodKppFeedbackStatusComponent from "./components/OverallKppFeedbackComponent/AllHodKppFeedbackStatusComponent";
+import AlHodKppFeedbackStatusComponent from "./components/OverallKppFeedbackComponent/AllHodKppFeedbackStatusComponent";
+import OverallkHodKppFeedbackComponent from "./components/OverallKppFeedbackComponent/OverallkHodKppFeedbackComponent";
 
 function App() {
 
@@ -66,7 +68,17 @@ function App() {
           </div>
           <ul className="nav navbar-nav">
 
-            <li><Link to="/overallkppfeedback">Overall Kpp Feedback</Link></li>
+          
+          <li className="dropdown">
+          <a className="dropdown-toggle" data-toggle="dropdown" href="#">Overall Kpp Feedback
+            <span className="caret"></span></a>
+          <ul className="dropdown-menu">
+            <li><Link to="/allhodkppfeedback">Overall HOD Kpp Feedback</Link></li>
+           
+          </ul>
+        </li>
+        
+      
 
 
             <li className="dropdown">
@@ -162,7 +174,9 @@ function App() {
         <Route exact path="/empTypeMaster" element={<EmployeeTypeComponent />}></Route>
         <Route exact path="/complaintTypeMaster" element={<ComplaintTypeComponent />}></Route>
         <Route exact path="/keyparemeter" element={<KeyParameterComponent />} ></Route>
-        <Route exact path="/overallkppfeedback" element={<OveralHodKppFeedbackComponent />} ></Route>
+        <Route exact path="/allhodkppfeedback" element={<AllHodKppFeedbackStatusComponent />} ></Route>
+        <Route exact path="/overallkppfeedback" element={<OverallkHodKppFeedbackComponent />} ></Route>
+        
   
         <Route exact path="/employee" element={<MainEmployeeComponent />}></Route>
         <Route exact path="/showEmployeeForKpp" element={<ShowEmployeeForKppComponent />}></Route>
