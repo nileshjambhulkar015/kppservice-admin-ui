@@ -31,9 +31,6 @@ import ComplaintTypeComponent from "./components/MasterComponent/ComplaintTypeCo
 import OthersPendingComplaintComponent from './components/ComplaintManagementComponent/OthersPendingComplaintComponent';
 import OthersResolveComplaintComponent from './components/ComplaintManagementComponent/OthersResolveComplaintComponent';
 import OthersInProgressComplaintComponent from './components/ComplaintManagementComponent/OthersInProgressComplaintComponent';
-
-
-
 import AnnouncementTypeComponent from "./components/MasterComponent/AnnouncementTypeComponent";
 import AnnouncementComponent from "./components/AnnouncementComponent/AnnouncementComponent";
 import FinancialYearComponent from "./components/MasterComponent/FinancialYearComponent";
@@ -42,6 +39,7 @@ import FreezeYearlyViewAllHODCumulativeComponent from "./components/CumulativeKp
 import FreezeYearlySingleEmployeeCumulativeComponent from "./components/CumulativeKppComponent/FreezeYearlySingleEmployeeCumulativeComponent";
 import FreezeYearlySingleHODCumulativeComponent from "./components/CumulativeKppComponent/FreezeYearlySingleHODCumulativeComponent";
 import ChangeEmployeeDeptDesigComponent from "./components/ViewAllEmpTransferToOtherHODComponent/ChangeEmployeeDeptDesigComponent";
+import OveralHodKppFeedbackComponent from "./components/OverallKppFeedbackComponent/OveralHodKppFeedbackComponent";
 
 function App() {
 
@@ -68,7 +66,7 @@ function App() {
           </div>
           <ul className="nav navbar-nav">
 
-            <li><Link to="/keyparemeter">Key Indicator Master</Link></li>
+            <li><Link to="/overallkppfeedback">Overall Kpp Feedback</Link></li>
 
 
             <li className="dropdown">
@@ -76,21 +74,13 @@ function App() {
                 <span className="caret"></span></a>
               <ul className="dropdown-menu">
                 <li><Link to="/employee">Employee Master</Link></li>
-
+                <li><Link to="/showEmployeeForKpp">Assign Employee Kpp</Link></li>
                 <li><Link to="/changeemployeedeptdesig">Change Employee Role | Department | Designation | Reporting Employee Name</Link></li>
               </ul>
             </li>
 
 
-            <li className="dropdown">
-              <a className="dropdown-toggle" data-toggle="dropdown" href="#">Employee KPP Master
-                <span className="caret"></span></a>
-              <ul className="dropdown-menu">
-
-                <li><Link to="/showEmployeeForKpp">Assign Employee Kpp</Link></li>
-
-              </ul>
-            </li>
+          
 
             <li className="dropdown">
               <a className="dropdown-toggle" data-toggle="dropdown" href="#">Current Month KPP Rating
@@ -138,6 +128,7 @@ function App() {
                 <li><Link to="/department">Department Master</Link></li>
                 <li><Link to="/designation">Designation Master</Link></li>
                 <li><Link to="/uomMaster">UoM Master</Link></li>
+                <li><Link to="/keyparemeter">Key Indicator Master</Link></li>
                 <li><Link to="/empTypeMaster">Employee Type Master</Link></li>
                 <li><Link to="/complaintTypeMaster">Complaint Type Master</Link></li>
                 <li><Link to="/announcementType">Announcement Type Master</Link></li>
@@ -171,6 +162,8 @@ function App() {
         <Route exact path="/empTypeMaster" element={<EmployeeTypeComponent />}></Route>
         <Route exact path="/complaintTypeMaster" element={<ComplaintTypeComponent />}></Route>
         <Route exact path="/keyparemeter" element={<KeyParameterComponent />} ></Route>
+        <Route exact path="/overallkppfeedback" element={<OveralHodKppFeedbackComponent />} ></Route>
+  
         <Route exact path="/employee" element={<MainEmployeeComponent />}></Route>
         <Route exact path="/showEmployeeForKpp" element={<ShowEmployeeForKppComponent />}></Route>
         <Route exact path="/changeDeptDesig" element={<ChangeEmployeeDeptDesigComponent />}></Route>

@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { useNavigate, useParams } from 'react-router-dom';
 import AllHodKppService from '../../services/AllHodKppService';
 import PaginationComponent from '../PaginationComponent/PaginationComponent';
+import OveralHodKppFeedbackService from '../../services/OveralHodKppFeedbackService';
 
 
 export default function OveralHodKppFeedbackComponent() {
@@ -36,7 +37,7 @@ export default function OveralHodKppFeedbackComponent() {
             currentPage,
             itemsPerPage
         }
-        AllHodKppService.getEmployeeDetailsByPagination(data).then((res) => {
+        OveralHodKppFeedbackService.getEmployeeKppDetailsByPagination(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
             setEmpResponses(res.data.responseData.content);
@@ -61,7 +62,7 @@ export default function OveralHodKppFeedbackComponent() {
             itemsPerPage,
             empKppStatus
         }
-        AllHodKppService.getEmployeeByStatusByPagination(data).then((res) => {
+        OveralHodKppFeedbackService.getEmployeeKppDetailsByStatusByPagination(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
            
@@ -119,7 +120,7 @@ export default function OveralHodKppFeedbackComponent() {
                         <thead>
                             <tr>
                                 <th className='text-center'>Sr No</th>
-                                <th className='text-center'>KPP Month</th>
+                                <th className='text-center'>KPP Year</th>
                                 <th className='text-center'>Employee Name</th>
                                 <th className='text-center'>Employee Id</th>
                                 <th className='text-center'>Department Name</th>
@@ -136,13 +137,13 @@ export default function OveralHodKppFeedbackComponent() {
                                     (empResponse, index) =>
                                         <tr key={empResponse.empId} className="text-justify">
                                             <td className='text-center'>{index + 1}</td>
-                                            <td className='text-center'>{empResponse.ekppMonth}</td>
-                                            <td>{empResponse.empFirstName + ' ' + empResponse.empMiddleName + ' ' + empResponse.empLastName}</td>
+                                            <td className='text-center'>{empResponse.finYear}</td>
+                                            <td>{empResponse.empName}</td>
                                             <td className='text-center'>{empResponse.empEId}</td>
                                             <td className='text-center'>{empResponse.deptName}</td>
                                             <td className='text-center'>{empResponse.desigName}</td>
-                                            <td className='text-center'>{empResponse.empOverallAchive}</td>
-                                            <td className='text-center'>{empResponse.gmOverallAchieve}</td>
+                                            <td className='text-center'>{empResponse.totalEmpOverallAchieve}</td>
+                                            <td className='text-center'>{empResponse.totalGmOverallAchieve}</td>
                                             <td className='text-center'>{empResponse.gmKppStatus}</td>
                                             <td>
                                                 <button type="submit" className="btn col-sm-offset-1 btn-success" disabled={empResponse.empEKppStatus=="Pending"} onClick={() => navigateToUpdateRating(empResponse.empId)}>View</button>                                  
