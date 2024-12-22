@@ -42,6 +42,7 @@ import ChangeEmployeeDeptDesigComponent from "./components/ViewAllEmpTransferToO
 import AllHodKppFeedbackStatusComponent from "./components/OverallKppFeedbackComponent/AllHodKppFeedbackStatusComponent";
 import AlHodKppFeedbackStatusComponent from "./components/OverallKppFeedbackComponent/AllHodKppFeedbackStatusComponent";
 import OverallkHodKppFeedbackComponent from "./components/OverallKppFeedbackComponent/OverallkHodKppFeedbackComponent";
+import AllEmployeeKppFeedbackStatusComponent from "./components/OverallKppFeedbackComponent/AllEmployeeKppFeedbackStatusComponent";
 
 function App() {
 
@@ -74,7 +75,8 @@ function App() {
             <span className="caret"></span></a>
           <ul className="dropdown-menu">
             <li><Link to="/allhodkppfeedback">Overall HOD Kpp Feedback</Link></li>
-           
+            <li><Link to="/allemployeekppfeedback">Overall Employee Kpp Feedback</Link></li>
+            
           </ul>
         </li>
         
@@ -176,6 +178,8 @@ function App() {
         <Route exact path="/keyparemeter" element={<KeyParameterComponent />} ></Route>
         <Route exact path="/allhodkppfeedback" element={<AllHodKppFeedbackStatusComponent />} ></Route>
         <Route exact path="/overallkppfeedback" element={<OverallkHodKppFeedbackComponent />} ></Route>
+        <Route exact path="/allemployeekppfeedback" element={<AllEmployeeKppFeedbackStatusComponent />} ></Route>
+        
         
   
         <Route exact path="/employee" element={<MainEmployeeComponent />}></Route>

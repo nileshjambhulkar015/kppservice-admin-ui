@@ -7,9 +7,12 @@ import Cookies from 'js-cookie';
 import { BASE_URL_API } from '../../services/URLConstants';
 import FreezeCumulativeService from '../../services/FreezeCumulativeService';
 import OveralHodKppFeedbackService from '../../services/OveralHodKppFeedbackService';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 const OverallkHodKppFeedbackComponent = () => {
+    
+        const navigate = useNavigate();
     const [ekppMonth, setEkppMonth] = useState('');
     const [empRemark, setEmpRemark] = useState('');
     const [finYearId, setFinYearId] = useState('');
@@ -62,6 +65,18 @@ const OverallkHodKppFeedbackComponent = () => {
         setFinYear(value)
     }
 
+     const navigateToAllHodKppFeedbackStatusComponent=()=>{
+           
+           Cookies.remove('hodEmpIdForKppFeedback');
+            Cookies.remove('hodEmpEIdForKppFeedback');
+            Cookies.remove('hodFinYearForKppFeedback');
+            Cookies.remove('hodEmpRoleIdForKppFeedback');
+            Cookies.remove('hodEmpDeptIdForKppFeedback');
+            Cookies.remove('hodEmpDesigIdForKppFeedback');
+    
+            navigate(`/allhodkppfeedback`, { replace: true })    
+            
+        } 
 
     useEffect(() => {
 setFinYear(Cookies.get('hodFinYearForKppFeedback'))
@@ -328,8 +343,9 @@ setFinYear(Cookies.get('hodFinYearForKppFeedback'))
                                     <div className="col-sm-10"></div>
                                     <div className="col-sm-2"><button type="submit" className="btn btn-success"> Submit</button>
                                         <a href={BASE_URL_API + `/report/in-progress-hod-kpp-status?empId=${Cookies.get('empId')}`}>
-                                            <button type="button" className="btn btn-success col-sm-offset-1 " disabled={kppMasterResponses?.empKppStatus === "Pending"}>  Download</button></a>
-                                    </div>
+                                            <button type="button" className="btn btn-success col-sm-offset-1" disabled={kppMasterResponses?.empKppStatus === "Pending"}>  Download</button></a>
+                                           <button type="submit" className="btn btn-success col-sm-offset-1" onClick={() => navigateToAllHodKppFeedbackStatusComponent()}> Back</button>
+                                            </div>
                                 </div>
                             </Form>
                         )

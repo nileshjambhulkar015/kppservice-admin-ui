@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
-//import EmployeeKppsService from '../../services/EmployeeKppsService';
+import FinancialYearService from '../../services/MasterService/FinancialYearService';
 import EmployeeKppsService from '../../services/EmployeeKppsService'
 import AllHodKppService from '../../services/AllHodKppService';
 import { BASE_URL_API } from '../../services/URLConstants';
@@ -81,6 +81,10 @@ const EmplyeeUpdateKppRatingsComponent = () => {
 
     }
     useEffect(() => {
+        FinancialYearService.ddAllFinancialYear().then((res) => {         
+            Cookies.set('finYear', res.data?.[0].finYear);
+        });
+
         EmployeeKppsService.getKPPDetails().then((res) => {
             setEkppMonth(YYYY_MM_DD_Formater(res.data.ekppMonth))
             setEmpId(res.data.empId);
