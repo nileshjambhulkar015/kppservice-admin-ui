@@ -6,6 +6,7 @@ import PaginationComponent from '../PaginationComponent/PaginationComponent';
 import OveralHodKppFeedbackService from '../../services/OveralHodKppFeedbackService';
 
 
+
 export default function AllEmployeeKppFeedbackStatusComponent() {
 
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function AllEmployeeKppFeedbackStatusComponent() {
     const [empResponses, setEmpResponses] = useState([])
 
     const [isSuccess, setIsSuccess] = useState(true)
-
+    const [responseMessage, setResponseMessage] = useState('')
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [dataPageable, setDataPageable] = useState([])
@@ -45,6 +46,7 @@ export default function AllEmployeeKppFeedbackStatusComponent() {
 
         }
         else {
+            setResponseMessage(res.data.responseMessage)
             setIsSuccess(false);
         }
 
@@ -62,7 +64,7 @@ export default function AllEmployeeKppFeedbackStatusComponent() {
             itemsPerPage,
             empKppStatus
         }
-        OveralHodKppFeedbackService.getEmployeeKppDetailsByStatusByPagination(data).then((res) => {
+        OveralHodKppFeedbackService.searchEmployeeKppDetailsByPagination(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
            
@@ -71,6 +73,7 @@ export default function AllEmployeeKppFeedbackStatusComponent() {
 
         }
         else {
+            setResponseMessage(res.data.responseMessage)
             setIsSuccess(false);
         }
             
@@ -161,7 +164,7 @@ export default function AllEmployeeKppFeedbackStatusComponent() {
                             }
                         </tbody>
                     </table>
-                    : <h4>HOD KPP is not available</h4>}
+                    : <h4>{responseMessage}</h4>}
                     { empResponses?.length>0 && (
                     <PaginationComponent 
                         currentPage={currentPage}

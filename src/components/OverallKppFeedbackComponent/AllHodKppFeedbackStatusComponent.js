@@ -15,7 +15,7 @@ export default function AllHodKppFeedbackStatusComponent() {
     const [empResponses, setEmpResponses] = useState([])
 
     const [isSuccess, setIsSuccess] = useState(true)
-
+    const [responseMessage, setResponseMessage] = useState('')
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [dataPageable, setDataPageable] = useState([])
@@ -37,7 +37,7 @@ export default function AllHodKppFeedbackStatusComponent() {
             currentPage,
             itemsPerPage
         }
-        OveralHodKppFeedbackService.getEmployeeKppDetailsByPagination(data).then((res) => {
+        OveralHodKppFeedbackService.getHODKppDetailsByPagination(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
             setEmpResponses(res.data.responseData.content);
@@ -45,6 +45,7 @@ export default function AllHodKppFeedbackStatusComponent() {
 
         }
         else {
+            setResponseMessage(res.data.responseMessage)
             setIsSuccess(false);
         }
 
@@ -62,7 +63,7 @@ export default function AllHodKppFeedbackStatusComponent() {
             itemsPerPage,
             empKppStatus
         }
-        OveralHodKppFeedbackService.getEmployeeKppDetailsByStatusByPagination(data).then((res) => {
+        OveralHodKppFeedbackService.getHODKppDetailsByStatusByPagination(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
            
@@ -71,6 +72,7 @@ export default function AllHodKppFeedbackStatusComponent() {
 
         }
         else {
+            setResponseMessage(res.data.responseMessage)
             setIsSuccess(false);
         }
             
@@ -161,7 +163,7 @@ export default function AllHodKppFeedbackStatusComponent() {
                             }
                         </tbody>
                     </table>
-                    : <h4>HOD KPP is not available</h4>}
+                    : <h4>{responseMessage}</h4>}
                     { empResponses?.length>0 && (
                     <PaginationComponent 
                         currentPage={currentPage}
