@@ -7,6 +7,15 @@ import { BASE_URL_API, LOGIN_UI_BASE_URL } from "./URLConstants";
 
 class EmployeeKppsService {
 
+    ddAllFinancialYear() {
+        if (null != Cookies.get('empId')) {
+            return axios.get(BASE_URL_API + "/cumulative/dd-report-fin-year")
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+    }
+
     //for employee, GM approved the kpp and adding rating
     getKPPDetails() {
         if (null != Cookies.get('empId')) {

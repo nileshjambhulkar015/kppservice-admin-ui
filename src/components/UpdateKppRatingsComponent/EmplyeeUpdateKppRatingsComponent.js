@@ -30,9 +30,10 @@ const EmplyeeUpdateKppRatingsComponent = () => {
 
     const [totalOverallRatings, setTotalOverallRatings] = useState();
     const [totalOverallPercentage, setTotalOverallPercentage] = useState();
+    const [finYearId, setFinYearId] = useState('');
+    const [finYear, setFinYear] = useState('');
 
-
-
+    const [financialYears, setFinancialYears] = useState([])
     //for gm approved or reject status selection
     const onHodStatusChangeHandler = (event) => {
         setGmKppStatus(event);
@@ -81,9 +82,15 @@ const EmplyeeUpdateKppRatingsComponent = () => {
 
     }
     useEffect(() => {
-        FinancialYearService.ddAllFinancialYear().then((res) => {         
-            Cookies.set('finYear', res.data?.[0].finYear);
-        });
+          FinancialYearService.getFinancialYearById(1).then((res) => {
+                           if (null != res.data) {
+                              console.log("res.data?.finYear :", res.data?.finYear)
+                               setFinYear(res.data?.finYear)
+                           } else {
+                               console.log("Value not set");
+                           }
+                       });
+       
 
         EmployeeKppsService.getKPPDetails().then((res) => {
             setEkppMonth(YYYY_MM_DD_Formater(res.data.ekppMonth))
@@ -106,8 +113,8 @@ const EmplyeeUpdateKppRatingsComponent = () => {
     }
 
     //when GM click on finish button
-    const completeEmpKpp = (e) => {
-        AllHodKppService.completeEmpKppGM(e).then(res => {
+    const completeEmpKpp = (finYear) => {
+        AllHodKppService.completeEmpKppGM(finYear).then(res => {
             navigate(`/allEmployeeKppStatus`, { replace: true })
         }
         );

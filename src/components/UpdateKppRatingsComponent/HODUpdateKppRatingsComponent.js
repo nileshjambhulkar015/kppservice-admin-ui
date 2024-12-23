@@ -30,7 +30,10 @@ const HODUpdateKppRatingsComponent = () => {
 
     const [totalOverallRatings, setTotalOverallRatings] = useState();
     const [totalOverallPercentage, setTotalOverallPercentage] = useState();
+    const [finYearId, setFinYearId] = useState('');
+    const [finYear, setFinYear] = useState('');
 
+    const [financialYears, setFinancialYears] = useState([])
 
     //for gm approved or reject status selection
     const onHodStatusChangeHandler = (event) => {
@@ -81,11 +84,16 @@ const HODUpdateKppRatingsComponent = () => {
         return (sum / totalKpps).toFixed(1);
     }
     useEffect(() => {
+        FinancialYearService.getFinancialYearById(1).then((res) => {
+                    if (null != res.data) {
+                       console.log("res.data?.finYear :", res.data?.finYear)
+                        setFinYear(res.data?.finYear)
+                    } else {
+                        console.log("Value not set");
+                    }
+                });
 
-        FinancialYearService.ddAllFinancialYear().then((res) => {         
-            Cookies.set('finYear', res.data?.[0].finYear);
-        });
-        
+    
         EmployeeKppsService.getHodKPPDetailsForGmApproval().then((res) => {
             setEkppMonth(res.data.ekppMonth)
             setEmpId(res.data.empId);
@@ -110,8 +118,9 @@ const HODUpdateKppRatingsComponent = () => {
     }
 
     //when GM click on finish button
-    const completeEmpKpp = (e) => {
-        AllHodKppService.completeEmpKppGM(e).then(res => {
+    const completeEmpKpp = (finYear) => {
+      
+        AllHodKppService.completeHODKppGM(finYear).then(res => {
             navigate(`/allHodKppStatus`, { replace: true })
         }
         );
@@ -133,7 +142,7 @@ const HODUpdateKppRatingsComponent = () => {
                     enableReinitialize={true}
                     onSubmit={(values) => {
 
-                        const payload = { "kppUpdateRequests": values?.fields, "gmTotalAchivedWeight": totalAchivedWeight, "gmTotalOverallAchieve": totalOverAllAchive, "gmTotalOverallTaskComp": totalOverallTaskComp, "totalOverallRatings": totalOverallRatings, "totalOverallPercentage": totalOverallPercentage, gmKppStatus, gmRemark };
+                        const payload = { "kppUpdateRequests": values?.fields,"finYear": finYear, "gmTotalAchivedWeight": totalAchivedWeight, "gmTotalOverallAchieve": totalOverAllAchive, "gmTotalOverallTaskComp": totalOverallTaskComp, "totalOverallRatings": totalOverallRatings, "totalOverallPercentage": totalOverallPercentage, gmKppStatus, gmRemark };
                         EmployeeKppsService.updateEmpApproveOrRejectByHod(payload).then(res => {
                             alert("GM KPP Ratings added");
                         });
@@ -345,7 +354,7 @@ const HODUpdateKppRatingsComponent = () => {
                                             <button type="button" className="btn btn-success col-sm-offset-1 " disabled={kppMasterResponses?.empKppStatus === "Pending"}
                                             > Download</button></a>
 
-                                        <button type="submit" className="btn col-sm-offset-1 btn-success" onClick={() => completeEmpKpp(empId)} >Finish</button>
+                                        <button type="submit" className="btn col-sm-offset-1 btn-success" onClick={() => completeEmpKpp(finYear)} >Finish</button>
 
                                         <button type="button" className="btn btn-success col-sm-offset-1 " disabled={kppMasterResponses?.empKppStatus === "Pending"}
                                             onClick={() => { navigateBack() }}> Back</button>

@@ -28,9 +28,20 @@ class AllHodKppService {
     }
 
 
-    completeEmpKppGM(empId) {
+    completeHODKppGM(finYear) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + `/gm-approval/finish?empId=${empId}&finYear=${Cookies.get('finYear')}&statusCd=A`)
+            return axios.get(BASE_URL_API + `/gm-approval/finish?empId=${Cookies.get('hodEmpIdForKppRatings')}&finYear=${finYear}&statusCd=A`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
+    }
+
+    
+    completeEmpKppGM(finYear) {
+        if (null != Cookies.get('empId')) {
+            return axios.get(BASE_URL_API + `/gm-approval/finish?empId=${Cookies.get('empIdForKppRatings')}&finYear=${finYear}&statusCd=A`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
