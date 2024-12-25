@@ -25,29 +25,6 @@ class OveralHodKppFeedbackService {
         }
 
     }
-
-    ///for employee
-    getEmployeeKppDetailsByPagination(data) {
-        if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + `/overall-kpp-feedback/employee?empKppStatus=In-Progress&roleId=3&page=${data.currentPage - 1}&size=${data.itemsPerPage}`)
-        } else {
-            alert("You need to login first")
-            window.location.replace(LOGIN_UI_BASE_URL);
-        }
-    }
-
-    searchEmployeeKppDetailsByPagination(data) {
-        if (null != Cookies.get('empId')) {
-            //for admin we need to fetch all in progress kpp request
-            return axios.get(BASE_URL_API + `/overall-kpp-feedback/employee?roleId=3&empKppStatus=${data.empKppStatus}&page=${data.currentPage - 1}&size=${data.itemsPerPage}&sort=desig.desig.name`)
-        } else {
-            alert("You need to login first")
-            window.location.replace(LOGIN_UI_BASE_URL);
-        }
-
-    }
-
-
     
     ddAllFinancialYear() {
         if (null != Cookies.get('empId')) {
@@ -89,6 +66,18 @@ class OveralHodKppFeedbackService {
             window.location.replace(LOGIN_UI_BASE_URL);
         }
     }
+
+    completeEmpKppGM(finYear) {
+        console.log("Comple finYear : ", finYear)
+        if (null != Cookies.get('empId')) {
+            return axios.get(BASE_URL_API + `/gm-approval/finish?empId=${Cookies.get('empIdForKppRatings')}&finYear=${finYear}&statusCd=A`)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
+    }
+    
 
 }
 

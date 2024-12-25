@@ -80,7 +80,7 @@ export default function AllHodKppFeedbackStatusComponent() {
     }
 
     const completeEmpKpp = (e) => {
-        AllHodKppService.completeEmpKppGM(e).then(res => {
+        OveralHodKppFeedbackService.completeEmpKppGM(e).then(res => {
             
         }
         );

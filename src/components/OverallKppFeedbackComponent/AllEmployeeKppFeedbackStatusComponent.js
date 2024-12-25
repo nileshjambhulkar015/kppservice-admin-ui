@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate, useParams } from 'react-router-dom';
-import AllHodKppService from '../../services/AllHodKppService';
-import PaginationComponent from '../PaginationComponent/PaginationComponent';
-import OveralHodKppFeedbackService from '../../services/OveralHodKppFeedbackService';
 
+import PaginationComponent from '../PaginationComponent/PaginationComponent';
+import OverallEmployeeKppFeedbackService from '../../services/OverallEmployeeKppFeedbackService';
 
 
 export default function AllEmployeeKppFeedbackStatusComponent() {
@@ -38,7 +37,7 @@ export default function AllEmployeeKppFeedbackStatusComponent() {
             currentPage,
             itemsPerPage
         }
-        OveralHodKppFeedbackService.getEmployeeKppDetailsByPagination(data).then((res) => {
+        OverallEmployeeKppFeedbackService.getEmployeeKppDetailsByPagination(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
             setEmpResponses(res.data.responseData.content);
@@ -64,7 +63,7 @@ export default function AllEmployeeKppFeedbackStatusComponent() {
             itemsPerPage,
             empKppStatus
         }
-        OveralHodKppFeedbackService.searchEmployeeKppDetailsByPagination(data).then((res) => {
+        OverallEmployeeKppFeedbackService.searchEmployeeKppDetailsByPagination(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
            
@@ -81,7 +80,7 @@ export default function AllEmployeeKppFeedbackStatusComponent() {
     }
 
     const completeEmpKpp = (e) => {
-        AllHodKppService.completeEmpKppGM(e).then(res => {
+        OverallEmployeeKppFeedbackService.completeEmpKppGM(e).then(res => {
             
         }
         );
@@ -89,14 +88,14 @@ export default function AllEmployeeKppFeedbackStatusComponent() {
 
     const navigateToUpdateRating=(empId,empEId,roleId,deptId,desigId,finYear)=>{
        
-        Cookies.set('hodEmpIdForKppFeedback', empId);
-        Cookies.set('hodEmpEIdForKppFeedback', empEId);
-        Cookies.set('hodFinYearForKppFeedback', finYear);
-        Cookies.set('hodEmpRoleIdForKppFeedback', roleId);
-        Cookies.set('hodEmpDeptIdForKppFeedback', deptId);
-        Cookies.set('hodEmpDesigIdForKppFeedback', desigId);
+        Cookies.set('empIdForKppFeedback', empId);
+        Cookies.set('empEIdForKppFeedback', empEId);
+        Cookies.set('empFinYearForKppFeedback', finYear);
+        Cookies.set('empRoleIdForKppFeedback', roleId);
+        Cookies.set('empDeptIdForKppFeedback', deptId);
+        Cookies.set('empDesigIdForKppFeedback', desigId);
 
-        navigate(`/overallkppfeedback`, { replace: true })    
+        navigate(`/overallemployeekppfeedback`, { replace: true })    
         
     } 
 

@@ -40,7 +40,7 @@ import FreezeYearlySingleEmployeeCumulativeComponent from "./components/Cumulati
 import FreezeYearlySingleHODCumulativeComponent from "./components/CumulativeKppComponent/FreezeYearlySingleHODCumulativeComponent";
 import ChangeEmployeeDeptDesigComponent from "./components/ViewAllEmpTransferToOtherHODComponent/ChangeEmployeeDeptDesigComponent";
 import AllHodKppFeedbackStatusComponent from "./components/OverallKppFeedbackComponent/AllHodKppFeedbackStatusComponent";
-import AlHodKppFeedbackStatusComponent from "./components/OverallKppFeedbackComponent/AllHodKppFeedbackStatusComponent";
+import OverallEmployeeKppFeedbackComponent from "./components/OverallKppFeedbackComponent/OverallEmployeeKppFeedbackComponent";
 import OverallkHodKppFeedbackComponent from "./components/OverallKppFeedbackComponent/OverallkHodKppFeedbackComponent";
 import AllEmployeeKppFeedbackStatusComponent from "./components/OverallKppFeedbackComponent/AllEmployeeKppFeedbackStatusComponent";
 
@@ -179,7 +179,7 @@ function App() {
         <Route exact path="/allhodkppfeedback" element={<AllHodKppFeedbackStatusComponent />} ></Route>
         <Route exact path="/overallkppfeedback" element={<OverallkHodKppFeedbackComponent />} ></Route>
         <Route exact path="/allemployeekppfeedback" element={<AllEmployeeKppFeedbackStatusComponent />} ></Route>
-        
+        <Route exact path="/overallemployeekppfeedback" element={<OverallEmployeeKppFeedbackComponent />} ></Route>
         
   
         <Route exact path="/employee" element={<MainEmployeeComponent />}></Route>
