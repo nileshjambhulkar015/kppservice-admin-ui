@@ -134,6 +134,7 @@ export default function AllEmployeeKppFeedbackStatusComponent() {
                                 <th className='text-center'>Employee Id</th>
                                 <th className='text-center'>Department Name</th>
                                 <th className='text-center'>Designation Name</th>
+                                <th className='text-center'>Employee Ratings</th>
                                 <th className='text-center'>Hod Ratings</th>
                                 <th className='text-center'>GM Ratings</th>
                                 <th className='text-center'>Status</th>
@@ -152,6 +153,7 @@ export default function AllEmployeeKppFeedbackStatusComponent() {
                                             <td className='text-center'>{empResponse.deptName}</td>
                                             <td className='text-center'>{empResponse.desigName}</td>
                                             <td className='text-center'>{empResponse.totalEmpOverallAchieve}</td>
+                                            <td className='text-center'>{empResponse.totalHodOverallAchieve}</td>
                                             <td className='text-center'>{empResponse.totalGmOverallAchieve}</td>
                                             <td className='text-center'>{empResponse.gmKppStatus}</td>
                                             <td>

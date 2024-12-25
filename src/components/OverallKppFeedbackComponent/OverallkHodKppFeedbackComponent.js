@@ -11,8 +11,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 
 const OverallkHodKppFeedbackComponent = () => {
-    
-        const navigate = useNavigate();
+
+    const navigate = useNavigate();
     const [ekppMonth, setEkppMonth] = useState('');
     const [empRemark, setEmpRemark] = useState('');
     const [finYearId, setFinYearId] = useState('');
@@ -51,7 +51,7 @@ const OverallkHodKppFeedbackComponent = () => {
     const [empAreaOfImprovement, setEmpAreaOfImprovement] = useState();
     const [empTrainginDevelopmentNeeds, setEmpTrainginDevelopmentNeeds] = useState();
     const [remark, setRemark] = useState();
-  
+
     const [financialYears, setFinancialYears] = useState([])
 
     const YYYY_MM_DD_Formater = (date, format = 'YYYY-MM-DD') => {
@@ -66,21 +66,21 @@ const OverallkHodKppFeedbackComponent = () => {
         setFinYear(value)
     }
 
-     const navigateToAllHodKppFeedbackStatusComponent=()=>{
-           
-           Cookies.remove('hodEmpIdForKppFeedback');
-            Cookies.remove('hodEmpEIdForKppFeedback');
-            Cookies.remove('hodFinYearForKppFeedback');
-            Cookies.remove('hodEmpRoleIdForKppFeedback');
-            Cookies.remove('hodEmpDeptIdForKppFeedback');
-            Cookies.remove('hodEmpDesigIdForKppFeedback');
-    
-            navigate(`/allhodkppfeedback`, { replace: true })    
-            
-        } 
+    const navigateToAllHodKppFeedbackStatusComponent = () => {
+
+        Cookies.remove('hodEmpIdForKppFeedback');
+        Cookies.remove('hodEmpEIdForKppFeedback');
+        Cookies.remove('hodFinYearForKppFeedback');
+        Cookies.remove('hodEmpRoleIdForKppFeedback');
+        Cookies.remove('hodEmpDeptIdForKppFeedback');
+        Cookies.remove('hodEmpDesigIdForKppFeedback');
+
+        navigate(`/allhodkppfeedback`, { replace: true })
+
+    }
 
     useEffect(() => {
-setFinYear(Cookies.get('hodFinYearForKppFeedback'))
+        setFinYear(Cookies.get('hodFinYearForKppFeedback'))
         if (finYear) {
             OveralHodKppFeedbackService.getHODKPPDetailsYearly().then((res) => {
                 if (null != res.data.ekppMonth) {
@@ -143,16 +143,15 @@ setFinYear(Cookies.get('hodFinYearForKppFeedback'))
                 }}
                     enableReinitialize={true}
                     onSubmit={(values) => {
-                        let empKppStatus = "Approved";
-                        let gmKppStatus = "Approved";
+                        let gmKppStatus = "In-Progress";
                         let evidence = "evidence added";
                         let empId = Cookies.get('hodEmpIdForKppFeedback');
                         let empEId = Cookies.get('hodEmpEIdForKppFeedback');
                         let roleId = Cookies.get('hodEmpRoleIdForKppFeedback');
                         let deptId = Cookies.get('hodEmpDeptIdForKppFeedback');
                         let desigId = Cookies.get('hodEmpDesigIdForKppFeedback');
-                    
-                        const payload = { "kppUpdateRequests": values?.fields, "finYear": finYear, "empId": empId, "empEId": empEId, "roleId": roleId, "deptId": deptId, "desigId": desigId, "totalEmpAchivedWeight": totalEmpAchivedWeight, "totalEmpOverallAchieve": totalEmpOverallAchieve, "totalEmpOverallTaskComp": totalEmpOverallTaskComp, "hodEmpId": hodEmpId, "totalHodAchivedWeight": totalHodAchivedWeight, "totalHodOverallAchieve": totalHodOverallAchieve, "totalHodOverallTaskComp": totalHodOverallTaskComp, "gmEmpId": gmEmpId, "totalGmAchivedWeight": totalGmAchivedWeight, "totalGmOverallAchieve": totalGmOverallAchieve, "totalGmOverallTaskComp": totalGmOverallTaskComp, "avgTotalOverallRating": totalOverallRatings, "avgTotalOverallPer": totalOverallPercentage, ekppMonth, empKppStatus,gmKppStatus, empRemark, evidence,empKeyStrength,empAreaOfImprovement,empTrainginDevelopmentNeeds,remark};
+
+                        const payload = { "kppUpdateRequests": values?.fields, "finYear": finYear, "empId": empId, "empEId": empEId, "roleId": roleId, "deptId": deptId, "desigId": desigId, "totalEmpAchivedWeight": totalEmpAchivedWeight, "totalEmpOverallAchieve": totalEmpOverallAchieve, "totalEmpOverallTaskComp": totalEmpOverallTaskComp, "hodEmpId": hodEmpId, "totalHodAchivedWeight": totalHodAchivedWeight, "totalHodOverallAchieve": totalHodOverallAchieve, "totalHodOverallTaskComp": totalHodOverallTaskComp, "gmEmpId": gmEmpId, "totalGmAchivedWeight": totalGmAchivedWeight, "totalGmOverallAchieve": totalGmOverallAchieve, "totalGmOverallTaskComp": totalGmOverallTaskComp, "avgTotalOverallRating": totalOverallRatings, "avgTotalOverallPer": totalOverallPercentage, ekppMonth, gmKppStatus, empRemark, evidence, empKeyStrength, empAreaOfImprovement, empTrainginDevelopmentNeeds, remark };
 
                         console.log("payload : ", payload)
                         OveralHodKppFeedbackService.saveHODKppFeedbackDetails(payload).then(res => {
@@ -195,7 +194,7 @@ setFinYear(Cookies.get('hodFinYearForKppFeedback'))
 
                                     setKppMasterResponses(res.data.responseData);
                                     setKppDetailsResponses(res.data.responseData?.kppStatusDetails)
-                                    
+
                                 });
 
                             } else {
@@ -220,14 +219,14 @@ setFinYear(Cookies.get('hodFinYearForKppFeedback'))
 
                             setFieldValue("fields", kppDetailsResponses)
                         };
-                     
+
                         return (
                             <Form className="form-horizontal">
 
                                 <div className="form-group">
                                     <label className="control-label col-sm-2" htmlFor="deptName">Financial Year:</label>
                                     <div className="col-sm-2">
-                                       {Cookies.get('hodFinYearForKppFeedback')}
+                                        {Cookies.get('hodFinYearForKppFeedback')}
                                     </div>
 
                                 </div>
@@ -296,7 +295,7 @@ setFinYear(Cookies.get('hodFinYearForKppFeedback'))
 
 
                                                     </td>
-                                                    
+
                                                 </tr>
                                         )}
                                         <tr className="text-justify">
@@ -322,7 +321,7 @@ setFinYear(Cookies.get('hodFinYearForKppFeedback'))
                                 <div className="form-group">
                                     <label className="control-label col-sm-4" htmlFor="empKppStatus">Key Strengths :</label>
                                     <div className="col-sm-6">
-                                    <textarea rows="3" className="form-control" id="empKeyStrength" name="empKeyStrength" defaultValue={empKeyStrength} placeholder="Enter Key Strength here" onChange={(e) => setEmpKeyStrength(e.target.value)} />
+                                        <textarea rows="3" className="form-control" id="empKeyStrength" name="empKeyStrength" defaultValue={empKeyStrength} placeholder="Enter Key Strength here" onChange={(e) => setEmpKeyStrength(e.target.value)} />
                                     </div>
                                 </div>
 
@@ -330,7 +329,7 @@ setFinYear(Cookies.get('hodFinYearForKppFeedback'))
                                 <div className="form-group">
                                     <label className="control-label col-sm-4" htmlFor="gmKppStatus">Area of Improvement :</label>
                                     <div className="col-sm-6">
-                                    <textarea row="5" className="form-control" id="empAreaOfImprovement" name="empAreaOfImprovement" defaultValue={empAreaOfImprovement} placeholder="Enter Area of improvement here" onChange={(e) => setEmpAreaOfImprovement(e.target.value)} />
+                                        <textarea row="5" className="form-control" id="empAreaOfImprovement" name="empAreaOfImprovement" defaultValue={empAreaOfImprovement} placeholder="Enter Area of improvement here" onChange={(e) => setEmpAreaOfImprovement(e.target.value)} />
                                     </div>
                                 </div>
 
@@ -338,15 +337,15 @@ setFinYear(Cookies.get('hodFinYearForKppFeedback'))
                                 <div className="form-group">
                                     <label className="control-label col-sm-4" htmlFor="gmKppStatus">Training & Development Needs :</label>
                                     <div className="col-sm-6">
-                                    <textarea row="5" className="form-control" id="empTrainginDevelopmentNeeds" name="empTrainginDevelopmentNeeds" defaultValue={empTrainginDevelopmentNeeds} placeholder="Enter Training And Development requires here" onChange={(e) => setEmpTrainginDevelopmentNeeds(e.target.value)} />
+                                        <textarea row="5" className="form-control" id="empTrainginDevelopmentNeeds" name="empTrainginDevelopmentNeeds" defaultValue={empTrainginDevelopmentNeeds} placeholder="Enter Training And Development requires here" onChange={(e) => setEmpTrainginDevelopmentNeeds(e.target.value)} />
                                     </div>
                                 </div>
 
-                                
+
                                 <div className="form-group">
                                     <label className="control-label col-sm-4" htmlFor="remark">Eligibility for Promotion ( Management Comments) :</label>
                                     <div className="col-sm-6">
-                                    <textarea row="5" className="form-control" id="remark" name="remark" defaultValue={remark} placeholder="Enter Eligibility for Promotion here" onChange={(e) => setRemark(e.target.value)} />
+                                        <textarea row="5" className="form-control" id="remark" name="remark" defaultValue={remark} placeholder="Enter Eligibility for Promotion here" onChange={(e) => setRemark(e.target.value)} />
                                     </div>
                                 </div>
 
@@ -355,8 +354,8 @@ setFinYear(Cookies.get('hodFinYearForKppFeedback'))
                                     <div className="col-sm-2"><button type="submit" className="btn btn-success"> Submit</button>
                                         <a href={BASE_URL_API + `/report/in-progress-hod-kpp-status?empId=${Cookies.get('empId')}`}>
                                             <button type="button" className="btn btn-success col-sm-offset-1" disabled={kppMasterResponses?.empKppStatus === "Pending"}>  Download</button></a>
-                                           <button type="submit" className="btn btn-success col-sm-offset-1" onClick={() => navigateToAllHodKppFeedbackStatusComponent()}> Back</button>
-                                            </div>
+                                        <button type="submit" className="btn btn-success col-sm-offset-1" onClick={() => navigateToAllHodKppFeedbackStatusComponent()}> Back</button>
+                                    </div>
                                 </div>
                             </Form>
                         )
