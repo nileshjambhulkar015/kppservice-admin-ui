@@ -50,6 +50,7 @@ const OverallkHodKppFeedbackComponent = () => {
     const [empKeyStrength, setEmpKeyStrength] = useState();
     const [empAreaOfImprovement, setEmpAreaOfImprovement] = useState();
     const [empTrainginDevelopmentNeeds, setEmpTrainginDevelopmentNeeds] = useState();
+    const [remark, setRemark] = useState();
   
     const [financialYears, setFinancialYears] = useState([])
 
@@ -114,9 +115,11 @@ setFinYear(Cookies.get('hodFinYearForKppFeedback'))
                 setEmpKeyStrength(res.data.responseData?.empKeyStrength)
                 setEmpAreaOfImprovement(res.data.responseData?.empAreaOfImprovement)
                 setEmpTrainginDevelopmentNeeds(res.data.responseData?.empTrainginDevelopmentNeeds)
-                
+                setRemark(res.data.responseData?.remark)
+
                 setKppMasterResponses(res.data.responseData);
                 setKppDetailsResponses(res.data.responseData?.kppStatusDetails)
+
             });
         }
 
@@ -149,10 +152,10 @@ setFinYear(Cookies.get('hodFinYearForKppFeedback'))
                         let deptId = Cookies.get('hodEmpDeptIdForKppFeedback');
                         let desigId = Cookies.get('hodEmpDesigIdForKppFeedback');
                     
-                        const payload = { "kppUpdateRequests": values?.fields, "finYear": finYear, "empId": empId, "empEId": empEId, "roleId": roleId, "deptId": deptId, "desigId": desigId, "totalEmpAchivedWeight": totalEmpAchivedWeight, "totalEmpOverallAchieve": totalEmpOverallAchieve, "totalEmpOverallTaskComp": totalEmpOverallTaskComp, "hodEmpId": hodEmpId, "totalHodAchivedWeight": totalHodAchivedWeight, "totalHodOverallAchieve": totalHodOverallAchieve, "totalHodOverallTaskComp": totalHodOverallTaskComp, "gmEmpId": gmEmpId, "totalGmAchivedWeight": totalGmAchivedWeight, "totalGmOverallAchieve": totalGmOverallAchieve, "totalGmOverallTaskComp": totalGmOverallTaskComp, "avgTotalOverallRating": totalOverallRatings, "avgTotalOverallPer": totalOverallPercentage, ekppMonth, empKppStatus,gmKppStatus, empRemark, evidence,empKeyStrength,empAreaOfImprovement,empTrainginDevelopmentNeeds};
+                        const payload = { "kppUpdateRequests": values?.fields, "finYear": finYear, "empId": empId, "empEId": empEId, "roleId": roleId, "deptId": deptId, "desigId": desigId, "totalEmpAchivedWeight": totalEmpAchivedWeight, "totalEmpOverallAchieve": totalEmpOverallAchieve, "totalEmpOverallTaskComp": totalEmpOverallTaskComp, "hodEmpId": hodEmpId, "totalHodAchivedWeight": totalHodAchivedWeight, "totalHodOverallAchieve": totalHodOverallAchieve, "totalHodOverallTaskComp": totalHodOverallTaskComp, "gmEmpId": gmEmpId, "totalGmAchivedWeight": totalGmAchivedWeight, "totalGmOverallAchieve": totalGmOverallAchieve, "totalGmOverallTaskComp": totalGmOverallTaskComp, "avgTotalOverallRating": totalOverallRatings, "avgTotalOverallPer": totalOverallPercentage, ekppMonth, empKppStatus,gmKppStatus, empRemark, evidence,empKeyStrength,empAreaOfImprovement,empTrainginDevelopmentNeeds,remark};
 
                         console.log("payload : ", payload)
-                        OveralHodKppFeedbackService.saveEmployeeKppFeedbackDetails(payload).then(res => {
+                        OveralHodKppFeedbackService.saveHODKppFeedbackDetails(payload).then(res => {
                             if (res.data.success) {
                                 alert(res.data.responseMessage);
 
@@ -336,6 +339,14 @@ setFinYear(Cookies.get('hodFinYearForKppFeedback'))
                                     <label className="control-label col-sm-4" htmlFor="gmKppStatus">Training & Development Needs :</label>
                                     <div className="col-sm-6">
                                     <textarea row="5" className="form-control" id="empTrainginDevelopmentNeeds" name="empTrainginDevelopmentNeeds" defaultValue={empTrainginDevelopmentNeeds} placeholder="Enter Training And Development requires here" onChange={(e) => setEmpTrainginDevelopmentNeeds(e.target.value)} />
+                                    </div>
+                                </div>
+
+                                
+                                <div className="form-group">
+                                    <label className="control-label col-sm-4" htmlFor="remark">Eligibility for Promotion ( Management Comments) :</label>
+                                    <div className="col-sm-6">
+                                    <textarea row="5" className="form-control" id="remark" name="remark" defaultValue={remark} placeholder="Enter Eligibility for Promotion here" onChange={(e) => setRemark(e.target.value)} />
                                     </div>
                                 </div>
 

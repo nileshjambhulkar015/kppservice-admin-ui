@@ -40,6 +40,7 @@ class AllHodKppService {
 
     
     completeEmpKppGM(finYear) {
+        console.log("Comple finYear : ", finYear)
         if (null != Cookies.get('empId')) {
             return axios.get(BASE_URL_API + `/gm-approval/finish?empId=${Cookies.get('empIdForKppRatings')}&finYear=${finYear}&statusCd=A`)
         } else {

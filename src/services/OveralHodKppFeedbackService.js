@@ -68,9 +68,9 @@ class OveralHodKppFeedbackService {
     }*/
 
     //Gm Give feedback on Hod Feedback
-    saveEmployeeKppFeedbackDetails(freezeEmpKPPMasterRequest){
+    saveHODKppFeedbackDetails(freezeEmpKPPMasterRequest){
         if (null != Cookies.get('empId')) {
-            return axios.post(BASE_URL_API+"/overall-kpp-feedback/gm-kpp-feedback",freezeEmpKPPMasterRequest)
+            return axios.put(BASE_URL_API+"/overall-kpp-feedback/gm-kpp-feedback",freezeEmpKPPMasterRequest)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);

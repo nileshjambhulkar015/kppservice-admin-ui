@@ -113,7 +113,8 @@ const EmplyeeUpdateKppRatingsComponent = () => {
     }
 
     //when GM click on finish button
-    const completeEmpKpp = (finYear) => {
+    const completeEmpKpp = () => {
+        console.log("finYear : ",finYear)
         AllHodKppService.completeEmpKppGM(finYear).then(res => {
             navigate(`/allEmployeeKppStatus`, { replace: true })
         }
@@ -134,7 +135,7 @@ const EmplyeeUpdateKppRatingsComponent = () => {
                     enableReinitialize={true}
                     onSubmit={(values) => {
 
-                        const payload = { "kppUpdateRequests": values?.fields, "gmTotalAchivedWeight": totalAchivedWeight, "gmTotalOverallAchieve": totalOverAllAchive, "gmTotalOverallTaskComp": totalOverallTaskComp, "totalOverallRatings": totalOverallRatings, "totalOverallPercentage": totalOverallPercentage, gmKppStatus, gmRemark };
+                        const payload = { "kppUpdateRequests": values?.fields, "finYear": finYear,"gmTotalAchivedWeight": totalAchivedWeight, "gmTotalOverallAchieve": totalOverAllAchive, "gmTotalOverallTaskComp": totalOverallTaskComp, "totalOverallRatings": totalOverallRatings, "totalOverallPercentage": totalOverallPercentage, gmKppStatus, gmRemark };
                         EmployeeKppsService.updateEmpApproveOrRejectByHod(payload).then(res => {
                             alert("GM KPP Ratings added");
                         });
@@ -365,7 +366,7 @@ const EmplyeeUpdateKppRatingsComponent = () => {
                                         <a href={BASE_URL_API + `/report/in-progress-employee-kpp-status?empId=${Cookies.get('empIdForKppRatings')}`}>
                                             <button type="button" className="btn btn-success col-sm-offset-1 " disabled={kppMasterResponses?.empKppStatus === "Pending"}> Download</button>
                                         </a>
-                                        <button type="submit" className="btn col-sm-offset-1 btn-success" onClick={() => completeEmpKpp(empId)} >Finish</button>
+                                        <button type="submit" className="btn col-sm-offset-1 btn-success" onClick={() => completeEmpKpp()} >Finish</button>
 
 
                                     </div>
