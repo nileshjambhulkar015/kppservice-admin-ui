@@ -83,6 +83,15 @@ class OverallEmployeeKppFeedbackService {
 
     }
 
+        ///for employee
+        completedEmployeeKppDetailsByPagination(data) {
+            if (null != Cookies.get('empId')) {
+                return axios.get(BASE_URL_API + `/overall-kpp-feedback/employee?empKppStatus=Completed&roleId=3&page=${data.currentPage - 1}&size=${data.itemsPerPage}`)
+            } else {
+                alert("You need to login first")
+                window.location.replace(LOGIN_UI_BASE_URL);
+            }
+        }
     
 
 }

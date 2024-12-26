@@ -10,7 +10,7 @@ import OveralHodKppFeedbackService from '../../services/OverallFeedbackService/O
 import { useNavigate, useParams } from 'react-router-dom';
 
 
-const OverallkHodKppFeedbackComponent = () => {
+const OverallCompletedHodKppFeedbackComponent = () => {
 
     const navigate = useNavigate();
     const [ekppMonth, setEkppMonth] = useState('');
@@ -351,7 +351,7 @@ const OverallkHodKppFeedbackComponent = () => {
                                 <div className="form-group">
                                     <label className="control-label col-sm-4" htmlFor="empKppStatus">Key Strengths :</label>
                                     <div className="col-sm-6">
-                                        <textarea rows="3" className="form-control" id="empKeyStrength" name="empKeyStrength" defaultValue={empKeyStrength} placeholder="Enter Key Strength here" onChange={(e) => setEmpKeyStrength(e.target.value)} />
+                                        {empKeyStrength}
                                     </div>
                                 </div>
 
@@ -359,7 +359,7 @@ const OverallkHodKppFeedbackComponent = () => {
                                 <div className="form-group">
                                     <label className="control-label col-sm-4" htmlFor="gmKppStatus">Area of Improvement :</label>
                                     <div className="col-sm-6">
-                                        <textarea row="5" className="form-control" id="empAreaOfImprovement" name="empAreaOfImprovement" defaultValue={empAreaOfImprovement} placeholder="Enter Area of improvement here" onChange={(e) => setEmpAreaOfImprovement(e.target.value)} />
+                                        {empAreaOfImprovement}
                                     </div>
                                 </div>
 
@@ -367,7 +367,7 @@ const OverallkHodKppFeedbackComponent = () => {
                                 <div className="form-group">
                                     <label className="control-label col-sm-4" htmlFor="gmKppStatus">Training & Development Needs :</label>
                                     <div className="col-sm-6">
-                                        <textarea row="5" className="form-control" id="empTrainginDevelopmentNeeds" name="empTrainginDevelopmentNeeds" defaultValue={empTrainginDevelopmentNeeds} placeholder="Enter Training And Development requires here" onChange={(e) => setEmpTrainginDevelopmentNeeds(e.target.value)} />
+                                        {empTrainginDevelopmentNeeds}
                                     </div>
                                 </div>
 
@@ -375,7 +375,7 @@ const OverallkHodKppFeedbackComponent = () => {
                                 <div className="form-group">
                                     <label className="control-label col-sm-4" htmlFor="remark">Eligibility for Promotion ( Management Comments) :</label>
                                     <div className="col-sm-6">
-                                        <textarea row="5" className="form-control" id="remark" name="remark" defaultValue={remark} placeholder="Enter Eligibility for Promotion here" onChange={(e) => setRemark(e.target.value)} />
+                                        {remark}
                                     </div>
                                 </div>
 
@@ -397,4 +397,4 @@ const OverallkHodKppFeedbackComponent = () => {
         </div>
     );
 }
-export default OverallkHodKppFeedbackComponent;
+export default OverallCompletedHodKppFeedbackComponent;

@@ -41,8 +41,13 @@ import FreezeYearlySingleHODCumulativeComponent from "./components/CumulativeKpp
 import ChangeEmployeeDeptDesigComponent from "./components/ViewAllEmpTransferToOtherHODComponent/ChangeEmployeeDeptDesigComponent";
 import AllHodKppFeedbackStatusComponent from "./components/OverallKppFeedbackComponent/AllHodKppFeedbackStatusComponent";
 import OverallEmployeeKppFeedbackComponent from "./components/OverallKppFeedbackComponent/OverallEmployeeKppFeedbackComponent";
-import OverallkHodKppFeedbackComponent from "./components/OverallKppFeedbackComponent/OverallkHodKppFeedbackComponent";
+
 import AllEmployeeKppFeedbackStatusComponent from "./components/OverallKppFeedbackComponent/AllEmployeeKppFeedbackStatusComponent";
+import OverallHodKppFeedbackComponent from "./components/OverallKppFeedbackComponent/OverallHodKppFeedbackComponent";
+import AllCompletedEmployeeKppFeedbackStatusComponent from "./components/OverallKppFeedbackComponent/AllCompletedEmployeeKppFeedbackStatusComponent";
+import AllCompletedHodKppFeedbackStatusComponent from "./components/OverallKppFeedbackComponent/AllCompletedHodKppFeedbackStatusComponent";
+import OverallCompletedEmployeeKppFeedbackComponent from "./components/OverallKppFeedbackComponent/OverallCompletedEmployeeKppFeedbackComponent";
+import OverallCompletedHodKppFeedbackComponent from "./components/OverallKppFeedbackComponent/OverallCompletedHodKppFeedbackComponent";
 
 function App() {
 
@@ -121,6 +126,16 @@ function App() {
               
             </ul>
           </li>
+
+          <li className="dropdown">
+          <a className="dropdown-toggle" data-toggle="dropdown" href="#">Completed Kpp Feedback
+            <span className="caret"></span></a>
+          <ul className="dropdown-menu">
+            <li><Link to="/allcompletedhodkppfeedback">Completed HOD Kpp Feedback</Link></li>
+            <li><Link to="/allcompletedemployeekppfeedback">Completed Employee Kpp Feedback</Link></li>
+            
+          </ul>
+        </li>
         
           
             <li className="dropdown">
@@ -179,9 +194,15 @@ function App() {
         <Route exact path="/complaintTypeMaster" element={<ComplaintTypeComponent />}></Route>
         <Route exact path="/keyparemeter" element={<KeyParameterComponent />} ></Route>
         <Route exact path="/allhodkppfeedback" element={<AllHodKppFeedbackStatusComponent />} ></Route>
-        <Route exact path="/overallkppfeedback" element={<OverallkHodKppFeedbackComponent />} ></Route>
+        <Route exact path="/overallkppfeedback" element={<OverallHodKppFeedbackComponent />} ></Route>
         <Route exact path="/allemployeekppfeedback" element={<AllEmployeeKppFeedbackStatusComponent />} ></Route>
         <Route exact path="/overallemployeekppfeedback" element={<OverallEmployeeKppFeedbackComponent />} ></Route>
+
+        <Route exact path="/allcompletedhodkppfeedback" element={<AllCompletedHodKppFeedbackStatusComponent />} ></Route>
+        <Route exact path="/overallcompletedkppfeedback" element={<OverallCompletedHodKppFeedbackComponent />} ></Route>
+
+        <Route exact path="/allcompletedemployeekppfeedback" element={<AllCompletedEmployeeKppFeedbackStatusComponent />} ></Route>
+        <Route exact path="/overallcompletedemployeekppfeedback" element={<OverallCompletedEmployeeKppFeedbackComponent />} ></Route>
         
   
         <Route exact path="/employee" element={<MainEmployeeComponent />}></Route>
