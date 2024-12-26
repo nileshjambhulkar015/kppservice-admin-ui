@@ -71,6 +71,18 @@ class OverallEmployeeKppFeedbackService {
         }
 
     }
+
+    finishByGMKppFeedback(finishKppFeedbackRequest) {
+        if (null != Cookies.get('empId')) {
+           
+            return axios.put(BASE_URL_API+"/overall-kpp-feedback/gm-kpp-feedback-finish", finishKppFeedbackRequest)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
+    }
+
     
 
 }

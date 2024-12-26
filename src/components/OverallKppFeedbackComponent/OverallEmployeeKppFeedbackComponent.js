@@ -81,6 +81,34 @@ const OverallEmployeeKppFeedbackComponent = () => {
 
     }
 
+    const finishKppFeedback = () => {
+
+        let empId = Cookies.get('empIdForKppFeedback');
+        let empKppStatus = "Completed";
+        let hodKppStatus = "Completed";
+        let gmKppStatus = "Completed";
+
+        let employeeId = Cookies.get('empId')
+
+        let finishKppFeedbackRequest = { finYear, empId, empKppStatus, hodKppStatus, gmKppStatus, employeeId };
+        OverallEmployeeKppFeedbackService.finishByGMKppFeedback(finishKppFeedbackRequest).then(res => {
+            if (res.data.success) {
+                alert(res.data.responseMessage)
+                Cookies.remove('empIdForKppFeedback');
+                Cookies.remove('empEIdForKppFeedback');
+                Cookies.remove('empFinYearForKppFeedback');
+                Cookies.remove('empRoleIdForKppFeedback');
+                Cookies.remove('empDeptIdForKppFeedback');
+                Cookies.remove('empDesigIdForKppFeedback');
+                navigate(`/allemployeekppfeedback`, { replace: true })
+            }
+            
+        });
+
+
+
+    }
+
     useEffect(() => {
         setFinYear(Cookies.get('empFinYearForKppFeedback'))
         if (finYear) {
@@ -146,7 +174,7 @@ const OverallEmployeeKppFeedbackComponent = () => {
                 }}
                     enableReinitialize={true}
                     onSubmit={(values) => {
-                        
+
                         let gmKppStatus = "In-Progress";
                         let evidence = "evidence added";
                         let empId = Cookies.get('empIdForKppFeedback');
@@ -155,7 +183,7 @@ const OverallEmployeeKppFeedbackComponent = () => {
                         let deptId = Cookies.get('empDeptIdForKppFeedback');
                         let desigId = Cookies.get('empDesigIdForKppFeedback');
 
-                        const payload = { "kppUpdateRequests": values?.fields, "finYear": finYear, "empId": empId, "empEId": empEId, "roleId": roleId, "deptId": deptId, "desigId": desigId, "totalEmpAchivedWeight": totalEmpAchivedWeight, "totalEmpOverallAchieve": totalEmpOverallAchieve, "totalEmpOverallTaskComp": totalEmpOverallTaskComp, "hodEmpId": hodEmpId, "totalHodAchivedWeight": totalHodAchivedWeight, "totalHodOverallAchieve": totalHodOverallAchieve, "totalHodOverallTaskComp": totalHodOverallTaskComp, "gmEmpId": gmEmpId, "totalGmAchivedWeight": totalGmAchivedWeight, "totalGmOverallAchieve": totalGmOverallAchieve, "totalGmOverallTaskComp": totalGmOverallTaskComp, "avgTotalOverallRating": totalOverallRatings, "avgTotalOverallPer": totalOverallPercentage, ekppMonth,  gmKppStatus, empRemark, evidence, empKeyStrength, empAreaOfImprovement, empTrainginDevelopmentNeeds, remark };
+                        const payload = { "kppUpdateRequests": values?.fields, "finYear": finYear, "empId": empId, "empEId": empEId, "roleId": roleId, "deptId": deptId, "desigId": desigId, "totalEmpAchivedWeight": totalEmpAchivedWeight, "totalEmpOverallAchieve": totalEmpOverallAchieve, "totalEmpOverallTaskComp": totalEmpOverallTaskComp, "hodEmpId": hodEmpId, "totalHodAchivedWeight": totalHodAchivedWeight, "totalHodOverallAchieve": totalHodOverallAchieve, "totalHodOverallTaskComp": totalHodOverallTaskComp, "gmEmpId": gmEmpId, "totalGmAchivedWeight": totalGmAchivedWeight, "totalGmOverallAchieve": totalGmOverallAchieve, "totalGmOverallTaskComp": totalGmOverallTaskComp, "avgTotalOverallRating": totalOverallRatings, "avgTotalOverallPer": totalOverallPercentage, ekppMonth, gmKppStatus, empRemark, evidence, empKeyStrength, empAreaOfImprovement, empTrainginDevelopmentNeeds, remark };
 
                         console.log("payload : ", payload)
                         OverallEmployeeKppFeedbackService.saveEmployeeKppFeedbackDetails(payload).then(res => {
@@ -358,16 +386,17 @@ const OverallEmployeeKppFeedbackComponent = () => {
                                 <div className="form-group">
                                     <label className="control-label col-sm-4" htmlFor="remark">Eligibility for Promotion ( Management Comments) :</label>
                                     <div className="col-sm-6">
-                                    <textarea row="5" className="form-control" id="remark" name="remark" defaultValue={remark} placeholder="Enter Eligibility for Promotion here" onChange={(e) => setRemark(e.target.value)} />
+                                        <textarea row="5" className="form-control" id="remark" name="remark" defaultValue={remark} placeholder="Enter Eligibility for Promotion here" onChange={(e) => setRemark(e.target.value)} />
                                     </div>
                                 </div>
 
                                 <div className="row">
                                     <div className="col-sm-10"></div>
-                                    <div className="col-sm-2"><button type="submit" className="btn btn-success"> Submit</button>
+                                    <div className="col-sm-8"><button type="submit" className="btn btn-success"> Submit</button>
                                         <a href={BASE_URL_API + `/report/in-progress-hod-kpp-status?empId=${Cookies.get('empId')}`}>
                                             <button type="button" className="btn btn-success col-sm-offset-1" disabled={kppMasterResponses?.empKppStatus === "Pending"}>  Download</button></a>
-                                        <button type="submit" className="btn btn-success col-sm-offset-1" onClick={() => navigateToAllHodKppFeedbackStatusComponent()}> Back</button>
+                                        <button type="button" className="btn btn-success col-sm-offset-1" onClick={() => finishKppFeedback()}> Finish</button>
+                                        <button type="button" className="btn btn-success col-sm-offset-1" onClick={() => navigateToAllHodKppFeedbackStatusComponent()}> Back</button>
                                     </div>
                                 </div>
                             </Form>

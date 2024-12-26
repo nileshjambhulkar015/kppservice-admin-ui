@@ -79,6 +79,36 @@ const OverallkHodKppFeedbackComponent = () => {
 
     }
 
+    const finishKppFeedback = () => {
+    
+            let empId = Cookies.get('hodEmpIdForKppFeedback');
+            let empKppStatus = "Completed";
+            let hodKppStatus = "Completed";
+            let gmKppStatus = "Completed";
+    
+            let employeeId = Cookies.get('empId')
+    
+            let finishKppFeedbackRequest = { finYear, empId, empKppStatus, hodKppStatus, gmKppStatus, employeeId };
+            OveralHodKppFeedbackService.finishByGMKppFeedback(finishKppFeedbackRequest).then(res => {
+                if (res.data.success) {
+                    alert(res.data.responseMessage)
+                    Cookies.remove('hodEmpIdForKppFeedback');
+                    Cookies.remove('hodEmpEIdForKppFeedback');
+                    Cookies.remove('hodFinYearForKppFeedback');
+                    Cookies.remove('hodEmpRoleIdForKppFeedback');
+                    Cookies.remove('hodEmpDeptIdForKppFeedback');
+                    Cookies.remove('hodEmpDesigIdForKppFeedback');
+            
+                    navigate(`/allhodkppfeedback`, { replace: true })
+                }
+                
+            });
+    
+    
+    
+        }
+    
+
     useEffect(() => {
         setFinYear(Cookies.get('hodFinYearForKppFeedback'))
         if (finYear) {
@@ -351,10 +381,11 @@ const OverallkHodKppFeedbackComponent = () => {
 
                                 <div className="row">
                                     <div className="col-sm-10"></div>
-                                    <div className="col-sm-2"><button type="submit" className="btn btn-success"> Submit</button>
+                                    <div className="col-sm-4 col-sm-offset-8"><button type="submit" className="btn btn-success"> Submit</button>
                                         <a href={BASE_URL_API + `/report/in-progress-hod-kpp-status?empId=${Cookies.get('empId')}`}>
                                             <button type="button" className="btn btn-success col-sm-offset-1" disabled={kppMasterResponses?.empKppStatus === "Pending"}>  Download</button></a>
-                                        <button type="submit" className="btn btn-success col-sm-offset-1" onClick={() => navigateToAllHodKppFeedbackStatusComponent()}> Back</button>
+                                            <button type="button" className="btn btn-success col-sm-offset-1" onClick={() => finishKppFeedback()}> Finish</button>
+                                            <button type="button" className="btn btn-success col-sm-offset-1" onClick={() => navigateToAllHodKppFeedbackStatusComponent()}> Back</button>
                                     </div>
                                 </div>
                             </Form>
