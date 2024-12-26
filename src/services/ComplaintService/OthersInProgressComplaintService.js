@@ -1,11 +1,11 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
-import { BASE_URL_API, LOGIN_UI_BASE_URL } from "./URLConstants";
+import { BASE_URL_API, LOGIN_UI_BASE_URL } from "../URLConstants";
 
 const BASE_URL = BASE_URL_API + "/complaint";
 
 
-class OthersResolveComplaintService {
+class OthersInProgressComplaintService {
 
 
 
@@ -16,7 +16,7 @@ class OthersResolveComplaintService {
     //at page load call all the departments load all departments
     getEmployeeCompaintsDetailsByPaging(data) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + `/complaint/complaint-search?compStatus=Resolved&statusCd=A&page=${data.currentPage - 1}&size=${data.itemsPerPage}&sort=empCompId asc`)
+            return axios.get(BASE_URL_API + `/complaint/complaint-search?compStatus=In Progress&statusCd=A&page=${data.currentPage - 1}&size=${data.itemsPerPage}&sort=empCompId asc`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
@@ -26,8 +26,7 @@ class OthersResolveComplaintService {
     //search complaint by complaint id
     getEmployeeCompaintsByComplaintId(data) {
         if (null != Cookies.get('empId')) {
-        
-            return axios.get(BASE_URL_API + `/complaint/complaint-search?compStatus=Resolved&compId=${data.empCompIdSearch}&statusCd=A&page=${data.currentPage - 1}&size=${data.itemsPerPage}&sort=empCompId asc`)
+            return axios.get(BASE_URL_API + `/complaint/complaint-search?compStatus=In Progress&compId=${data.empCompIdSearch}&statusCd=A&page=${data.currentPage - 1}&size=${data.itemsPerPage}&sort=empCompId asc`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
@@ -58,7 +57,19 @@ class OthersResolveComplaintService {
 
     updateComplaintDetails(complaintdata) {
         if (null != Cookies.get('empId')) {
-            return axios.put(BASE_URL + "/emp-assign-complaint-him", complaintdata)
+            return axios.put(BASE_URL + "/admin-handle-complaint", complaintdata)
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+
+    }
+
+    //advance search of employee
+    advanceSearchComplaintDetails(data) {
+        if (null != Cookies.get('empId')) {
+          
+            return axios.post(BASE_URL_API + `/complaint/complaint-adv-search?page=${data.currentPage - 1}&size=${data.itemsPerPage}`, data.advComplaintSearch)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
@@ -75,20 +86,7 @@ class OthersResolveComplaintService {
             window.location.replace(LOGIN_UI_BASE_URL);
         }
     }
-
-    //advance search of employee
-    advanceSearchComplaintDetails(data) {
-        if (null != Cookies.get('empId')) {
-          
-            return axios.post(BASE_URL_API + `/complaint/complaint-adv-search?page=${data.currentPage - 1}&size=${data.itemsPerPage}`, data.advComplaintSearch)
-        } else {
-            alert("You need to login first")
-            window.location.replace(LOGIN_UI_BASE_URL);
-        }
-
-    }
-
 }
 
 
-export default new OthersResolveComplaintService();
+export default new OthersInProgressComplaintService();

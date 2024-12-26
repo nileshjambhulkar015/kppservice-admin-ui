@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate, useParams } from 'react-router-dom';
-import AllHodKppService from '../../services/AllHodKppService';
+
 import PaginationComponent from '../PaginationComponent/PaginationComponent';
-import OveralHodKppFeedbackService from '../../services/OverallFeedbackService/OveralHodKppFeedbackService';
+import OverallEmployeeKppFeedbackService from '../../services/OverallEmployeeKppFeedbackService';
 
 
-export default function AllHodKppFeedbackStatusComponent() {
+export default function AllEmployeeKppFeedbackStatusComponent() {
 
     const navigate = useNavigate();
     const { empId } = useParams();
@@ -37,7 +37,7 @@ export default function AllHodKppFeedbackStatusComponent() {
             currentPage,
             itemsPerPage
         }
-        OveralHodKppFeedbackService.getHODKppDetailsByPagination(data).then((res) => {
+        OverallEmployeeKppFeedbackService.getEmployeeKppDetailsByPagination(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
             setEmpResponses(res.data.responseData.content);
@@ -63,7 +63,7 @@ export default function AllHodKppFeedbackStatusComponent() {
             itemsPerPage,
             empKppStatus
         }
-        OveralHodKppFeedbackService.getHODKppDetailsByStatusByPagination(data).then((res) => {
+        OverallEmployeeKppFeedbackService.searchEmployeeKppDetailsByPagination(data).then((res) => {
             if (res.data.success) {
                 setIsSuccess(true);
            
@@ -80,7 +80,7 @@ export default function AllHodKppFeedbackStatusComponent() {
     }
 
     const completeEmpKpp = (e) => {
-        OveralHodKppFeedbackService.completeEmpKppGM(e).then(res => {
+        OverallEmployeeKppFeedbackService.completeEmpKppGM(e).then(res => {
             
         }
         );
@@ -88,14 +88,14 @@ export default function AllHodKppFeedbackStatusComponent() {
 
     const navigateToUpdateRating=(empId,empEId,roleId,deptId,desigId,finYear)=>{
        
-        Cookies.set('hodEmpIdForKppFeedback', empId);
-        Cookies.set('hodEmpEIdForKppFeedback', empEId);
-        Cookies.set('hodFinYearForKppFeedback', finYear);
-        Cookies.set('hodEmpRoleIdForKppFeedback', roleId);
-        Cookies.set('hodEmpDeptIdForKppFeedback', deptId);
-        Cookies.set('hodEmpDesigIdForKppFeedback', desigId);
+        Cookies.set('empIdForKppFeedback', empId);
+        Cookies.set('empEIdForKppFeedback', empEId);
+        Cookies.set('empFinYearForKppFeedback', finYear);
+        Cookies.set('empRoleIdForKppFeedback', roleId);
+        Cookies.set('empDeptIdForKppFeedback', deptId);
+        Cookies.set('empDesigIdForKppFeedback', desigId);
 
-        navigate(`/overallkppfeedback`, { replace: true })    
+        navigate(`/overallemployeekppfeedback`, { replace: true })    
         
     } 
 
@@ -134,6 +134,7 @@ export default function AllHodKppFeedbackStatusComponent() {
                                 <th className='text-center'>Employee Id</th>
                                 <th className='text-center'>Department Name</th>
                                 <th className='text-center'>Designation Name</th>
+                                <th className='text-center'>Employee Ratings</th>
                                 <th className='text-center'>Hod Ratings</th>
                                 <th className='text-center'>GM Ratings</th>
                                 <th className='text-center'>Status</th>
@@ -152,6 +153,7 @@ export default function AllHodKppFeedbackStatusComponent() {
                                             <td className='text-center'>{empResponse.deptName}</td>
                                             <td className='text-center'>{empResponse.desigName}</td>
                                             <td className='text-center'>{empResponse.totalEmpOverallAchieve}</td>
+                                            <td className='text-center'>{empResponse.totalHodOverallAchieve}</td>
                                             <td className='text-center'>{empResponse.totalGmOverallAchieve}</td>
                                             <td className='text-center'>{empResponse.gmKppStatus}</td>
                                             <td>

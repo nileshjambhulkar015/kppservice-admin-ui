@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
 
-import OthersInProgressComplaintService from '../../services/OthersInProgressComplaintService';
+import OthersInProgressComplaintService from '../../services/ComplaintService/OthersInProgressComplaintService';
 import { BASE_URL_API } from '../../services/URLConstants';
 import PaginationComponent from '../PaginationComponent/PaginationComponent';
 

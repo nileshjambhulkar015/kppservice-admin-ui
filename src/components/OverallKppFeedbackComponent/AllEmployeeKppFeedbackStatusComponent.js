@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import PaginationComponent from '../PaginationComponent/PaginationComponent';
-import OverallEmployeeKppFeedbackService from '../../services/OverallEmployeeKppFeedbackService';
+import OverallEmployeeKppFeedbackService from '../../services/OverallFeedbackService/OverallEmployeeKppFeedbackService';
 
 
 export default function AllEmployeeKppFeedbackStatusComponent() {

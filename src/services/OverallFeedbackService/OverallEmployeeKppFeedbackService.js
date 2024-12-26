@@ -1,24 +1,25 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
-import { BASE_URL_API, LOGIN_UI_BASE_URL } from "./URLConstants";
+import { BASE_URL_API, LOGIN_UI_BASE_URL } from "./../URLConstants";
 
 
 
-class OveralHodKppFeedbackService {
+class OverallEmployeeKppFeedbackService {
 
-    getHODKppDetailsByPagination(data) {
+      ///for employee
+    getEmployeeKppDetailsByPagination(data) {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + `/overall-kpp-feedback/employee?empKppStatus=In-Progress&roleId=2&page=${data.currentPage - 1}&size=${data.itemsPerPage}`)
+            return axios.get(BASE_URL_API + `/overall-kpp-feedback/employee?empKppStatus=In-Progress&roleId=3&page=${data.currentPage - 1}&size=${data.itemsPerPage}`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
         }
     }
 
-    getHODKppDetailsByStatusByPagination(data) {
+    searchEmployeeKppDetailsByPagination(data) {
         if (null != Cookies.get('empId')) {
             //for admin we need to fetch all in progress kpp request
-            return axios.get(BASE_URL_API + `/overall-kpp-feedback/employee?roleId=2&empKppStatus=${data.empKppStatus}&page=${data.currentPage - 1}&size=${data.itemsPerPage}&sort=desig.desig.name`)
+            return axios.get(BASE_URL_API + `/overall-kpp-feedback/employee?roleId=3&empKppStatus=${data.empKppStatus}&page=${data.currentPage - 1}&size=${data.itemsPerPage}&sort=desig.desig.name`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
@@ -35,17 +36,10 @@ class OveralHodKppFeedbackService {
         }
     }
     
-    /*saveEmployeeKppFeedbackDetails(freezeEmpKPPMasterRequest){
-        if (null != Cookies.get('empId')) {
-            return axios.post(BASE_URL_API+"/overall-kpp-feedback/employee-kpp-feedback",freezeEmpKPPMasterRequest)
-        } else {
-            alert("You need to login first")
-            window.location.replace(LOGIN_UI_BASE_URL);
-        }  
-    }*/
+  
 
     //Gm Give feedback on Hod Feedback
-    saveHODKppFeedbackDetails(freezeEmpKPPMasterRequest){
+    saveEmployeeKppFeedbackDetails(freezeEmpKPPMasterRequest){
         if (null != Cookies.get('empId')) {
             return axios.put(BASE_URL_API+"/overall-kpp-feedback/gm-kpp-feedback",freezeEmpKPPMasterRequest)
         } else {
@@ -55,11 +49,11 @@ class OveralHodKppFeedbackService {
     }
 
     //get kpp details for hod updating rating of employee
-    getHODKPPDetailsYearly(finYear) {
+    getEmployeeKPPDetailsYearly(finYear) {
         console.log("finYear : ", finYear)
        
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API+`/overall-kpp-feedback/yearly-kpp?empId=${Cookies.get('hodEmpIdForKppFeedback')}&finYear=${Cookies.get('hodFinYearForKppFeedback')}`)
+            return axios.get(BASE_URL_API+`/overall-kpp-feedback/yearly-kpp?empId=${Cookies.get('empIdForKppFeedback')}&finYear=${Cookies.get('hodFinYearForKppFeedback')}`)
           
         } else {
             alert("You need to login first")
@@ -70,14 +64,14 @@ class OveralHodKppFeedbackService {
     completeEmpKppGM(finYear) {
         console.log("Comple finYear : ", finYear)
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + `/gm-approval/finish?empId=${Cookies.get('empIdForKppRatings')}&finYear=${finYear}&statusCd=A`)
+            return axios.get(BASE_URL_API + `/gm-approval/finish?empId=${Cookies.get('empIdForKppFeedback')}&finYear=${finYear}&statusCd=A`)
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);
         }
 
     }
-    
+
     finishByGMKppFeedback(finishKppFeedbackRequest) {
         if (null != Cookies.get('empId')) {
            
@@ -89,7 +83,9 @@ class OveralHodKppFeedbackService {
 
     }
 
+    
+
 }
 
 
-export default new OveralHodKppFeedbackService();
+export default new OverallEmployeeKppFeedbackService();

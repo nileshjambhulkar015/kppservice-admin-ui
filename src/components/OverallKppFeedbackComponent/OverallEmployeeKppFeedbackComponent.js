@@ -6,7 +6,7 @@ import EmployeeKppsService from '../../services/EmployeeKppsService';
 import Cookies from 'js-cookie';
 import { BASE_URL_API } from '../../services/URLConstants';
 import FreezeCumulativeService from '../../services/FreezeCumulativeService';
-import OverallEmployeeKppFeedbackService from '../../services/OverallEmployeeKppFeedbackService';
+import OverallEmployeeKppFeedbackService from '../../services/OverallFeedbackService/OverallEmployeeKppFeedbackService';
 import { useNavigate, useParams } from 'react-router-dom';
 
 
