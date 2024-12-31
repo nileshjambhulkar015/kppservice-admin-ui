@@ -53,6 +53,7 @@ const OverallCompletedEmployeeKppFeedbackComponent = () => {
     const [remark, setRemark] = useState();
 
     const [hodRemark, setHodRemark] = useState();
+    const [gmRemark, setGmRemark] = useState();
 
     const [financialYears, setFinancialYears] = useState([])
 
@@ -66,6 +67,7 @@ const OverallCompletedEmployeeKppFeedbackComponent = () => {
 
     const handleFinYearChange = (value) => {
         setFinYear(value)
+      
     }
 
     const navigateToAllHodKppFeedbackStatusComponent = () => {
@@ -81,38 +83,14 @@ const OverallCompletedEmployeeKppFeedbackComponent = () => {
 
     }
 
-    const finishKppFeedback = () => {
+               
 
-        let empId = Cookies.get('empIdForKppFeedback');
-        let empKppStatus = "Completed";
-        let hodKppStatus = "Completed";
-        let gmKppStatus = "Completed";
-
-        let employeeId = Cookies.get('empId')
-
-        let finishKppFeedbackRequest = { finYear, empId, empKppStatus, hodKppStatus, gmKppStatus, employeeId };
-        OverallEmployeeKppFeedbackService.finishByGMKppFeedback(finishKppFeedbackRequest).then(res => {
-            if (res.data.success) {
-                alert(res.data.responseMessage)
-                Cookies.remove('empIdForKppFeedback');
-                Cookies.remove('empEIdForKppFeedback');
-                Cookies.remove('empFinYearForKppFeedback');
-                Cookies.remove('empRoleIdForKppFeedback');
-                Cookies.remove('empDeptIdForKppFeedback');
-                Cookies.remove('empDesigIdForKppFeedback');
-                navigate(`/allemployeekppfeedback`, { replace: true })
-            }
-            
-        });
-
-
-
-    }
 
     useEffect(() => {
-        setFinYear(Cookies.get('empFinYearForKppFeedback'))
+        setFinYear(Cookies.get('empCompletedFinYearForKppFeedback'))
+        console.log("Inside Use :", finYear)
         if (finYear) {
-            OverallEmployeeKppFeedbackService.getEmployeeKPPDetailsYearly().then((res) => {
+            OverallEmployeeKppFeedbackService.getEmployeeKPPDetailsYearly(finYear).then((res) => {
                 if (null != res.data.ekppMonth) {
                     setEkppMonth(YYYY_MM_DD_Formater(res.data.ekppMonth))
                 } else {
@@ -137,6 +115,7 @@ const OverallCompletedEmployeeKppFeedbackComponent = () => {
                 setTotalGmAchivedWeight(res.data.responseData?.totalGmAchivedWeight)
                 setTotalGmOverallAchieve(res.data.responseData?.totalGmOverallAchieve)
                 setTotalGmOverallTaskComp(res.data.responseData?.totalGmOverallTaskComp)
+                setGmRemark(res.data.responseData?.gmRemark)
 
                 //average % need to be set
                 setTotalOverallRatings(res.data.responseData?.totalOverallRatings)
@@ -146,6 +125,8 @@ const OverallCompletedEmployeeKppFeedbackComponent = () => {
                 setEmpKeyStrength(res.data.responseData?.empKeyStrength)
                 setEmpAreaOfImprovement(res.data.responseData?.empAreaOfImprovement)
                 setEmpTrainginDevelopmentNeeds(res.data.responseData?.empTrainginDevelopmentNeeds)
+
+
                 setRemark(res.data.responseData?.remark)
 
                 setKppMasterResponses(res.data.responseData);
@@ -287,7 +268,7 @@ const OverallCompletedEmployeeKppFeedbackComponent = () => {
             <div className="form-group">
                 <label className="control-label col-sm-4" htmlFor="remark">Eligibility for Promotion ( Management Comments) :</label>
                 <div className="col-sm-6">
-                    {remark}
+                    {gmRemark}
                 </div>
             </div>
 

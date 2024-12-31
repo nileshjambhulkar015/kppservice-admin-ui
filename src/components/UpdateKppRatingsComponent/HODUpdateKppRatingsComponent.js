@@ -35,11 +35,6 @@ const HODUpdateKppRatingsComponent = () => {
 
     const [financialYears, setFinancialYears] = useState([])
 
-    //for gm approved or reject status selection
-    const onHodStatusChangeHandler = (event) => {
-        setGmKppStatus(event);
-    };
-
     const YYYY_MM_DD_Formater = (date, format = 'YYYY-MM-DD') => {
         const t = new Date(date)
         const y = t.getFullYear()
@@ -142,6 +137,7 @@ const HODUpdateKppRatingsComponent = () => {
                     enableReinitialize={true}
                     onSubmit={(values) => {
 
+                       // let gmKppStatus='Approved';
                         const payload = { "kppUpdateRequests": values?.fields,"finYear": finYear, "gmTotalAchivedWeight": totalAchivedWeight, "gmTotalOverallAchieve": totalOverAllAchive, "gmTotalOverallTaskComp": totalOverallTaskComp, "totalOverallRatings": totalOverallRatings, "totalOverallPercentage": totalOverallPercentage, gmKppStatus, gmRemark };
                         EmployeeKppsService.updateEmpApproveOrRejectByHod(payload).then(res => {
                             alert("GM KPP Ratings added");
@@ -185,31 +181,38 @@ const HODUpdateKppRatingsComponent = () => {
                             <Form className="form-horizontal">
 
                                 <div className="form-group">
-                                    <label className="control-label col-sm-1"  >Name :</label>
+                                    <label className="control-label  col-sm-2"  >Name :</label>
                                     <div className="col-sm-2">
                                         {empName}
                                     </div>
                                 </div>
 
                                 <div className="form-group">
-                                    <label className="control-label col-sm-1"  >Department :</label>
+                                    <label className="control-label col-sm-2"  >Department :</label>
                                     <div className="col-sm-2">
                                         {deptName}
                                     </div>
                                 </div>
 
                                 <div className="form-group">
-                                    <label className="control-label col-sm-1"  >Designation:</label>
+                                    <label className="control-label col-sm-2"  >Designation:</label>
                                     <div className="col-sm-2">
                                         {desigName}
                                     </div>
                                 </div>
                                 <div className="form-group">
-                                    <label className="control-label col-sm-1 "  >Kpp Added Date:</label>
+                                    <label className="control-label col-sm-2"  >Kpp Added Date:</label>
                                     <div className="col-sm-2">
                                         {ekppMonth}
                                     </div>
                                 </div>
+
+                                <div className="form-group">
+                                <label className="control-label col-sm-2"  >Current Financial Year :</label>
+                                <div className="col-sm-2">
+                                    {finYear}
+                                </div>
+                            </div>
                                 <table className="table table-bordered" >
 
                                     <thead>
@@ -320,7 +323,7 @@ const HODUpdateKppRatingsComponent = () => {
 
                                 <div className="form-group">
                                     <label className="control-label col-sm-4" htmlFor="reamrk">View Evidence:</label>
-                                    <div className="col-sm-3">Download evidence
+                                    <div className="col-sm-3">Download evidence &nbsp;
                                         <a href={BASE_URL_API + `/evidence?empId=${Cookies.get('hodEmpIdForKppRatings')}`}>
                                             Click here</a>
                                     </div>
@@ -332,19 +335,7 @@ const HODUpdateKppRatingsComponent = () => {
                                     </div>
                                 </div>
 
-                                <div className="form-group">
-                                    <label className="control-label col-sm-4" htmlFor="hodKppStatus">GM Status:</label>
-                                    <div className="col-sm-2">
-                                        <select className="form-control" id="gmKppStatus" onChange={(e) => onHodStatusChangeHandler(e.target.value)} defaultValue={gmKppStatus} >
-                                            <option value="Approved">Approved</option>
-                                            <option value="Reject">Reject</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-
-
-
+                           
                                 <div className="row">
                                     <div className="col-sm-8"></div>
                                     <div className="col-sm-4">
@@ -354,7 +345,7 @@ const HODUpdateKppRatingsComponent = () => {
                                             <button type="button" className="btn btn-success col-sm-offset-1 " disabled={kppMasterResponses?.empKppStatus === "Pending"}
                                             > Download</button></a>
 
-                                        <button type="submit" className="btn col-sm-offset-1 btn-success" onClick={() => completeEmpKpp(finYear)} >Finish</button>
+                                        <button type="button" className="btn col-sm-offset-1 btn-success" onClick={() => completeEmpKpp(finYear)} >Finish</button>
 
                                         <button type="button" className="btn btn-success col-sm-offset-1 " disabled={kppMasterResponses?.empKppStatus === "Pending"}
                                             onClick={() => { navigateBack() }}> Back</button>

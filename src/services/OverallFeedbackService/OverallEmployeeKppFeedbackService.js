@@ -35,6 +35,27 @@ class OverallEmployeeKppFeedbackService {
             window.location.replace(LOGIN_UI_BASE_URL);
         }
     }
+
+    //for completed report
+   /* ddCompletedAllFeedbackFinancialYear() {
+        if (null != Cookies.get('empId')) {
+            return axios.get(BASE_URL_API + "/overall-kpp-feedback/dd-overall-fin-year")
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+    } */
+
+      //for completed report
+      ddCompletedAllFeedbackFinancialYear() {
+        if (null != Cookies.get('empId')) {
+            return axios.get(BASE_URL_API + "/overall-kpp-feedback/dd-overall-completed-fin-year")
+        } else {
+            alert("You need to login first")
+            window.location.replace(LOGIN_UI_BASE_URL);
+        }
+    } 
+    
     
   
 
@@ -53,7 +74,7 @@ class OverallEmployeeKppFeedbackService {
         console.log("finYear : ", finYear)
        
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API+`/overall-kpp-feedback/yearly-kpp?empId=${Cookies.get('empIdForKppFeedback')}&finYear=${Cookies.get('hodFinYearForKppFeedback')}`)
+            return axios.get(BASE_URL_API+`/overall-kpp-feedback/yearly-kpp?empId=${Cookies.get('empIdForKppFeedback')}&finYear=${Cookies.get('empFinYearForKppFeedback')}`)
           
         } else {
             alert("You need to login first")
@@ -86,7 +107,7 @@ class OverallEmployeeKppFeedbackService {
         ///for employee
         completedEmployeeKppDetailsByPagination(data) {
             if (null != Cookies.get('empId')) {
-                return axios.get(BASE_URL_API + `/overall-kpp-feedback/employee?empKppStatus=Completed&roleId=3&page=${data.currentPage - 1}&size=${data.itemsPerPage}`)
+                return axios.get(BASE_URL_API + `/overall-kpp-feedback/employee?empKppStatus=Completed&roleId=3&finYear=${data.finYear}&page=${data.currentPage - 1}&size=${data.itemsPerPage}`)
             } else {
                 alert("You need to login first")
                 window.location.replace(LOGIN_UI_BASE_URL);

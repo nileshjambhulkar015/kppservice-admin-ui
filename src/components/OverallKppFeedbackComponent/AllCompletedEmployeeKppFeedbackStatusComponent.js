@@ -19,6 +19,8 @@ export default function AllCompletedEmployeeKppFeedbackStatusComponent() {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [dataPageable, setDataPageable] = useState([])
+    const [finYear, setFinYear] = useState('');
+    const [financialYears, setFinancialYears] = useState([])
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -30,12 +32,29 @@ export default function AllCompletedEmployeeKppFeedbackStatusComponent() {
         setItemsPerPage(newItemsPerPage);
         setCurrentPage(1); // Reset to first page when items per page changes
     };
+    const handleFinYearChange = (value) => {
+        setFinYear(value)
+    }
+
 
 
     useEffect(() => {
+        OverallEmployeeKppFeedbackService.ddCompletedAllFeedbackFinancialYear().then((res) => {
+            if (null != res.data && res.data.length > 0) {
+                setFinancialYears(res.data);
+                setFinYear(res.data?.[0]?.finYear)
+            } else {
+                console.log("Value not set");
+            }
+        });
+    }, []);
+
+    useEffect(() => {
+        if (finYear) {
         const data = {
             currentPage,
-            itemsPerPage
+            itemsPerPage,
+            finYear
         }
         OverallEmployeeKppFeedbackService.completedEmployeeKppDetailsByPagination(data).then((res) => {
             if (res.data.success) {
@@ -50,7 +69,8 @@ export default function AllCompletedEmployeeKppFeedbackStatusComponent() {
         }
 
         });
-    }, [currentPage, itemsPerPage]);
+    }
+    }, [currentPage, itemsPerPage,finYear]);
 
     const onOptionChangeHandler = (event) => {
        
@@ -94,6 +114,8 @@ export default function AllCompletedEmployeeKppFeedbackStatusComponent() {
         Cookies.set('empRoleIdForKppFeedback', roleId);
         Cookies.set('empDeptIdForKppFeedback', deptId);
         Cookies.set('empDesigIdForKppFeedback', desigId);
+   
+        Cookies.set('empCompletedFinYearForKppFeedback', finYear);
 
         navigate(`/overallcompletedemployeekppfeedback`, { replace: true })    
         
@@ -107,19 +129,24 @@ export default function AllCompletedEmployeeKppFeedbackStatusComponent() {
                 
                     <div className="row">
                     <form className="form-horizontal">
-                        <label className="control-label col-sm-2" htmlFor="empKppStatus">KPP Status:</label>
-                        <div className="col-sm-2">
-                            <select className="form-control" name="empKppStatus" id="empKppStatus"   onChange={(e)=>onOptionChangeHandler(e.target.value)} defaultValue={empKppStatus} >
-                                <option value="All">All</option>
-                                <option value="Pending">Pending</option>
-                                <option value="In-Progress">In-Progress</option>
-                                <option value="Completed">Completed</option>
-                                <option value="Approved">Approved</option>
-                                
-                            </select>  
-                        </div>
+                    <div className="form-group">
+                    <label className="control-label col-sm-2" htmlFor="deptName">Financial Year:</label>
+                    <div className="col-sm-2">
+
+                        <select className="form-control" id="finYear" onChange={(e) => handleFinYearChange(e.target.value)}>
+                            {
+                                financialYears.map(
+                                    financialYear =>
+                                        <option key={financialYear?.finYearId} value={financialYear?.finYearId}>{financialYear?.finYear}</option>
+                                )
+                            };
+
+                        </select>
+                    </div>
+
+                </div>
                         </form>
-                        <button type="submit" className="btn btn-success" onClick={(e) => searchByEKpp(e)} > Submit</button>
+                       
                     </div>
                 </div>
 

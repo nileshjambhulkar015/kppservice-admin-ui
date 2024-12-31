@@ -75,38 +75,20 @@ const OverallCompletedHodKppFeedbackComponent = () => {
         Cookies.remove('hodEmpDeptIdForKppFeedback');
         Cookies.remove('hodEmpDesigIdForKppFeedback');
 
-        navigate(`/allhodkppfeedback`, { replace: true })
+        navigate(`/allcompletedhodkppfeedback`, { replace: true })
 
     }
 
-    const finishKppFeedback = () => {
-    
-            let empId = Cookies.get('hodEmpIdForKppFeedback');
-            let empKppStatus = "Completed";
-            let hodKppStatus = "Completed";
-            let gmKppStatus = "Completed";
-    
-            let employeeId = Cookies.get('empId')
-    
-            let finishKppFeedbackRequest = { finYear, empId, empKppStatus, hodKppStatus, gmKppStatus, employeeId };
-            OveralHodKppFeedbackService.finishByGMKppFeedback(finishKppFeedbackRequest).then(res => {
-                if (res.data.success) {
-                    alert(res.data.responseMessage)
-                    Cookies.remove('hodEmpIdForKppFeedback');
-                    Cookies.remove('hodEmpEIdForKppFeedback');
-                    Cookies.remove('hodFinYearForKppFeedback');
-                    Cookies.remove('hodEmpRoleIdForKppFeedback');
-                    Cookies.remove('hodEmpDeptIdForKppFeedback');
-                    Cookies.remove('hodEmpDesigIdForKppFeedback');
-            
-                    navigate(`/allhodkppfeedback`, { replace: true })
-                }
-                
-            });
-    
-    
-    
-        }
+    useEffect(() => {
+        OveralHodKppFeedbackService.ddAllFinancialYear().then((res) => {
+            if (null != res.data && res.data.length > 0) {
+                setFinancialYears(res.data);
+                setFinYear(res.data?.[0]?.finYear)
+            } else {
+                console.log("Value not set");
+            }
+        });
+    }, []);
     
 
     useEffect(() => {
@@ -161,97 +143,9 @@ const OverallCompletedHodKppFeedbackComponent = () => {
     console.log("kppDetailsResponses : ", kppDetailsResponses)
     return (
         <div className='container-fluid'>
-            <div className="row">
-                <Formik initialValues={{
-                    fields: kppDetailsResponses,
-                    totalEmpAchivedWeight: 0,  //want to set value for this
-                    totalEmpOverallAchieve: 0,
-                    totalEmpOverallTaskComp: 0,
-                    totalOverallRatings: 0,
-                    totalOverallPercentage: 0
-
-                }}
-                    enableReinitialize={true}
-                    onSubmit={(values) => {
-                        let gmKppStatus = "In-Progress";
-                        let evidence = "evidence added";
-                        let empId = Cookies.get('hodEmpIdForKppFeedback');
-                        let empEId = Cookies.get('hodEmpEIdForKppFeedback');
-                        let roleId = Cookies.get('hodEmpRoleIdForKppFeedback');
-                        let deptId = Cookies.get('hodEmpDeptIdForKppFeedback');
-                        let desigId = Cookies.get('hodEmpDesigIdForKppFeedback');
-
-                        const payload = { "kppUpdateRequests": values?.fields, "finYear": finYear, "empId": empId, "empEId": empEId, "roleId": roleId, "deptId": deptId, "desigId": desigId, "totalEmpAchivedWeight": totalEmpAchivedWeight, "totalEmpOverallAchieve": totalEmpOverallAchieve, "totalEmpOverallTaskComp": totalEmpOverallTaskComp, "hodEmpId": hodEmpId, "totalHodAchivedWeight": totalHodAchivedWeight, "totalHodOverallAchieve": totalHodOverallAchieve, "totalHodOverallTaskComp": totalHodOverallTaskComp, "gmEmpId": gmEmpId, "totalGmAchivedWeight": totalGmAchivedWeight, "totalGmOverallAchieve": totalGmOverallAchieve, "totalGmOverallTaskComp": totalGmOverallTaskComp, "avgTotalOverallRating": totalOverallRatings, "avgTotalOverallPer": totalOverallPercentage, ekppMonth, gmKppStatus, empRemark, evidence, empKeyStrength, empAreaOfImprovement, empTrainginDevelopmentNeeds, remark };
-
-                        console.log("payload : ", payload)
-                        OveralHodKppFeedbackService.saveHODKppFeedbackDetails(payload).then(res => {
-                            if (res.data.success) {
-                                alert(res.data.responseMessage);
-
-                                OveralHodKppFeedbackService.getHODKPPDetailsYearly(finYear).then((res) => {
-
-                                    if (null != res.data.ekppMonth) {
-                                        setEkppMonth(YYYY_MM_DD_Formater(res.data.ekppMonth))
-                                    } else {
-                                        const newDate = new Date();
-                                        // Format to YYYY-MM-DD
-                                        const formattedDate = newDate.toISOString().split('T')[0];
-                                        setEkppMonth(formattedDate);
-                                    }
-
-                                    setTotalEmpAchivedWeight(res.data.responseData?.totalEmpAchivedWeight)
-                                    setTotalEmpOverallAchieve(res.data.responseData?.totalEmpOverallAchieve)
-                                    setTotalEmpOverallTaskComp(res.data.responseData?.totalEmpOverallTaskComp)
-
-                                    setHodEmpId(res.data.responseData?.hodEmpId)
-                                    setTotalHodAchivedWeight(res.data.responseData?.totalHodAchivedWeight)
-                                    setTotalHodOverallAchieve(res.data.responseData?.totalHodOverallAchieve)
-                                    setTotalHodOverallTaskComp(res.data.responseData?.totalHodOverallTaskComp)
-
-                                    setGmEmpId(res.data.responseData?.gmEmpId)
-                                    setTotalGmAchivedWeight(res.data.responseData?.totalGmAchivedWeight)
-                                    setTotalGmOverallAchieve(res.data.responseData?.totalGmOverallAchieve)
-                                    setTotalGmOverallTaskComp(res.data.responseData?.totalGmOverallTaskComp)
-
-                                    //average % need to be set
-                                    setTotalOverallRatings(res.data.responseData?.totalOverallRatings)
-                                    setTotalOverallPercentage(res.data.responseData?.totalOverallPercentage)
-                                    setEmpRemark(res.data?.empRemark)
-
-                                    setEmpKeyStrength(res.data.responseData?.empKeyStrength)
-                                    setEmpAreaOfImprovement(res.data.responseData?.empAreaOfImprovement)
-                                    setEmpTrainginDevelopmentNeeds(res.data.responseData?.empTrainginDevelopmentNeeds)
-
-                                    setKppMasterResponses(res.data.responseData);
-                                    setKppDetailsResponses(res.data.responseData?.kppStatusDetails)
-
-                                });
-
-                            } else {
-                                alert(res.data.responseMessage);
-                            }
-                        });
-
-
-                    }}>
-                    {({ values, setFieldValue }) => {
-                        const handleTodoChange = (e, i, kppId, gmKppFeedback) => {
-                            const field = e.target.name?.split(".")[1];
-                            kppDetailsResponses[i] = {
-
-                                ...kppDetailsResponses[i],
-
-                                "gmKppFeedback": gmKppFeedback,
-                                [field]: e.target.value || '',
-
-                            }
-
-
-                            setFieldValue("fields", kppDetailsResponses)
-                        };
-
-                        return (
-                            <Form className="form-horizontal">
+            <div className="row">     
+                    
+                            <form className="form-horizontal">
 
                                 <div className="form-group">
                                     <label className="control-label col-sm-2" htmlFor="deptName">Financial Year:</label>
@@ -293,7 +187,7 @@ const OverallCompletedHodKppFeedbackComponent = () => {
 
                                     </thead>
                                     <tbody>
-                                        {values?.fields?.map(
+                                        {kppDetailsResponses.map(
 
                                             (kppResponse, index) =>
 
@@ -313,18 +207,8 @@ const OverallCompletedHodKppFeedbackComponent = () => {
                                                     <td className='text-center'>  {kppResponse.gmOverallAchieve}</td>
                                                     <td className='text-center'> {kppResponse.gmOverallTaskComp}</td>
                                                     <td className='text-center'> {kppResponse.empKppFeedback}</td>
-                                                    <td className='col-sm-4'>
-
-                                                        <textarea rows="3" className="form-control"
-                                                            name={`${index}.gmKppFeedback`}
-
-                                                            value={values?.fields?.[index]?.gmKppFeedback || ''}
-
-                                                            onChange={event => handleTodoChange(event, index, kppResponse.kppId, kppResponse.gmKppFeedback)}
-                                                        />
-
-
-                                                    </td>
+                                                    <td className='text-center'> {kppResponse.gmKppFeedback}</td>
+                                                
 
                                                 </tr>
                                         )}
@@ -381,17 +265,15 @@ const OverallCompletedHodKppFeedbackComponent = () => {
 
                                 <div className="row">
                                     <div className="col-sm-10"></div>
-                                    <div className="col-sm-4 col-sm-offset-8"><button type="submit" className="btn btn-success"> Submit</button>
+                                    <div className="col-sm-4 col-sm-offset-8">
                                         <a href={BASE_URL_API + `/report/in-progress-hod-kpp-status?empId=${Cookies.get('empId')}`}>
                                             <button type="button" className="btn btn-success col-sm-offset-1" disabled={kppMasterResponses?.empKppStatus === "Pending"}>  Download</button></a>
-                                            <button type="button" className="btn btn-success col-sm-offset-1" onClick={() => finishKppFeedback()}> Finish</button>
+                                            
                                             <button type="button" className="btn btn-success col-sm-offset-1" onClick={() => navigateToAllHodKppFeedbackStatusComponent()}> Back</button>
                                     </div>
                                 </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
+                            </form>
+                      
             </div>
 
         </div>

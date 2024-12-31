@@ -69,9 +69,7 @@ function App() {
     <BrowserRouter>
       <nav className="navbar navbar-inverse">
         <div className="container-fluid">
-          <div className="navbar-header">
-            <a className="navbar-brand" href="http://localhost:3008" onClick={() => removeCookies()}>FutureBizops</a>
-          </div>
+      
           <ul className="nav navbar-nav">
 
           
@@ -111,9 +109,7 @@ function App() {
                 <li><Link to="/viewHODCumulativeKpp">View Monthly HOD Cumulative Ratings</Link></li>
                 <li><Link to="/viewEmployeeCumulativeKpp">View Monthly Employee Cumulative Ratings</Link></li>
 
-                <li><Link to="/freezeYearlyViewHODCumulativeKpp">Freeze Yearly HOD Cumulative Ratings</Link></li>
-                <li><Link to="/freezeYearlyViewEmployeeCumulativeKpp">Freeze Yearly View Employee Cumulative Ratings</Link></li>
-
+               
               </ul>
             </li>
 
@@ -217,9 +213,7 @@ function App() {
         <Route exact path="/viewEmployeeCumulativeKpp" element={<ViewAllEmployeeCumulativeComponent />}></Route>
         <Route exact path="/viewHODCumulativeKpp" element={<ViewAllHODCumulativeComponent />}></Route>
 
-        <Route exact path="/freezeYearlyViewEmployeeCumulativeKpp" element={<FreezeYearlyViewAllEmployeeCumulativeComponent />}></Route>
-        <Route exact path="/freezeYearlyViewHODCumulativeKpp" element={<FreezeYearlyViewAllHODCumulativeComponent/>}></Route>
-        
+    
 
         <Route exact path="/viewSingleEmployeeRatings" element={<SingleEmployeeCumulativeComponent />}></Route>
         <Route exact path="/viewSingleHODRatings" element={<SingleHODCumulativeComponent />}></Route>
