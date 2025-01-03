@@ -63,6 +63,7 @@ function App() {
     Cookies.remove('empFirstName');
     Cookies.remove('empMiddleName');
     Cookies.remove('empLastName');
+    Cookies.remove('empEmailId')
   }
   return (
 

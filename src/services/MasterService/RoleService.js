@@ -11,7 +11,7 @@ class RoleService {
 
     getRolesDetailsByPaging() {
         if (null != Cookies.get('empId')) {
-            return axios.get(BASE_URL_API + "/roles/search?searchEnum=BY_STATUS&statusCdEnum=A&page=0&size=20&sort=roleName")
+            return axios.get(BASE_URL_API + "/roles/search?page=0&size=20&sort=roleName")
         } else {
             alert("You need to login first")
             window.location.replace(LOGIN_UI_BASE_URL);

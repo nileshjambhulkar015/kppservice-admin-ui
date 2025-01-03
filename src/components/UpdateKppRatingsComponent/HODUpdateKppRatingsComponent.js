@@ -109,6 +109,7 @@ const HODUpdateKppRatingsComponent = () => {
     }
 
     const navigateBack = () => {
+        Cookies.remove('hodEmpIdForKppRatings');
         navigate(`/allHodKppStatus`, { replace: true })
     }
 
@@ -116,6 +117,7 @@ const HODUpdateKppRatingsComponent = () => {
     const completeEmpKpp = (finYear) => {
       
         AllHodKppService.completeHODKppGM(finYear).then(res => {
+            Cookies.remove('hodEmpIdForKppRatings');
             navigate(`/allHodKppStatus`, { replace: true })
         }
         );
